@@ -5,13 +5,15 @@ import {API_BASES, credentialsFrom, DEFAULT_DOCS_BASE, parseEnv} from '../config
 import {logLine} from '../log.js';
 import {createServer} from '../server.js';
 import {Docs} from '../tools/docs.js';
+import {parseToolsets} from '../toolsets.js';
 
-/** Local package: keys from the environment, QA unless ONEPLATFORM_ENV=prod. */
+/** Local package: keys from the environment, QA unless ONEPLATFORM_ENV=prod; ONEPLATFORM_TOOLSETS narrows the tools. */
 export async function runStdio(env: NodeJS.ProcessEnv = process.env): Promise<void> {
   const target = parseEnv(env.ONEPLATFORM_ENV);
   const apiBase = API_BASES[target];
   const broker = new TokenBroker({apiBase, fetch});
   const docs = new Docs({docsBase: env.ONEPLATFORM_DOCS_URL || DEFAULT_DOCS_BASE, fetch});
-  const server = createServer({credentials: credentialsFrom(env.ONEPLATFORM_APP_KEY, env.ONEPLATFORM_USER_KEY), apiBase, fetch, broker, docs, log: logLine});
+  const toolsets = parseToolsets(env.ONEPLATFORM_TOOLSETS);
+  const server = createServer({credentials: credentialsFrom(env.ONEPLATFORM_APP_KEY, env.ONEPLATFORM_USER_KEY), apiBase, fetch, broker, docs, log: logLine, toolsets});
   await server.connect(new StdioServerTransport());
 }

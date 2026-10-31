@@ -5,6 +5,7 @@ export interface ApiTool {
   method: string;
   path: string;
   readOnly: boolean;
+  toolset: string;
   omit: string[];
   redact: string[];
   pathParams: string[];
@@ -21,6 +22,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/profile",
     "readOnly": true,
+    "toolset": "cuenta",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -40,6 +42,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/balance-history",
     "readOnly": true,
+    "toolset": "cuenta",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -113,6 +116,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/consumption/summary",
     "readOnly": true,
+    "toolset": "cuenta",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -160,6 +164,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/businesses",
     "readOnly": true,
+    "toolset": "cuenta",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -187,6 +192,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/businesses/{businessId}",
     "readOnly": true,
+    "toolset": "cuenta",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -215,6 +221,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/businesses/{businessId}/payment-links",
     "readOnly": true,
+    "toolset": "pagos",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -271,6 +278,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/businesses/{businessId}/payment-links/{linkId}",
     "readOnly": true,
+    "toolset": "pagos",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -305,6 +313,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/transactions",
     "readOnly": true,
+    "toolset": "pagos",
     "omit": [],
     "redact": [
       "bank_authorization"
@@ -343,6 +352,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/transactions/{transaction_id}",
     "readOnly": true,
+    "toolset": "pagos",
     "omit": [],
     "redact": [
       "bank_authorization"
@@ -373,6 +383,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/businesses/{businessId}/invoices",
     "readOnly": true,
+    "toolset": "facturacion",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -465,6 +476,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/businesses/{businessId}/invoices/{invoiceId}",
     "readOnly": true,
+    "toolset": "facturacion",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -499,6 +511,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/businesses/{businessId}/deliveries",
     "readOnly": true,
+    "toolset": "envios",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -565,6 +578,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/businesses/{businessId}/deliveries/{deliveryId}",
     "readOnly": true,
+    "toolset": "envios",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -599,6 +613,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/websites/mine",
     "readOnly": true,
+    "toolset": "sitios",
     "omit": [],
     "redact": [
       "token",
@@ -640,6 +655,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/websites/{website_id}",
     "readOnly": true,
+    "toolset": "sitios",
     "omit": [],
     "redact": [
       "token",
@@ -672,6 +688,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/notifications",
     "readOnly": true,
+    "toolset": "cuenta",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -731,6 +748,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/businesses/{businessId}/payment-links",
     "readOnly": false,
+    "toolset": "pagos",
     "omit": [
       "customer_email"
     ],
@@ -841,6 +859,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/businesses/{businessId}/payment-links/{linkId}/cancel",
     "readOnly": false,
+    "toolset": "pagos",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -866,6 +885,2900 @@ export const API_TOOLS: ApiTool[] = [
       "required": [
         "businessId",
         "linkId"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getCashOutSummary",
+    "method": "GET",
+    "path": "/api/v1/users/cash-out/summary",
+    "readOnly": true,
+    "toolset": "retiros",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Cash Out Summary\n\nWithdrawable balance per currency, the effective payout period, and whether a default payout method is ready to receive money. Repairs a pending ledger entry before reading, so a balance is never shown one movement behind. `writes_require_sign_in` says whether this session can change anything here: when it is true every write answers 403 `CASH_OUT_SESSION_REQUIRED` until the merchant signs in again.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listCashOutMovements",
+    "method": "GET",
+    "path": "/api/v1/users/cash-out/movements",
+    "readOnly": true,
+    "toolset": "retiros",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "currency",
+      "limit",
+      "skip"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Withdrawable Balance Statement\n\nEvery movement of the withdrawable balance, newest first. Each line carries the balance AFTER it, so a statement reads without replaying the whole book.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 3
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "ISO 4217 currency to filter the statement by. Omitted, every currency is returned."
+        },
+        "limit": {
+          "type": "integer",
+          "maximum": 50,
+          "minimum": 1,
+          "description": "Rows per page, capped at 50.",
+          "default": 20
+        },
+        "skip": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Rows to skip, for paging.",
+          "default": 0
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listCashOutPayouts",
+    "method": "GET",
+    "path": "/api/v1/users/cash-out/payouts",
+    "readOnly": true,
+    "toolset": "retiros",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "status",
+      "limit",
+      "skip"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List Payouts\n\nThe merchant's own payouts, newest first. Selected by owner and NOT by workspace, so a merchant who moves to another workspace keeps seeing every payout they ever asked for.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Filter by payout state: debiting, pending_release, paid, failed or aborted."
+        },
+        "limit": {
+          "type": "integer",
+          "maximum": 50,
+          "minimum": 1,
+          "description": "Rows per page, capped at 50.",
+          "default": 20
+        },
+        "skip": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Rows to skip, for paging.",
+          "default": 0
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listCashOutReclassifiableCharges",
+    "method": "GET",
+    "path": "/api/v1/users/cash-out/reclassifiable",
+    "readOnly": true,
+    "toolset": "retiros",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "limit",
+      "skip"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Collections That Stayed As Platform Credit\n\nPayment-link collections of this merchant's clients that were credited as platform credit instead of the withdrawable balance, newest first, with the date from which each can be moved (`available_at` = `credited_at` plus the workspace's wait). Top-ups never appear. `resumable` marks a move that stopped half-way: repeating it finishes it. The same rows `frozen_collections` of the summary counts. Never asks the gateway.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "maximum": 50,
+          "minimum": 1,
+          "description": "Rows per page, capped at 50.",
+          "default": 20
+        },
+        "skip": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Rows to skip, for paging.",
+          "default": 0
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listSubscriptionPlans",
+    "method": "GET",
+    "path": "/api/v1/businesses/{businessId}/subscription-plans",
+    "readOnly": true,
+    "toolset": "suscripciones",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "businessId"
+    ],
+    "queryParams": [
+      "status",
+      "include_archived",
+      "page",
+      "limit"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List subscription plans\n\nList a business's subscription plans (paginated, newest first).\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "businessId": {
+          "type": "string",
+          "description": "The business (commerce) id"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Filter by status (draft/published/desynced/archived)"
+        },
+        "include_archived": {
+          "type": "boolean",
+          "description": "Include archived plans in the result",
+          "default": false
+        },
+        "page": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "1-indexed page number",
+          "default": 1
+        },
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Items per page",
+          "default": 20
+        }
+      },
+      "required": [
+        "businessId"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getSubscriptionPlan",
+    "method": "GET",
+    "path": "/api/v1/businesses/{businessId}/subscription-plans/{planId}",
+    "readOnly": true,
+    "toolset": "suscripciones",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "businessId",
+      "planId"
+    ],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Get a subscription plan\n\nGet one subscription plan by id.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "businessId": {
+          "type": "string",
+          "description": "The business (commerce) id"
+        },
+        "planId": {
+          "type": "string",
+          "description": "The subscription plan id"
+        }
+      },
+      "required": [
+        "businessId",
+        "planId"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listMerchantSubscriptions",
+    "method": "GET",
+    "path": "/api/v1/businesses/{businessId}/subscriptions",
+    "readOnly": true,
+    "toolset": "suscripciones",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "businessId"
+    ],
+    "queryParams": [
+      "status",
+      "plan_id",
+      "customer_id",
+      "page",
+      "limit"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List subscriptions\n\nList a business's sold subscriptions (paginated, newest first).\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "businessId": {
+          "type": "string",
+          "description": "The business (commerce) id"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Filter by status (active/past_due/cancelled/ended)"
+        },
+        "plan_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Filter by subscription plan id"
+        },
+        "customer_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Filter by customer id"
+        },
+        "page": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "1-indexed page number",
+          "default": 1
+        },
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Items per page",
+          "default": 20
+        }
+      },
+      "required": [
+        "businessId"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getMerchantSubscription",
+    "method": "GET",
+    "path": "/api/v1/businesses/{businessId}/subscriptions/{subscriptionId}",
+    "readOnly": true,
+    "toolset": "suscripciones",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "businessId",
+      "subscriptionId"
+    ],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Get a subscription\n\nGet one subscription with its charge history.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "businessId": {
+          "type": "string",
+          "description": "The business (commerce) id"
+        },
+        "subscriptionId": {
+          "type": "string",
+          "description": "The subscription id"
+        }
+      },
+      "required": [
+        "businessId",
+        "subscriptionId"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listCustomers",
+    "method": "GET",
+    "path": "/api/v1/businesses/{businessId}/customers",
+    "readOnly": true,
+    "toolset": "suscripciones",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "businessId"
+    ],
+    "queryParams": [
+      "search",
+      "page",
+      "limit"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List customers\n\nList a business's customers (paginated, newest first).\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "businessId": {
+          "type": "string",
+          "description": "The business (commerce) id"
+        },
+        "search": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 120
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Match against the email or the name"
+        },
+        "page": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "1-indexed page number",
+          "default": 1
+        },
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Items per page",
+          "default": 20
+        }
+      },
+      "required": [
+        "businessId"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getCustomer",
+    "method": "GET",
+    "path": "/api/v1/businesses/{businessId}/customers/{customerId}",
+    "readOnly": true,
+    "toolset": "suscripciones",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "businessId",
+      "customerId"
+    ],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Get a customer\n\nGet one customer by id.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "businessId": {
+          "type": "string",
+          "description": "The business (commerce) id"
+        },
+        "customerId": {
+          "type": "string",
+          "description": "The customer id"
+        }
+      },
+      "required": [
+        "businessId",
+        "customerId"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listTerminalRequests",
+    "method": "GET",
+    "path": "/api/v1/businesses/{businessId}/terminal-requests",
+    "readOnly": true,
+    "toolset": "terminal",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "businessId"
+    ],
+    "queryParams": [
+      "limit",
+      "skip"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List a business's terminal requests\n\nA business's applications, newest first, paginated.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "businessId": {
+          "type": "string",
+          "description": "The business (commerce) id"
+        },
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Page size (max 100).",
+          "default": 20
+        },
+        "skip": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "How many applications to skip.",
+          "default": 0
+        }
+      },
+      "required": [
+        "businessId"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getTerminalRequest",
+    "method": "GET",
+    "path": "/api/v1/businesses/{businessId}/terminal-requests/{requestId}",
+    "readOnly": true,
+    "toolset": "terminal",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "businessId",
+      "requestId"
+    ],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Get one terminal request\n\nOne application, including what is still missing before it can be sent.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "businessId": {
+          "type": "string",
+          "description": "The business (commerce) id"
+        },
+        "requestId": {
+          "type": "string",
+          "description": "The terminal request id"
+        }
+      },
+      "required": [
+        "businessId",
+        "requestId"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listPosts",
+    "method": "GET",
+    "path": "/api/v1/posts",
+    "readOnly": true,
+    "toolset": "sitios",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List Generated Articles\n\nList the authenticated user's generated articles — i.e. completed content-generation jobs — newest first. Powers the dashboard 'articles published' KPI, which buckets `created_at` by month.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getContentJob",
+    "method": "GET",
+    "path": "/api/v1/posts/content/jobs/{job_id}",
+    "readOnly": true,
+    "toolset": "sitios",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "job_id"
+    ],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Get Content Generation Job\n\nPoll the status of an async content generation job. Returns one of `pending`, `processing`, `completed`, or `failed` along with the full result on success.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "job_id": {
+          "type": "string",
+          "description": "Content generation job ID"
+        }
+      },
+      "required": [
+        "job_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listCategories",
+    "method": "GET",
+    "path": "/api/v1/users/categories",
+    "readOnly": true,
+    "toolset": "sitios",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "status_filter"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List available categories\n\nRetrieve available website categories for content classification.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "status_filter": {
+          "type": "string",
+          "description": "Filter by status: active, inactive, or all",
+          "default": "active"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getSearchConsolePerformance",
+    "method": "GET",
+    "path": "/api/v1/users/websites/{website_id}/searchconsole/performance",
+    "readOnly": true,
+    "toolset": "sitios",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "website_id"
+    ],
+    "queryParams": [
+      "period"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Get Search Console performance for a website\n\nRetrieve a Search Console performance report for a verified website: 4 KPIs (clicks, impressions, CTR, average position) with a delta vs. the immediately preceding period of equal length, a daily trend, and the first 25 queries/pages/countries by clicks.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "website_id": {
+          "type": "string",
+          "description": "Website ID"
+        },
+        "period": {
+          "type": "string",
+          "enum": [
+            "24h",
+            "7d",
+            "28d",
+            "3m"
+          ],
+          "description": "Report time period"
+        }
+      },
+      "required": [
+        "website_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getAnalyticsStatus",
+    "method": "GET",
+    "path": "/api/v1/analytics/status",
+    "readOnly": true,
+    "toolset": "analitica",
+    "omit": [],
+    "redact": [
+      "mp_secret_id",
+      "mp_secret_masked"
+    ],
+    "pathParams": [],
+    "queryParams": [
+      "website_id"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Get Analytics Status\n\nRetrieve the current analytics provisioning status for a website. Returns property details, connection state, and any error messages. Requires both app and user tokens. Rate limit: 30/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "website_id": {
+          "type": "string",
+          "description": "Website ID to check analytics status for"
+        }
+      },
+      "required": [
+        "website_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getAnalyticsOverview",
+    "method": "GET",
+    "path": "/api/v1/analytics/overview",
+    "readOnly": true,
+    "toolset": "analitica",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "website_id",
+      "period",
+      "compare"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Get Site Overview Metrics\n\nRetrieve aggregated site metrics including sessions, users, pageviews, bounce rate, and top pages/sources for a given period with optional comparison. Requires both app and user tokens. Rate limit: 20/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "website_id": {
+          "type": "string",
+          "description": "Website ID to retrieve overview metrics for"
+        },
+        "period": {
+          "type": "string",
+          "enum": [
+            "7d",
+            "30d",
+            "90d",
+            "12m"
+          ],
+          "description": "Report time period"
+        },
+        "compare": {
+          "type": "boolean",
+          "description": "Include comparison with previous period",
+          "default": true
+        }
+      },
+      "required": [
+        "website_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getPageMetrics",
+    "method": "GET",
+    "path": "/api/v1/analytics/page",
+    "readOnly": true,
+    "toolset": "analitica",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "website_id",
+      "page_path",
+      "period"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Get Single Page Metrics\n\nRetrieve analytics metrics for a specific page path on the website. Returns views, unique views, average time on page, and bounce rate. Requires both app and user tokens. Rate limit: 20/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "website_id": {
+          "type": "string",
+          "description": "Website ID to retrieve page metrics for"
+        },
+        "page_path": {
+          "type": "string",
+          "description": "URL path of the page to analyze"
+        },
+        "period": {
+          "type": "string",
+          "enum": [
+            "7d",
+            "30d",
+            "90d",
+            "12m"
+          ],
+          "description": "Report time period"
+        }
+      },
+      "required": [
+        "website_id",
+        "page_path"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getRealtimeMetrics",
+    "method": "GET",
+    "path": "/api/v1/analytics/realtime",
+    "readOnly": true,
+    "toolset": "analitica",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "website_id"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Get Realtime Metrics\n\nRetrieve real-time analytics data including active users, top pages, traffic sources, and countries for the last 30 minutes. Requires both app and user tokens. Rate limit: 10/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "website_id": {
+          "type": "string",
+          "description": "Website ID to retrieve realtime metrics for"
+        }
+      },
+      "required": [
+        "website_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listAdSenseSites",
+    "method": "GET",
+    "path": "/api/v1/adsense/sites",
+    "readOnly": true,
+    "toolset": "analitica",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "website_id",
+      "page",
+      "page_size"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List AdSense Sites\n\nList sites registered with AdSense and their approval states. Useful to verify whether the website is approved for ads. Requires both app and user tokens. Rate limit: 30/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "website_id": {
+          "type": "string",
+          "description": "Website ID"
+        },
+        "page": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Page number",
+          "default": 1
+        },
+        "page_size": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Items per page",
+          "default": 50
+        }
+      },
+      "required": [
+        "website_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getAdSenseEarningsOverview",
+    "method": "GET",
+    "path": "/api/v1/adsense/earnings/overview",
+    "readOnly": true,
+    "toolset": "analitica",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "website_id",
+      "period",
+      "compare"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Earnings Overview\n\nRetrieve a quick earnings overview with optional period comparison. Free plan is limited to the last 7 days; Pro unlocks 30/90 day periods. Requires both app and user tokens. Rate limit: 20/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "website_id": {
+          "type": "string",
+          "description": "Website ID"
+        },
+        "period": {
+          "type": "string",
+          "enum": [
+            "7d",
+            "30d",
+            "90d"
+          ],
+          "description": "Report period"
+        },
+        "compare": {
+          "type": "boolean",
+          "description": "Compare vs previous period",
+          "default": true
+        }
+      },
+      "required": [
+        "website_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getAdSenseEarningsByPage",
+    "method": "GET",
+    "path": "/api/v1/adsense/earnings/by-page",
+    "readOnly": true,
+    "toolset": "analitica",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "website_id",
+      "period"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Earnings by Page\n\nRetrieve earnings broken down by page URL (Pro plan only). Returns per-page revenue, page views, RPM, and clicks. Requires both app and user tokens. Rate limit: 20/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "website_id": {
+          "type": "string",
+          "description": "Website ID"
+        },
+        "period": {
+          "type": "string",
+          "enum": [
+            "7d",
+            "30d",
+            "90d"
+          ],
+          "description": "Report period"
+        }
+      },
+      "required": [
+        "website_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listAdSenseAlerts",
+    "method": "GET",
+    "path": "/api/v1/adsense/alerts",
+    "readOnly": true,
+    "toolset": "analitica",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "website_id",
+      "page",
+      "page_size"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List AdSense Alerts\n\nList account alerts surfaced by AdSense (Pro plan only). Returns severity, message, and alert type for each entry. Requires both app and user tokens. Rate limit: 30/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "website_id": {
+          "type": "string",
+          "description": "Website ID"
+        },
+        "page": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Page number",
+          "default": 1
+        },
+        "page_size": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Items per page",
+          "default": 50
+        }
+      },
+      "required": [
+        "website_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listHeatmapSites",
+    "method": "GET",
+    "path": "/api/v1/users/heatmap/sites",
+    "readOnly": true,
+    "toolset": "analitica",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "limit",
+      "skip"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List the caller's heatmap sites\n\nPaginated, newest first.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Sites per page (max 100).",
+          "default": 20
+        },
+        "skip": {
+          "type": "integer",
+          "maximum": 10000,
+          "minimum": 0,
+          "description": "Sites to skip.",
+          "default": 0
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listHeatmapPages",
+    "method": "GET",
+    "path": "/api/v1/users/heatmap/sites/{site_id}/pages",
+    "readOnly": true,
+    "toolset": "analitica",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "site_id"
+    ],
+    "queryParams": [
+      "days"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List the routes of a site that have data\n\nRoutes with at least one stored sample in the window, busiest first. The window is anchored to the last day WITH DATA, not to today: the service runs in UTC and the reader does not.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "site_id": {
+          "type": "string",
+          "description": "Heatmap site id."
+        },
+        "days": {
+          "type": "integer",
+          "maximum": 365,
+          "minimum": 1,
+          "description": "Window length in days.",
+          "default": 28
+        }
+      },
+      "required": [
+        "site_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getTransactionalEmailLimits",
+    "method": "GET",
+    "path": "/api/v1/transactional-email/limits",
+    "readOnly": true,
+    "toolset": "correo",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Read effective sending limits\n\nReturns tenant and actor usage for the current UTC day, the earliest shared remainder and server-defined retention. These are operational limits, not prices. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 50/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listTransactionalEmailSenders",
+    "method": "GET",
+    "path": "/api/v1/transactional-email/senders",
+    "readOnly": true,
+    "toolset": "correo",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "cursor",
+      "limit"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List your service email senders\n\nLists owned, nondeleted senders and their verified sending capability. It does not create or verify domains. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 50/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "cursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 24,
+              "minLength": 24,
+              "pattern": "^[0-9a-f]{24}$",
+              "description": "Internal document identifier, rendered as its 24-character lowercase hex string."
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Cursor from the previous page."
+        },
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Maximum items per page.",
+          "default": 20
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listTransactionalEmailTemplates",
+    "method": "GET",
+    "path": "/api/v1/transactional-email/templates",
+    "readOnly": true,
+    "toolset": "correo",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "locale"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List public transactional templates\n\nLists the public service_notice version 1 allowlist only. Private platform templates cannot be sent through this API. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 50/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "locale": {
+          "enum": [
+            "es",
+            "en"
+          ],
+          "type": "string",
+          "description": "Template display language.",
+          "default": "es"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listTransactionalEmailMessages",
+    "method": "GET",
+    "path": "/api/v1/transactional-email/messages",
+    "readOnly": true,
+    "toolset": "correo",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "cursor",
+      "limit",
+      "status",
+      "from",
+      "to"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List your service notices\n\nLists messages owned by the actor within the actor's tenant. Recipient addresses remain masked; pending or rejected admissions are not presented as sends. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 50/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "cursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 24,
+              "minLength": 24,
+              "pattern": "^[0-9a-f]{24}$",
+              "description": "Internal document identifier, rendered as its 24-character lowercase hex string."
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Cursor from the previous page."
+        },
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Maximum items per page.",
+          "default": 20
+        },
+        "status": {
+          "anyOf": [
+            {
+              "enum": [
+                "queued",
+                "processing",
+                "sent",
+                "delivered",
+                "bounced",
+                "failed",
+                "suppressed",
+                "unknown"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Filter by current public delivery state."
+        },
+        "from": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Inclusive UTC creation datetime lower bound."
+        },
+        "to": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Inclusive UTC creation datetime upper bound."
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getTransactionalEmailMessage",
+    "method": "GET",
+    "path": "/api/v1/transactional-email/messages/{message_id}",
+    "readOnly": true,
+    "toolset": "correo",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "message_id"
+    ],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {
+      "message_id": "^[0-9a-f]{24}$"
+    },
+    "description": "Read one service notice and its attempts\n\nReturns sanitized metadata and attempt reasons. Never returns the original recipient, variables, credentials, private transport identifiers or transport response bodies. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 50/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "message_id": {
+          "type": "string",
+          "maxLength": 24,
+          "minLength": 24,
+          "pattern": "^[0-9a-f]{24}$",
+          "description": "Owned transactional message identifier."
+        }
+      },
+      "required": [
+        "message_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listMailThreads",
+    "method": "GET",
+    "path": "/api/v1/mail/threads",
+    "readOnly": true,
+    "toolset": "correo",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "limit",
+      "skip",
+      "archived",
+      "unread",
+      "q",
+      "domain_id",
+      "scope"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List mail conversations\n\nA page of conversations, newest first.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Page size (1-100)",
+          "default": 20
+        },
+        "skip": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of items to skip for pagination",
+          "default": 0
+        },
+        "archived": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Filter by archived state"
+        },
+        "unread": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Filter by unread state"
+        },
+        "q": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 120
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Search subject and participants"
+        },
+        "domain_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 24,
+              "minLength": 24,
+              "pattern": "^[0-9a-f]{24}$",
+              "description": "Internal document identifier, rendered as its 24-character lowercase hex string."
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Only the conversations received on this domain (the `id` of the domain). It narrows the list and `unread_total`; it never widens what the caller may see. A domain the caller cannot reach simply yields an empty list"
+        },
+        "scope": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^space$"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "`space`: a workspace administrator also sees the conversations of the other members' domains (each with its `owner`). Ignored for everybody else, who get exactly the list they get without it"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getMailThread",
+    "method": "GET",
+    "path": "/api/v1/mail/threads/{thread_id}",
+    "readOnly": true,
+    "toolset": "correo",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "thread_id"
+    ],
+    "queryParams": [
+      "show_images"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {
+      "thread_id": "^[0-9a-f]{24}$"
+    },
+    "description": "Read one conversation\n\nThe whole conversation, oldest first.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "thread_id": {
+          "type": "string",
+          "maxLength": 24,
+          "minLength": 24,
+          "pattern": "^[0-9a-f]{24}$",
+          "description": "Conversation identifier"
+        },
+        "show_images": {
+          "type": "boolean",
+          "description": "Load remote images the sender referenced",
+          "default": false
+        }
+      },
+      "required": [
+        "thread_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listDomains",
+    "method": "GET",
+    "path": "/api/v1/domains",
+    "readOnly": true,
+    "toolset": "dominios",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "limit",
+      "skip",
+      "status"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List user domains\n\nList all domains owned by the authenticated user with pagination.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Page size (1-100)",
+          "default": 20
+        },
+        "skip": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of items to skip for pagination",
+          "default": 0
+        },
+        "status": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Filter by domain status (e.g. active, pending, expired, suspended, transferring)"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "checkDomainAvailability",
+    "method": "GET",
+    "path": "/api/v1/domains/check",
+    "readOnly": true,
+    "toolset": "dominios",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "domain"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Check domain availability\n\nCheck availability and pricing for one or more domains (up to 50).\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "domain": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 50,
+          "description": "Domains to check"
+        }
+      },
+      "required": [
+        "domain"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getDomainTldPricing",
+    "method": "GET",
+    "path": "/api/v1/domains/pricing",
+    "readOnly": true,
+    "toolset": "dominios",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "tld"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Get TLD pricing\n\nGet registration, renewal, and transfer prices for TLDs.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "tld": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "TLDs to get pricing for",
+          "default": [
+            "com",
+            "net",
+            "org",
+            "io",
+            "co",
+            "dev"
+          ]
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getDomainTransferStatus",
+    "method": "GET",
+    "path": "/api/v1/domains/{domain_id}/transfer/status",
+    "readOnly": true,
+    "toolset": "dominios",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "domain_id"
+    ],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Get domain transfer status\n\nCheck the current status of an in-progress domain transfer.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "domain_id": {
+          "type": "string",
+          "description": "Domain document ID"
+        }
+      },
+      "required": [
+        "domain_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listMailOnlyRecords",
+    "method": "GET",
+    "path": "/api/v1/domains/{domain_id}/mail/records",
+    "readOnly": true,
+    "toolset": "dominios",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "domain_id"
+    ],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {
+      "domain_id": "^[0-9a-f]{24}$"
+    },
+    "description": "List the DNS records a mail-only domain needs\n\nFor a domain connected for **mail only** (its DNS stays with you), the records you paste in your own DNS, each with its last known status. Empty for any other domain.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "domain_id": {
+          "type": "string",
+          "maxLength": 24,
+          "minLength": 24,
+          "pattern": "^[0-9a-f]{24}$",
+          "description": "Domain identifier"
+        }
+      },
+      "required": [
+        "domain_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listTelemetryProjects",
+    "method": "GET",
+    "path": "/api/v1/users/telemetry/projects",
+    "readOnly": true,
+    "toolset": "telemetria",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "limit",
+      "skip",
+      "website_id"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List the caller's telemetry projects\n\nNewest first.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Proyectos por página.",
+          "default": 20
+        },
+        "skip": {
+          "type": "integer",
+          "maximum": 10000,
+          "minimum": 0,
+          "description": "Proyectos a saltear.",
+          "default": 0
+        },
+        "website_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 24
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Sólo el proyecto vinculado a este sitio del llamador."
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getTelemetryProject",
+    "method": "GET",
+    "path": "/api/v1/users/telemetry/projects/{project_id}",
+    "readOnly": true,
+    "toolset": "telemetria",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "project_id"
+    ],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Get one telemetry project\n\nA project that belongs to another account answers **404**, not 403.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "project_id": {
+          "type": "string",
+          "description": "Telemetry project id."
+        }
+      },
+      "required": [
+        "project_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getTelemetryInstallStatus",
+    "method": "GET",
+    "path": "/api/v1/users/telemetry/projects/{project_id}/install-status",
+    "readOnly": true,
+    "toolset": "telemetria",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "project_id"
+    ],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Whether the tag is actually reporting\n\nAnswers the only question that matters on the first day: is anything arriving, and if not, how far did it get.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "project_id": {
+          "type": "string",
+          "description": "Telemetry project id."
+        }
+      },
+      "required": [
+        "project_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listTelemetryIssues",
+    "method": "GET",
+    "path": "/api/v1/users/telemetry/projects/{project_id}/issues",
+    "readOnly": true,
+    "toolset": "telemetria",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "project_id"
+    ],
+    "queryParams": [
+      "q",
+      "cursor",
+      "limit"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List the project's issues\n\nNewest activity first. The cursor is **opaque**: pass back exactly what the previous page returned and do not interpret it.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "project_id": {
+          "type": "string",
+          "description": "Telemetry project id."
+        },
+        "q": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 200
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Texto a buscar en el título del issue."
+        },
+        "cursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 500
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Cursor opaco de la página anterior. Se manda tal cual vino en `next_cursor`."
+        },
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Issues por página.",
+          "default": 20
+        }
+      },
+      "required": [
+        "project_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getTelemetryLatestEvent",
+    "method": "GET",
+    "path": "/api/v1/users/telemetry/projects/{project_id}/issues/{issue_id}/events/latest",
+    "readOnly": true,
+    "toolset": "telemetria",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "project_id",
+      "issue_id"
+    ],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Get the most recent event of an issue\n\nPersonal data was removed before this event was stored, so some values read as `[redacted]`.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "project_id": {
+          "type": "string",
+          "description": "Telemetry project id."
+        },
+        "issue_id": {
+          "type": "string",
+          "maxLength": 24,
+          "description": "Issue id as this API minted it (`tlm_…`), never the underlying store's."
+        }
+      },
+      "required": [
+        "project_id",
+        "issue_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listTelemetryLogs",
+    "method": "GET",
+    "path": "/api/v1/users/telemetry/projects/{project_id}/logs",
+    "readOnly": true,
+    "toolset": "telemetria",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "project_id"
+    ],
+    "queryParams": [
+      "days",
+      "level",
+      "q",
+      "cursor",
+      "limit"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Structured logs in a window\n\nRegistros estructurados del proyecto, del más reciente al más viejo.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "project_id": {
+          "type": "string",
+          "description": "Telemetry project id."
+        },
+        "days": {
+          "type": "integer",
+          "maximum": 6,
+          "minimum": 1,
+          "description": "Días hacia atrás desde ahora. El máximo es más chico que el de rendimiento porque los registros son la consulta que puede caer al frío.",
+          "default": 1
+        },
+        "level": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 20
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Nivel exacto a filtrar: `debug`, `info`, `warning`, `error` o `fatal`."
+        },
+        "q": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 200
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Texto a buscar en el cuerpo del registro."
+        },
+        "cursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 500
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Cursor opaco de la página anterior. Se manda tal cual vino en `next_cursor`."
+        },
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Registros por página.",
+          "default": 20
+        }
+      },
+      "required": [
+        "project_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listTelemetryTransactions",
+    "method": "GET",
+    "path": "/api/v1/users/telemetry/projects/{project_id}/performance",
+    "readOnly": true,
+    "toolset": "telemetria",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "project_id"
+    ],
+    "queryParams": [
+      "days",
+      "q",
+      "cursor",
+      "limit"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Slowest transactions in a window\n\nGrupos de transacción del proyecto, del más lento al más rápido.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "project_id": {
+          "type": "string",
+          "description": "Telemetry project id."
+        },
+        "days": {
+          "type": "integer",
+          "maximum": 30,
+          "minimum": 1,
+          "description": "Días hacia atrás desde ahora. El máximo es el que el motor garantiza en caliente.",
+          "default": 7
+        },
+        "q": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 200
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Texto a buscar en el nombre de la transacción."
+        },
+        "cursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 500
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Cursor opaco de la página anterior. Se manda tal cual vino en `next_cursor`."
+        },
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Transacciones por página.",
+          "default": 20
+        }
+      },
+      "required": [
+        "project_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getTelemetryUsage",
+    "method": "GET",
+    "path": "/api/v1/users/telemetry/projects/{project_id}/usage",
+    "readOnly": true,
+    "toolset": "telemetria",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "project_id"
+    ],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Usage, quota and spend for this month\n\nWhat the project has sent this month, how much of its quota that is, and what it has cost.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "project_id": {
+          "type": "string",
+          "description": "Telemetry project id."
+        }
+      },
+      "required": [
+        "project_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getSalesReadiness",
+    "method": "GET",
+    "path": "/api/v1/sales/readiness",
+    "readOnly": true,
+    "toolset": "ventas",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "limit"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Get the workspace's two-step sales readiness\n\nComputes offer and channel readiness from one tenant-scoped snapshot. Stable missing-condition codes are safe to translate and never contain raw failures.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Maximum offers evaluated per snapshot.",
+          "default": 20
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listSalesChannels",
+    "method": "GET",
+    "path": "/api/v1/sales/channels",
+    "readOnly": true,
+    "toolset": "ventas",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "limit",
+      "skip"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List this workspace's connected channels\n\nPaginated, newest first. Every row says WHETHER a credential, a signing secret and a verification value are stored, and none of them says what they are — not even as ciphertext.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Channels per page (max 100).",
+          "default": 20
+        },
+        "skip": {
+          "type": "integer",
+          "maximum": 10000,
+          "minimum": 0,
+          "description": "Channels to skip.",
+          "default": 0
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listSalesOffers",
+    "method": "GET",
+    "path": "/api/v1/sales/offers",
+    "readOnly": true,
+    "toolset": "ventas",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "is_active",
+      "limit",
+      "skip"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List this workspace's offers\n\nPaginated, newest first. `is_active=false` selects the offers that were switched off — they keep their leads and their history, which is why they are deactivated rather than deleted.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "is_active": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Filter by active state. Omit to list both."
+        },
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Offers per page (max 100).",
+          "default": 20
+        },
+        "skip": {
+          "type": "integer",
+          "maximum": 10000,
+          "minimum": 0,
+          "description": "Offers to skip.",
+          "default": 0
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listSalesLeads",
+    "method": "GET",
+    "path": "/api/v1/sales/leads",
+    "readOnly": true,
+    "toolset": "ventas",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "offer_id",
+      "stage",
+      "entry_channel",
+      "origin",
+      "tag",
+      "assigned_user_id",
+      "scope",
+      "advisor_id",
+      "control",
+      "capability",
+      "query",
+      "q",
+      "limit",
+      "skip"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List leads\n\nPaginated, newest first, under every filter the panel publishes. An identifier filter that does not parse returns an EMPTY page rather than being dropped: a filter that silently stops filtering is how a screen ends up showing another funnel's leads.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "offer_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Only leads walking this offer's funnel."
+        },
+        "stage": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Only leads standing in this stage key."
+        },
+        "entry_channel": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Only leads that talk on this surface."
+        },
+        "origin": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Only leads from this origin slug."
+        },
+        "tag": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Only leads carrying this label."
+        },
+        "assigned_user_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Only leads assigned to this advisor."
+        },
+        "scope": {
+          "anyOf": [
+            {
+              "enum": [
+                "all",
+                "mine",
+                "unassigned",
+                "advisor"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Canonical assignment scope. Omit to retain `assigned_user_id` compatibility."
+        },
+        "advisor_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Active same-workspace advisor required with `scope=advisor`."
+        },
+        "control": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "`auto` for agent-answered leads, `manual` for taken over."
+        },
+        "capability": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Only leads interested in this capability."
+        },
+        "query": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 120
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Free text over name, phone and email."
+        },
+        "q": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 120
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Alias of `query`. Accepted so the board's search box filters."
+        },
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Leads per page (max 100).",
+          "default": 20
+        },
+        "skip": {
+          "type": "integer",
+          "maximum": 10000,
+          "minimum": 0,
+          "description": "Leads to skip.",
+          "default": 0
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getSalesLeadBoard",
+    "method": "GET",
+    "path": "/api/v1/sales/leads/board",
+    "readOnly": true,
+    "toolset": "ventas",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "offer_id",
+      "per_stage",
+      "stage",
+      "entry_channel",
+      "origin",
+      "tag",
+      "assigned_user_id",
+      "scope",
+      "advisor_id",
+      "control",
+      "capability",
+      "query",
+      "q"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "The funnel board of one offer\n\nOne column per stage, in the offer's own order, each carrying its TOTAL and a bounded first page. The two numbers differ on purpose: a column holding three thousand leads reports three thousand — that is the shape of the funnel — while returning three thousand cards would let one busy column decide the latency of the whole screen.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "offer_id": {
+          "type": "string",
+          "description": "Offer whose funnel is drawn."
+        },
+        "per_stage": {
+          "type": "integer",
+          "maximum": 20,
+          "minimum": 1,
+          "description": "Leads per column (max 20).",
+          "default": 20
+        },
+        "stage": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Draw only this stage's column."
+        },
+        "entry_channel": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Only leads that talk on this surface."
+        },
+        "origin": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Only leads from this origin slug."
+        },
+        "tag": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Only leads carrying this label."
+        },
+        "assigned_user_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Only leads assigned to this advisor."
+        },
+        "scope": {
+          "anyOf": [
+            {
+              "enum": [
+                "all",
+                "mine",
+                "unassigned",
+                "advisor"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Canonical assignment scope. Omit to retain `assigned_user_id` compatibility."
+        },
+        "advisor_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Active same-workspace advisor required with `scope=advisor`."
+        },
+        "control": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "`auto` for agent-answered leads, `manual` for taken over."
+        },
+        "capability": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Only leads interested in this capability."
+        },
+        "query": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 120
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Free text over name, phone and email."
+        },
+        "q": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 120
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Alias of `query`. Accepted so the board's search box filters."
+        }
+      },
+      "required": [
+        "offer_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getSalesLead",
+    "method": "GET",
+    "path": "/api/v1/sales/leads/{leadId}",
+    "readOnly": true,
+    "toolset": "ventas",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "leadId"
+    ],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Lead detail\n\nEverything the panel draws on one card: funnel position, answers recorded so far, the derived score, who owns the conversation right now, WHY the agent handed it over when that is still pending (`handover_reason`), and the state of the reservation. Same 404 for a malformed id, an unknown one and another workspace's.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "leadId": {
+          "type": "string",
+          "description": "Identifier of the lead."
+        }
+      },
+      "required": [
+        "leadId"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getSalesFunnelReport",
+    "method": "GET",
+    "path": "/api/v1/sales/report",
+    "readOnly": true,
+    "toolset": "ventas",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "from",
+      "to",
+      "offer_id"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "The funnel, the wins and what they cost\n\nLeads by stage, by channel and by origin over a date range, the wins, and the tokens the conversations spent.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Start of the range. Defaults to 30 days ago."
+        },
+        "to": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "End of the range. Defaults to now."
+        },
+        "offer_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Narrow the report to one offer."
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listAgents",
+    "method": "GET",
+    "path": "/api/v1/agents",
+    "readOnly": true,
+    "toolset": "agentes",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "skip",
+      "limit"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List agents\n\nList agents for the authenticated app with pagination.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "skip": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of agents to skip",
+          "default": 0
+        },
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Maximum agents to return",
+          "default": 20
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listAgentCatalog",
+    "method": "GET",
+    "path": "/api/v1/agents/catalog",
+    "readOnly": true,
+    "toolset": "agentes",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List agent catalog templates\n\nReturn the full agent template catalog.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listAgentTools",
+    "method": "GET",
+    "path": "/api/v1/agents/tools",
+    "readOnly": true,
+    "toolset": "agentes",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List the tool catalog\n\nReturn every tool an agent can be given, built from the server's tool registry.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getAgentBudget",
+    "method": "GET",
+    "path": "/api/v1/agents/{agent_id}/budget",
+    "readOnly": true,
+    "toolset": "agentes",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "agent_id"
+    ],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Read the agent's spend ceiling, consumption and current mode\n\nReturns the ceiling for the current cycle, how much of it is already reserved or settled, and the mode that follows from the two. A ceiling that is **absent** means the agent runs in `proposing` mode — it reasons and records what it would do, but the tools that spend money are not offered to it. Absent configuration never means unlimited.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "agent_id": {
+          "type": "string",
+          "description": "Agent ID"
+        }
+      },
+      "required": [
+        "agent_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getAgentRun",
+    "method": "GET",
+    "path": "/api/v1/agents/{agent_id}/runs/{run_id}",
+    "readOnly": true,
+    "toolset": "agentes",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "agent_id",
+      "run_id"
+    ],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Get a specific run\n\nRetrieve details of a specific agent run.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "agent_id": {
+          "type": "string",
+          "description": "Agent ID"
+        },
+        "run_id": {
+          "type": "string",
+          "description": "Run ID"
+        }
+      },
+      "required": [
+        "agent_id",
+        "run_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listAgentActions",
+    "method": "GET",
+    "path": "/api/v1/agent-actions",
+    "readOnly": true,
+    "toolset": "agentes",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "type",
+      "status",
+      "agent_id",
+      "run_id",
+      "skip",
+      "limit"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List agent actions\n\nList human-in-the-loop actions for the authenticated app.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Filter by action type"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Filter by action status"
+        },
+        "agent_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Filter by agent ID"
+        },
+        "run_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Filter by the run that created the action"
+        },
+        "skip": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of actions to skip",
+          "default": 0
+        },
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Maximum actions to return",
+          "default": 20
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "stopAgentRun",
+    "method": "POST",
+    "path": "/api/v1/agents/{agent_id}/runs/{run_id}/stop",
+    "readOnly": false,
+    "toolset": "agentes",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "agent_id",
+      "run_id"
+    ],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Stop a running agent run\n\nStop a running or pending agent run.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "agent_id": {
+          "type": "string",
+          "description": "Agent ID"
+        },
+        "run_id": {
+          "type": "string",
+          "description": "Run ID"
+        }
+      },
+      "required": [
+        "agent_id",
+        "run_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "updateTelemetryIssue",
+    "method": "PATCH",
+    "path": "/api/v1/users/telemetry/projects/{project_id}/issues/{issue_id}",
+    "readOnly": false,
+    "toolset": "telemetria",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "project_id",
+      "issue_id"
+    ],
+    "queryParams": [],
+    "bodyParams": [
+      "state"
+    ],
+    "pathPatterns": {},
+    "description": "Resolve, ignore or reopen an issue\n\nThe decision is stored here as well as in the underlying store, so it survives a change of storage.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "project_id": {
+          "type": "string",
+          "description": "Telemetry project id."
+        },
+        "issue_id": {
+          "type": "string",
+          "maxLength": 24,
+          "description": "Issue id as this API minted it (`tlm_…`), never the underlying store's."
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "open",
+            "resolved",
+            "ignored"
+          ],
+          "description": "`resolved` hides it until it happens again, `ignored` hides it for good, `open` brings it back."
+        }
+      },
+      "required": [
+        "project_id",
+        "issue_id",
+        "state"
       ],
       "additionalProperties": false
     }

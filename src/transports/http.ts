@@ -9,12 +9,14 @@ import {bucketKey, buildHops, formatIp, parseIp, resolveClientIp, type Hops} fro
 import {WindowLimiter} from '../http/limits.js';
 import {createServer} from '../server.js';
 import type {Docs} from '../tools/docs.js';
+import {parseToolsets, UnknownToolset} from '../toolsets.js';
 
 /**
  * Hosted transport: stateless Streamable HTTP on POST /mcp, GET /healthz.
  *
  * - The environment is fixed when the process starts (one deployment per
  *   host, D-14); nothing in a request can change it.
+ * - X-OnePlatform-Toolsets (optional) narrows the listed tools (toolsets.ts).
  * - Keys arrive in X-OnePlatform-App-Key / X-OnePlatform-User-Key on every request,
  *   live only in memory for that request and in the digest-keyed caches; they
  *   are never logged.
@@ -117,6 +119,13 @@ export function createHttpHandler(options: HttpOptions) {
     if (!perIp.allow(limitKey(client))) return rpcError(res, 429, -32029, 'Too many requests');
     const credentials = credentialsFrom(header(req, 'x-oneplatform-app-key'), header(req, 'x-oneplatform-user-key'));
     if (credentials && !perKeys.allow(digest(credentials.appKey, credentials.userKey))) return rpcError(res, 429, -32029, 'Too many requests');
+    let toolsets: ReadonlySet<string> | undefined;
+    try {
+      toolsets = parseToolsets(header(req, 'x-oneplatform-toolsets'));
+    } catch (error) {
+      if (error instanceof UnknownToolset) return rpcError(res, 400, -32602, error.message);
+      throw error;
+    }
     const raw = await readBody(req);
     if (raw === undefined) return rpcError(res, 413, -32600, 'Request body too large');
     let body: unknown;
@@ -125,7 +134,7 @@ export function createHttpHandler(options: HttpOptions) {
     } catch {
       return rpcError(res, 400, -32700, 'Parse error');
     }
-    const server = createServer({credentials, apiBase, fetch: upstream, broker, docs: options.docs, log: options.log});
+    const server = createServer({credentials, apiBase, fetch: upstream, broker, docs: options.docs, log: options.log, toolsets});
     const transport = new StreamableHTTPServerTransport({sessionIdGenerator: undefined, enableJsonResponse: true});
     res.on('close', () => {
       void transport.close();

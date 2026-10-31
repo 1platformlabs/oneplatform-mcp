@@ -5,15 +5,34 @@ Conecta un agente de código a la documentación de OnePlatform y a la OnePlatfo
 
 ## Herramientas
 
-| Grupo | Herramientas | Claves |
-|---|---|---|
-| Documentación | `docs_search`, `docs_get_page`, `api_get_operation` | No |
-| Lectura | perfil, historial de saldo, consumo, comercios, links de pago, transacciones, facturas, envíos, sitios y avisos | Sí |
-| Escritura sin dinero | `createPaymentLink` (sin `customer_email`) y `cancelPaymentLink` | Sí |
+Tres herramientas de documentación funcionan sin claves: `docs_search`, `docs_get_page` y `api_get_operation`. Con
+claves, el servidor suma las de la API, agrupadas por vertical (*toolset*):
 
-La lista exacta está en [`tools.manifest.json`](tools.manifest.json) y lo que nunca puede exponerse, en
-[`denylist.json`](denylist.json): administración, credenciales, webhooks y toda operación que cobre saldo, emita
-documentos fiscales o mueva dinero.
+| Toolset | Qué puede hacer el agente |
+|---|---|
+| `cuenta` | Perfil, historial de saldo, consumo, comercios y avisos. Siempre activo: de acá sale el `businessId` |
+| `pagos` | Links de pago (listar, ver, **crear** y **cancelar**) y transacciones |
+| `retiros` | Saldo retirable, movimientos, retiros y cobros que pueden pasar al saldo retirable (sólo lectura) |
+| `suscripciones` | Planes, suscripciones y clientes del comercio |
+| `terminal` | Solicitudes de terminal de tarjetas y su estado |
+| `facturacion` | Facturas electrónicas (sólo lectura: el MCP no emite ni anula) |
+| `envios` | Envíos (sólo lectura: el MCP no despacha) |
+| `sitios` | Sitios, artículos, trabajos de generación, categorías y rendimiento en buscadores |
+| `analitica` | Estado y métricas de analítica, ingresos y alertas de anuncios, mapas de calor |
+| `correo` | Remitentes, plantillas, cuota y mensajes del correo transaccional; conversaciones del correo del negocio |
+| `dominios` | Dominios, disponibilidad, precios, transferencias y registros de correo (sólo lectura) |
+| `telemetria` | Proyectos, errores, último evento, logs, rendimiento y uso; **marcar un error** como resuelto o ignorado |
+| `ventas` | Preparación, canales, ofertas, prospectos, tablero y reporte del embudo |
+| `agentes` | Agentes, catálogo, herramientas, presupuesto, ejecuciones y acciones pendientes; **detener** una ejecución |
+
+Por defecto se listan todos. Para un cliente que admite pocas herramientas, elija las verticales que usa:
+`ONEPLATFORM_TOOLSETS=pagos,envios` (local) o la cabecera `X-OnePlatform-Toolsets: pagos,envios` (alojado).
+
+Las escrituras (en negrita) no cobran saldo, no emiten documentos fiscales, no mueven dinero ni envían mensajes a
+terceros, y el cliente pide confirmación antes de ejecutarlas. La lista exacta está en
+[`tools.manifest.json`](tools.manifest.json) y lo que nunca puede exponerse, en [`denylist.json`](denylist.json):
+administración, credenciales, webhooks, cobros, emisión fiscal y movimientos de dinero. En retiros y dominios sólo se
+permiten lecturas.
 
 ## Uso local (stdio)
 
@@ -26,6 +45,7 @@ ONEPLATFORM_APP_KEY=ak-XXXX… ONEPLATFORM_USER_KEY=sk-XXXX… npx -y @oneplatfo
 | `ONEPLATFORM_APP_KEY` | Clave de aplicación (`ak-…`). Opcional: sin claves sólo están las herramientas de documentación |
 | `ONEPLATFORM_USER_KEY` | Clave de usuario (`sk-…`) |
 | `ONEPLATFORM_ENV` | `qa` (por defecto) o `prod` |
+| `ONEPLATFORM_TOOLSETS` | Opcional: verticales a listar, separadas por comas (por defecto, todas) |
 
 Instalación por cliente: https://developer.1platform.pro/docs/saas/1platform-api/integrar-con-ia
 

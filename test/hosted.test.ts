@@ -68,6 +68,17 @@ describe('IPA-05 · CA-3 límite propio por cliente resuelto', () => {
   });
 });
 
+describe('X-OnePlatform-Toolsets en el alojado', () => {
+  it('acota la lista y un nombre desconocido es 400', async () => {
+    const {rpc} = await start();
+    const narrowed = await (await rpc(list, {...keys, 'x-oneplatform-toolsets': 'envios'})).json();
+    expect(narrowed.result.tools.map((t: {name: string}) => t.name)).toContain('listDeliveries');
+    expect(narrowed.result.tools.map((t: {name: string}) => t.name)).not.toContain('listInvoices');
+    const bad = await rpc(list, {...keys, 'x-oneplatform-toolsets': 'nomina'});
+    expect(bad.status).toBe(400);
+  });
+});
+
 describe('ONEPLATFORM_API_URL', () => {
   it('acepta la URL interna y la normaliza', () => {
     expect(apiBaseFromEnv('prod', 'http://1platform-api-prod:3005/api/v1/')).toBe('http://1platform-api-prod:3005/api/v1');

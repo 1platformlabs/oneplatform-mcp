@@ -1,3 +1,4 @@
+import {API_TOOLS} from '../src/generated/tools.js';
 import type {AddressInfo} from 'node:net';
 import {createServer} from 'node:http';
 import {afterEach, describe, expect, it} from 'vitest';
@@ -35,7 +36,7 @@ describe('IPA-05 hosted transport', () => {
     const anon = await (await rpc(list)).json();
     expect(anon.result.tools).toHaveLength(3);
     const keyed = await (await rpc(list, {'x-oneplatform-app-key': 'ak-a', 'x-oneplatform-user-key': 'sk-a'})).json();
-    expect(keyed.result.tools).toHaveLength(21);
+    expect(keyed.result.tools).toHaveLength(3 + API_TOOLS.length);
   });
 });
 
