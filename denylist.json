@@ -1,5 +1,5 @@
 {
-  "$comment": "Operations no tool may ever expose (D-9). The manifest test fails if it intersects this list, by operationId or by path. Covers: admin and platform surfaces, credentials, webhooks, and anything that charges balance, issues tax documents or moves money.",
+  "$comment": "Operations no tool may ever expose (D-9). The manifest test fails if it intersects this list, by operationId or by path. Covers: admin and platform surfaces, credentials, webhooks, and anything that charges balance, issues tax documents or moves money. writePathPrefixes deny every NON-GET operation under the prefix (withdrawals and domain registration move money); their reads stay allowed.",
   "pathPrefixes": [
     "/api/v1/admin",
     "/api/v1/platform",
@@ -7,11 +7,8 @@
     "/api/v1/api-access",
     "/api/v1/webhooks",
     "/api/v1/users/balance/topups",
-    "/api/v1/users/cash-out",
     "/api/v1/users/trades",
-    "/api/v1/ads",
-    "/api/v1/domains",
-    "/api/v1/users/domains"
+    "/api/v1/ads"
   ],
   "operationIds": [
     "createInvoice",
@@ -27,6 +24,12 @@
   ],
   "reviewedResponseKeys": {
     "$comment": "Response keys that match the sensitive pattern and were reviewed as NOT secret. Anything else matching must be in the tool's redact[] (T-22).",
-    "authorization_number": "Número de autorización FEL de una factura certificada: identificador fiscal público, impreso en la propia factura."
-  }
+    "authorization_number": "Número de autorización FEL de una factura certificada: identificador fiscal público, impreso en la propia factura.",
+    "total_tokens": "Cantidad de tokens de modelo que consumió una ejecución de agente: un contador de uso, no una credencial."
+  },
+  "writePathPrefixes": [
+    "/api/v1/users/cash-out",
+    "/api/v1/domains",
+    "/api/v1/users/domains"
+  ]
 }

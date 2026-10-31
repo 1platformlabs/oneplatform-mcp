@@ -34,10 +34,10 @@ export function fakeApi(responder: Responder = () => ({status: 200, body: {succe
   return {fetch: impl, calls, count};
 }
 
-export async function connect(options: {credentials?: Credentials; fetch: typeof fetch; broker?: TokenBroker; log?: (l: Record<string, unknown>) => void}) {
+export async function connect(options: {credentials?: Credentials; fetch: typeof fetch; broker?: TokenBroker; log?: (l: Record<string, unknown>) => void; toolsets?: ReadonlySet<string>}) {
   const broker = options.broker ?? new TokenBroker({apiBase: QA, fetch: options.fetch});
   const docs = new Docs({docsBase: DOCS, fetch: options.fetch});
-  const server = createServer({credentials: options.credentials, apiBase: QA, fetch: options.fetch, broker, docs, log: options.log});
+  const server = createServer({credentials: options.credentials, apiBase: QA, fetch: options.fetch, broker, docs, log: options.log, toolsets: options.toolsets});
   const [a, b] = InMemoryTransport.createLinkedPair();
   const client = new Client({name: 'test', version: '0.0.0'});
   await Promise.all([server.connect(a), client.connect(b)]);

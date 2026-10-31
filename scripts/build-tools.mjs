@@ -72,10 +72,16 @@ export function sensitiveKeys(schema, out = new Set()) {
   return out;
 }
 
-function deniedBy(denylist, operationId, path) {
+export const TOOLSETS = ['cuenta', 'pagos', 'retiros', 'suscripciones', 'terminal', 'facturacion', 'envios', 'sitios', 'analitica', 'correo', 'dominios', 'telemetria', 'ventas', 'agentes'];
+
+const under = (path, prefix) => path === prefix || path.startsWith(`${prefix}/`);
+
+export function deniedBy(denylist, operationId, path, method = 'GET') {
   if (denylist.operationIds.includes(operationId)) return `operationId ${operationId}`;
-  const prefix = denylist.pathPrefixes.find((p) => path === p || path.startsWith(`${p}/`));
-  return prefix ? `path prefix ${prefix}` : undefined;
+  const prefix = denylist.pathPrefixes.find((p) => under(path, p));
+  if (prefix) return `path prefix ${prefix}`;
+  const writePrefix = method !== 'GET' ? (denylist.writePathPrefixes ?? []).find((p) => under(path, p)) : undefined;
+  return writePrefix ? `write under ${writePrefix}` : undefined;
 }
 
 export function buildTools(spec, manifest, denylist) {
@@ -85,8 +91,10 @@ export function buildTools(spec, manifest, denylist) {
   for (const entry of manifest.tools) {
     const found = ops.get(entry.operationId);
     if (!found) { errors.push(`${entry.operationId}: not in the OpenAPI`); continue; }
-    const denied = deniedBy(denylist, entry.operationId, found.path);
+    const denied = deniedBy(denylist, entry.operationId, found.path, found.method);
     if (denied) { errors.push(`${entry.operationId}: in the denylist (${denied})`); continue; }
+    if (entry.readOnly === true && found.method !== 'GET') { errors.push(`${entry.operationId}: readOnly but ${found.method}`); continue; }
+    if (!TOOLSETS.includes(entry.toolset)) { errors.push(`${entry.operationId}: toolset "${entry.toolset}" is not one of ${TOOLSETS.join(', ')}`); continue; }
     const omit = entry.omit ?? [];
     const redact = entry.redact ?? [];
     const properties = {};
@@ -143,6 +151,7 @@ export function buildTools(spec, manifest, denylist) {
       method: found.method,
       path: found.path,
       readOnly: entry.readOnly === true,
+      toolset: entry.toolset,
       omit,
       redact,
       pathParams,
@@ -164,6 +173,7 @@ export interface ApiTool {
   method: string;
   path: string;
   readOnly: boolean;
+  toolset: string;
   omit: string[];
   redact: string[];
   pathParams: string[];

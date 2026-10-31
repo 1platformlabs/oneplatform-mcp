@@ -1,3 +1,4 @@
+import {API_TOOLS} from '../src/generated/tools.js';
 import {describe, expect, it, vi} from 'vitest';
 
 import {TokenBroker} from '../src/auth/token-cache.js';
@@ -19,7 +20,7 @@ describe('IPA-04 CA-1/CA-2 tools/list', () => {
   it('with keys: docs tools plus exactly the manifest, writes marked destructive', async () => {
     const {client} = await connect({fetch: fakeApi().fetch, credentials: KEYS});
     const {tools} = await client.listTools();
-    expect(tools).toHaveLength(3 + 18);
+    expect(tools).toHaveLength(3 + API_TOOLS.length);
     const create = tools.find((t) => t.name === 'createPaymentLink')!;
     expect(create.annotations).toMatchObject({readOnlyHint: false, destructiveHint: true});
     expect(tools.find((t) => t.name === 'getUserProfile')!.annotations).toMatchObject({readOnlyHint: true, destructiveHint: false});

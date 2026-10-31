@@ -1,23 +1,423 @@
 {
-  "$comment": "Allowlist of API tools (épica infraestructura-para-agentes-ia, D-9). Nothing outside this list reaches the API. readOnly=false tools are marked destructive: the client asks before running them. omit[] fields are removed from the schema AND dropped if the model sends them anyway. redact[] keys are removed from the response.",
+  "$comment": "Allowlist of API tools (épica infraestructura-para-agentes-ia, D-9). Nothing outside this list reaches the API. readOnly=false tools are marked destructive: the client asks before running them. omit[] fields are removed from the schema AND dropped if the model sends them anyway. redact[] keys are removed from the response. toolset groups tools by product vertical: ONEPLATFORM_TOOLSETS (local) or X-OnePlatform-Toolsets (hosted) narrow the list; docs tools are always listed.",
   "tools": [
-    {"operationId": "getUserProfile", "readOnly": true},
-    {"operationId": "getBalanceHistory", "readOnly": true},
-    {"operationId": "getConsumptionSummary", "readOnly": true},
-    {"operationId": "listBusinessesForUser", "readOnly": true},
-    {"operationId": "getBusiness", "readOnly": true},
-    {"operationId": "listPaymentLinks", "readOnly": true},
-    {"operationId": "getPaymentLink", "readOnly": true},
-    {"operationId": "listPaymentTransactions", "readOnly": true, "redact": ["bank_authorization"]},
-    {"operationId": "getPaymentTransactionById", "readOnly": true, "redact": ["bank_authorization"]},
-    {"operationId": "listInvoices", "readOnly": true},
-    {"operationId": "getInvoice", "readOnly": true},
-    {"operationId": "listDeliveries", "readOnly": true},
-    {"operationId": "getDelivery", "readOnly": true},
-    {"operationId": "listMyWebsites", "readOnly": true, "redact": ["token", "token_expiry", "refresh_token_created_at"]},
-    {"operationId": "getWebsite", "readOnly": true, "redact": ["token", "token_expiry", "refresh_token_created_at"]},
-    {"operationId": "listNotifications", "readOnly": true},
-    {"operationId": "createPaymentLink", "readOnly": false, "omit": ["customer_email"]},
-    {"operationId": "cancelPaymentLink", "readOnly": false}
+    {
+      "operationId": "getUserProfile",
+      "readOnly": true,
+      "toolset": "cuenta"
+    },
+    {
+      "operationId": "getBalanceHistory",
+      "readOnly": true,
+      "toolset": "cuenta"
+    },
+    {
+      "operationId": "getConsumptionSummary",
+      "readOnly": true,
+      "toolset": "cuenta"
+    },
+    {
+      "operationId": "listBusinessesForUser",
+      "readOnly": true,
+      "toolset": "cuenta"
+    },
+    {
+      "operationId": "getBusiness",
+      "readOnly": true,
+      "toolset": "cuenta"
+    },
+    {
+      "operationId": "listPaymentLinks",
+      "readOnly": true,
+      "toolset": "pagos"
+    },
+    {
+      "operationId": "getPaymentLink",
+      "readOnly": true,
+      "toolset": "pagos"
+    },
+    {
+      "operationId": "listPaymentTransactions",
+      "readOnly": true,
+      "redact": [
+        "bank_authorization"
+      ],
+      "toolset": "pagos"
+    },
+    {
+      "operationId": "getPaymentTransactionById",
+      "readOnly": true,
+      "redact": [
+        "bank_authorization"
+      ],
+      "toolset": "pagos"
+    },
+    {
+      "operationId": "listInvoices",
+      "readOnly": true,
+      "toolset": "facturacion"
+    },
+    {
+      "operationId": "getInvoice",
+      "readOnly": true,
+      "toolset": "facturacion"
+    },
+    {
+      "operationId": "listDeliveries",
+      "readOnly": true,
+      "toolset": "envios"
+    },
+    {
+      "operationId": "getDelivery",
+      "readOnly": true,
+      "toolset": "envios"
+    },
+    {
+      "operationId": "listMyWebsites",
+      "readOnly": true,
+      "redact": [
+        "token",
+        "token_expiry",
+        "refresh_token_created_at"
+      ],
+      "toolset": "sitios"
+    },
+    {
+      "operationId": "getWebsite",
+      "readOnly": true,
+      "redact": [
+        "token",
+        "token_expiry",
+        "refresh_token_created_at"
+      ],
+      "toolset": "sitios"
+    },
+    {
+      "operationId": "listNotifications",
+      "readOnly": true,
+      "toolset": "cuenta"
+    },
+    {
+      "operationId": "createPaymentLink",
+      "readOnly": false,
+      "omit": [
+        "customer_email"
+      ],
+      "toolset": "pagos"
+    },
+    {
+      "operationId": "cancelPaymentLink",
+      "readOnly": false,
+      "toolset": "pagos"
+    },
+    {
+      "operationId": "getCashOutSummary",
+      "readOnly": true,
+      "toolset": "retiros"
+    },
+    {
+      "operationId": "listCashOutMovements",
+      "readOnly": true,
+      "toolset": "retiros"
+    },
+    {
+      "operationId": "listCashOutPayouts",
+      "readOnly": true,
+      "toolset": "retiros"
+    },
+    {
+      "operationId": "listCashOutReclassifiableCharges",
+      "readOnly": true,
+      "toolset": "retiros"
+    },
+    {
+      "operationId": "listSubscriptionPlans",
+      "readOnly": true,
+      "toolset": "suscripciones"
+    },
+    {
+      "operationId": "getSubscriptionPlan",
+      "readOnly": true,
+      "toolset": "suscripciones"
+    },
+    {
+      "operationId": "listMerchantSubscriptions",
+      "readOnly": true,
+      "toolset": "suscripciones"
+    },
+    {
+      "operationId": "getMerchantSubscription",
+      "readOnly": true,
+      "toolset": "suscripciones"
+    },
+    {
+      "operationId": "listCustomers",
+      "readOnly": true,
+      "toolset": "suscripciones"
+    },
+    {
+      "operationId": "getCustomer",
+      "readOnly": true,
+      "toolset": "suscripciones"
+    },
+    {
+      "operationId": "listTerminalRequests",
+      "readOnly": true,
+      "toolset": "terminal"
+    },
+    {
+      "operationId": "getTerminalRequest",
+      "readOnly": true,
+      "toolset": "terminal"
+    },
+    {
+      "operationId": "listPosts",
+      "readOnly": true,
+      "toolset": "sitios"
+    },
+    {
+      "operationId": "getContentJob",
+      "readOnly": true,
+      "toolset": "sitios"
+    },
+    {
+      "operationId": "listCategories",
+      "readOnly": true,
+      "toolset": "sitios"
+    },
+    {
+      "operationId": "getSearchConsolePerformance",
+      "readOnly": true,
+      "toolset": "sitios"
+    },
+    {
+      "operationId": "getAnalyticsStatus",
+      "readOnly": true,
+      "toolset": "analitica",
+      "redact": [
+        "mp_secret_id",
+        "mp_secret_masked"
+      ]
+    },
+    {
+      "operationId": "getAnalyticsOverview",
+      "readOnly": true,
+      "toolset": "analitica"
+    },
+    {
+      "operationId": "getPageMetrics",
+      "readOnly": true,
+      "toolset": "analitica"
+    },
+    {
+      "operationId": "getRealtimeMetrics",
+      "readOnly": true,
+      "toolset": "analitica"
+    },
+    {
+      "operationId": "listAdSenseSites",
+      "readOnly": true,
+      "toolset": "analitica"
+    },
+    {
+      "operationId": "getAdSenseEarningsOverview",
+      "readOnly": true,
+      "toolset": "analitica"
+    },
+    {
+      "operationId": "getAdSenseEarningsByPage",
+      "readOnly": true,
+      "toolset": "analitica"
+    },
+    {
+      "operationId": "listAdSenseAlerts",
+      "readOnly": true,
+      "toolset": "analitica"
+    },
+    {
+      "operationId": "listHeatmapSites",
+      "readOnly": true,
+      "toolset": "analitica"
+    },
+    {
+      "operationId": "listHeatmapPages",
+      "readOnly": true,
+      "toolset": "analitica"
+    },
+    {
+      "operationId": "getTransactionalEmailLimits",
+      "readOnly": true,
+      "toolset": "correo"
+    },
+    {
+      "operationId": "listTransactionalEmailSenders",
+      "readOnly": true,
+      "toolset": "correo"
+    },
+    {
+      "operationId": "listTransactionalEmailTemplates",
+      "readOnly": true,
+      "toolset": "correo"
+    },
+    {
+      "operationId": "listTransactionalEmailMessages",
+      "readOnly": true,
+      "toolset": "correo"
+    },
+    {
+      "operationId": "getTransactionalEmailMessage",
+      "readOnly": true,
+      "toolset": "correo"
+    },
+    {
+      "operationId": "listMailThreads",
+      "readOnly": true,
+      "toolset": "correo"
+    },
+    {
+      "operationId": "getMailThread",
+      "readOnly": true,
+      "toolset": "correo"
+    },
+    {
+      "operationId": "listDomains",
+      "readOnly": true,
+      "toolset": "dominios"
+    },
+    {
+      "operationId": "checkDomainAvailability",
+      "readOnly": true,
+      "toolset": "dominios"
+    },
+    {
+      "operationId": "getDomainTldPricing",
+      "readOnly": true,
+      "toolset": "dominios"
+    },
+    {
+      "operationId": "getDomainTransferStatus",
+      "readOnly": true,
+      "toolset": "dominios"
+    },
+    {
+      "operationId": "listMailOnlyRecords",
+      "readOnly": true,
+      "toolset": "dominios"
+    },
+    {
+      "operationId": "listTelemetryProjects",
+      "readOnly": true,
+      "toolset": "telemetria"
+    },
+    {
+      "operationId": "getTelemetryProject",
+      "readOnly": true,
+      "toolset": "telemetria"
+    },
+    {
+      "operationId": "getTelemetryInstallStatus",
+      "readOnly": true,
+      "toolset": "telemetria"
+    },
+    {
+      "operationId": "listTelemetryIssues",
+      "readOnly": true,
+      "toolset": "telemetria"
+    },
+    {
+      "operationId": "getTelemetryLatestEvent",
+      "readOnly": true,
+      "toolset": "telemetria"
+    },
+    {
+      "operationId": "listTelemetryLogs",
+      "readOnly": true,
+      "toolset": "telemetria"
+    },
+    {
+      "operationId": "listTelemetryTransactions",
+      "readOnly": true,
+      "toolset": "telemetria"
+    },
+    {
+      "operationId": "getTelemetryUsage",
+      "readOnly": true,
+      "toolset": "telemetria"
+    },
+    {
+      "operationId": "getSalesReadiness",
+      "readOnly": true,
+      "toolset": "ventas"
+    },
+    {
+      "operationId": "listSalesChannels",
+      "readOnly": true,
+      "toolset": "ventas"
+    },
+    {
+      "operationId": "listSalesOffers",
+      "readOnly": true,
+      "toolset": "ventas"
+    },
+    {
+      "operationId": "listSalesLeads",
+      "readOnly": true,
+      "toolset": "ventas"
+    },
+    {
+      "operationId": "getSalesLeadBoard",
+      "readOnly": true,
+      "toolset": "ventas"
+    },
+    {
+      "operationId": "getSalesLead",
+      "readOnly": true,
+      "toolset": "ventas"
+    },
+    {
+      "operationId": "getSalesFunnelReport",
+      "readOnly": true,
+      "toolset": "ventas"
+    },
+    {
+      "operationId": "listAgents",
+      "readOnly": true,
+      "toolset": "agentes"
+    },
+    {
+      "operationId": "listAgentCatalog",
+      "readOnly": true,
+      "toolset": "agentes"
+    },
+    {
+      "operationId": "listAgentTools",
+      "readOnly": true,
+      "toolset": "agentes"
+    },
+    {
+      "operationId": "getAgentBudget",
+      "readOnly": true,
+      "toolset": "agentes"
+    },
+    {
+      "operationId": "getAgentRun",
+      "readOnly": true,
+      "toolset": "agentes"
+    },
+    {
+      "operationId": "listAgentActions",
+      "readOnly": true,
+      "toolset": "agentes"
+    },
+    {
+      "operationId": "stopAgentRun",
+      "readOnly": false,
+      "toolset": "agentes"
+    },
+    {
+      "operationId": "updateTelemetryIssue",
+      "readOnly": false,
+      "toolset": "telemetria"
+    }
   ]
 }
