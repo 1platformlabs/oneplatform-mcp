@@ -18,7 +18,7 @@ documentos fiscales o mueva dinero.
 ## Uso local (stdio)
 
 ```bash
-ONEPLATFORM_APP_KEY=ak-XXXX… ONEPLATFORM_USER_KEY=sk-XXXX… npx -y @1platformlabs/mcp
+ONEPLATFORM_APP_KEY=ak-XXXX… ONEPLATFORM_USER_KEY=sk-XXXX… npx -y @oneplatformlabs/mcp
 ```
 
 | Variable | Valor |
