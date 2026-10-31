@@ -34,7 +34,7 @@ describe('IPA-05 hosted transport', () => {
     const {rpc} = await start();
     const anon = await (await rpc(list)).json();
     expect(anon.result.tools).toHaveLength(3);
-    const keyed = await (await rpc(list, {'x-1platform-app-key': 'ak-a', 'x-1platform-user-key': 'sk-a'})).json();
+    const keyed = await (await rpc(list, {'x-oneplatform-app-key': 'ak-a', 'x-oneplatform-user-key': 'sk-a'})).json();
     expect(keyed.result.tools).toHaveLength(21);
   });
 });
@@ -43,7 +43,7 @@ describe('T-18 hosted limits', () => {
   it('the 31st request in a minute from one IP is 429 before touching the API', async () => {
     const {rpc, api} = await start({ip: () => '203.0.113.7'});
     for (let i = 0; i < 30; i += 1) expect((await rpc(list)).status).toBe(200);
-    const blocked = await rpc({jsonrpc: '2.0', id: 9, method: 'tools/call', params: {name: 'getUserProfile', arguments: {}}}, {'x-1platform-app-key': 'ak-a', 'x-1platform-user-key': 'sk-a'});
+    const blocked = await rpc({jsonrpc: '2.0', id: 9, method: 'tools/call', params: {name: 'getUserProfile', arguments: {}}}, {'x-oneplatform-app-key': 'ak-a', 'x-oneplatform-user-key': 'sk-a'});
     expect(blocked.status).toBe(429);
     expect((await blocked.json()).error.code).toBe(-32029);
     expect(api.calls).toHaveLength(0);
@@ -51,9 +51,9 @@ describe('T-18 hosted limits', () => {
   it('an attacker with the public ak from another IP does not lock a legitimate user of that ak out', async () => {
     let ip = '198.51.100.1';
     const {rpc} = await start({ip: () => ip});
-    for (let i = 0; i < 40; i += 1) await rpc(list, {'x-1platform-app-key': 'ak-public', 'x-1platform-user-key': `sk-junk-${i}`});
+    for (let i = 0; i < 40; i += 1) await rpc(list, {'x-oneplatform-app-key': 'ak-public', 'x-oneplatform-user-key': `sk-junk-${i}`});
     ip = '198.51.100.2';
-    expect((await rpc(list, {'x-1platform-app-key': 'ak-public', 'x-1platform-user-key': 'sk-legit'})).status).toBe(200);
+    expect((await rpc(list, {'x-oneplatform-app-key': 'ak-public', 'x-oneplatform-user-key': 'sk-legit'})).status).toBe(200);
   });
   it('the key-pair limit is 120/min', () => {
     const limiter = new WindowLimiter(120);
@@ -72,7 +72,7 @@ describe('T-18 hosted limits', () => {
   });
   it('the environment cannot be changed by a request header', async () => {
     const {rpc, api} = await start();
-    await rpc({jsonrpc: '2.0', id: 2, method: 'tools/call', params: {name: 'getUserProfile', arguments: {}}}, {'x-1platform-app-key': 'ak-a', 'x-1platform-user-key': 'sk-a', 'x-oneplatform-env': 'prod'});
+    await rpc({jsonrpc: '2.0', id: 2, method: 'tools/call', params: {name: 'getUserProfile', arguments: {}}}, {'x-oneplatform-app-key': 'ak-a', 'x-oneplatform-user-key': 'sk-a', 'x-oneplatform-env': 'prod'});
     expect(api.calls.every((c) => c.url.startsWith('https://api-qa.1platform.pro/'))).toBe(true);
     expect(api.calls.length).toBeGreaterThan(0);
   });

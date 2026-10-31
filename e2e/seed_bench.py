@@ -42,6 +42,9 @@ from app.utils.encryption import encrypt_value  # noqa: E402
 
 TAG = "E2E-IPA-1"
 SLUG = TAG.lower()
+# Identificador de proveedor de la pasarela tal como lo guarda el Core en
+# PaymentGateway.provider. Va por entorno para no fijar un proveedor real aquí.
+PROVIDER = os.environ["BENCH_PAYMENT_PROVIDER"]
 NOW = datetime.now(timezone.utc)
 CUR = "GTQ"
 
@@ -104,7 +107,7 @@ async def seed(db) -> dict:
     gw = ObjectId()
     await db.PaymentGateway.insert_one({
         "_id": gw, "app_id": None, "name": f"{TAG} Pasarela", "slug": f"{SLUG}-gw",
-        "provider": "migo", "status": "active", "api_url": "http://127.0.0.1:9", "timeout": 3,
+        "provider": PROVIDER, "status": "active", "api_url": "http://127.0.0.1:9", "timeout": 3,
         "settles_to_merchant": False,
         "currencies": [{"currency": CUR, "client": f"{SLUG}-client",
                         "api_key": encrypt_value("e2e-ipa-fake-key"), "is_default": True}],
@@ -154,7 +157,7 @@ async def seed(db) -> dict:
     tx = ObjectId()
     await db.Transaction.insert_one({
         "_id": tx, "user_id": ObjectId(a["id"]), "billing_id": ObjectId(a["billing_id"]),
-        "external_transaction_id": f"{SLUG}-tx-1", "provider": "migo", "amount": 50.0,
+        "external_transaction_id": f"{SLUG}-tx-1", "provider": PROVIDER, "amount": 50.0,
         "usd_amount": 50.0, "currency": CUR, "status": "approved", "description": f"{TAG} recarga",
         "metadata": {}, "created_at": NOW, "updated_at": NOW,
         "webhook_attempts": [{"timestamp": NOW, "status": "approved",

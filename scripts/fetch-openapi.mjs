@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Copy of the public 1Platform OpenAPI used to GENERATE the tools (mirror of the
+ * Copy of the public OnePlatform OpenAPI used to GENERATE the tools (mirror of the
  * portal's scripts/fetch-openapi.mjs). Not committed: the generated
  * src/generated/tools.ts is, and CI re-derives it with OPENAPI_FETCH_STRICT=1 so
  * a stale spec cannot hide a drift. The URL is never printed: an override may
