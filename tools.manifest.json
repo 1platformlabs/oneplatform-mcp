@@ -1,0 +1,23 @@
+{
+  "$comment": "Allowlist of API tools (épica infraestructura-para-agentes-ia, D-9). Nothing outside this list reaches the API. readOnly=false tools are marked destructive: the client asks before running them. omit[] fields are removed from the schema AND dropped if the model sends them anyway. redact[] keys are removed from the response.",
+  "tools": [
+    {"operationId": "getUserProfile", "readOnly": true},
+    {"operationId": "getBalanceHistory", "readOnly": true},
+    {"operationId": "getConsumptionSummary", "readOnly": true},
+    {"operationId": "listBusinessesForUser", "readOnly": true},
+    {"operationId": "getBusiness", "readOnly": true},
+    {"operationId": "listPaymentLinks", "readOnly": true},
+    {"operationId": "getPaymentLink", "readOnly": true},
+    {"operationId": "listPaymentTransactions", "readOnly": true, "redact": ["bank_authorization"]},
+    {"operationId": "getPaymentTransactionById", "readOnly": true, "redact": ["bank_authorization"]},
+    {"operationId": "listInvoices", "readOnly": true},
+    {"operationId": "getInvoice", "readOnly": true},
+    {"operationId": "listDeliveries", "readOnly": true},
+    {"operationId": "getDelivery", "readOnly": true},
+    {"operationId": "listMyWebsites", "readOnly": true, "redact": ["token", "token_expiry", "refresh_token_created_at"]},
+    {"operationId": "getWebsite", "readOnly": true, "redact": ["token", "token_expiry", "refresh_token_created_at"]},
+    {"operationId": "listNotifications", "readOnly": true},
+    {"operationId": "createPaymentLink", "readOnly": false, "omit": ["customer_email"]},
+    {"operationId": "cancelPaymentLink", "readOnly": false}
+  ]
+}
