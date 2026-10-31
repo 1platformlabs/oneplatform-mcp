@@ -1,6 +1,6 @@
 # Banco local del servidor MCP
 
-Prueba el binario real (`dist/cli.js`) con un cliente MCP real contra una 1Platform API
+Prueba el binario real (`dist/cli.js`) con un cliente MCP real contra una OnePlatform API
 levantada en local, sin tocar QA ni producción. No entra al paquete (`files` sólo publica
 `dist/`).
 
@@ -9,7 +9,7 @@ levantada en local, sin tocar QA ni producción. No entra al paquete (`files` s�
 | Pieza | Cómo | Puerto (slot 3) |
 |---|---|---|
 | Mongo propio | `docker run -d --rm --name mongo-e2e-<slug> -p 27103:27017 --ulimit nofile=64000:64000 --tmpfs /data/db mongo:7` | 27103 |
-| API del Core | worktree de `1platform-api` en `origin/main`, venv propio (Python 3.13, `requirements.txt`), `uvicorn app.main:app --port 8310` con un `env.sh` privado (`MONGODB_URL`, `MONGODB_DB_NAME` con `e2e`, `JWT_SECRET_KEY`, `ENCRYPTION_KEY`, …) | 8310 |
+| API del Core | worktree de `1platform-api` en `origin/main`, venv propio (Python 3.13, `requirements.txt`), `uvicorn app.main:app --port 8310` con un `env.sh` privado (`MONGODB_URL`, `MONGODB_DB_NAME` con `e2e`, `JWT_SECRET_KEY`, `ENCRYPTION_KEY`, `BENCH_PAYMENT_PROVIDER` = identificador de pasarela que acepta el Core, …) | 8310 |
 | Portal | build de `1platform-api-developer` servido por su nginx de producción (`deploy/docker/nginx.conf` montado en `nginx:1.27-alpine`) | 3301 |
 
 El nginx del portal sólo atiende `developer.1platform.pro`. El preload `bench-fetch.mjs`

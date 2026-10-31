@@ -1,11 +1,11 @@
 {
   "name": "@oneplatformlabs/mcp",
-  "version": "0.1.0",
-  "description": "Servidor MCP de 1Platform: documentaci\u00f3n y operaciones de la 1Platform API con sus propias claves, en QA por defecto.",
+  "version": "0.1.1",
+  "description": "Servidor MCP de OnePlatform: documentaci\u00f3n y operaciones de la OnePlatform API con sus propias claves, en QA por defecto.",
   "license": "MIT",
   "type": "module",
   "bin": {
-    "1platform-mcp": "dist/cli.js"
+    "oneplatform-mcp": "dist/cli.js"
   },
   "main": "dist/server.js",
   "files": [
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/1platformlabs/1platform-mcp.git"
+    "url": "https://github.com/1platformlabs/oneplatform-mcp.git"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",

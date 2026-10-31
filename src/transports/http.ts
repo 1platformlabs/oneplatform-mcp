@@ -13,7 +13,7 @@ import type {Docs} from '../tools/docs.js';
  *
  * - The environment is fixed when the process starts (one deployment per
  *   host, D-14); nothing in a request can change it.
- * - Keys arrive in X-1Platform-App-Key / X-1Platform-User-Key on every request,
+ * - Keys arrive in X-OnePlatform-App-Key / X-OnePlatform-User-Key on every request,
  *   live only in memory for that request and in the digest-keyed caches; they
  *   are never logged.
  * - Limits run before anything is exchanged: 30/min per client IP, 120/min per
@@ -76,7 +76,7 @@ export function createHttpHandler(options: HttpOptions) {
       return rpcError(res, 405, -32000, 'Method not allowed');
     }
     if (!perIp.allow(clientIp(req))) return rpcError(res, 429, -32029, 'Too many requests');
-    const credentials = credentialsFrom(header(req, 'x-1platform-app-key'), header(req, 'x-1platform-user-key'));
+    const credentials = credentialsFrom(header(req, 'x-oneplatform-app-key'), header(req, 'x-oneplatform-user-key'));
     if (credentials && !perKeys.allow(digest(credentials.appKey, credentials.userKey))) return rpcError(res, 429, -32029, 'Too many requests');
     const raw = await readBody(req);
     if (raw === undefined) return rpcError(res, 413, -32600, 'Request body too large');

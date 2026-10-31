@@ -24,7 +24,7 @@ export interface CallResult {
 
 export class MissingCredentials extends Error {
   constructor() {
-    super('Esta herramienta necesita las claves de 1Platform (ONEPLATFORM_APP_KEY y ONEPLATFORM_USER_KEY). Cómo pedirlas y configurarlas: https://developer.1platform.pro/docs/saas/1platform-api/integrar-con-ia');
+    super('Esta herramienta necesita las claves de OnePlatform (ONEPLATFORM_APP_KEY y ONEPLATFORM_USER_KEY). Cómo pedirlas y configurarlas: https://developer.1platform.pro/docs/saas/1platform-api/integrar-con-ia');
   }
 }
 
@@ -99,7 +99,7 @@ export async function callApi(tool: ApiTool, args: Record<string, unknown>, cred
       });
       return {status: response.status, body: await response.text(), truncated: false};
     } catch {
-      return {status: 504, body: JSON.stringify({error: 'La 1Platform API no respondió a tiempo.'}), truncated: false};
+      return {status: 504, body: JSON.stringify({error: 'La OnePlatform API no respondió a tiempo.'}), truncated: false};
     }
   };
 

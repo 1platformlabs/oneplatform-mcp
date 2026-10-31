@@ -1,6 +1,6 @@
-# Servidor MCP de 1Platform
+# Servidor MCP de OnePlatform
 
-Conecta un agente de código a la documentación de 1Platform y a la 1Platform API con sus propias claves, en
+Conecta un agente de código a la documentación de OnePlatform y a la OnePlatform API con sus propias claves, en
 **QA por defecto**.
 
 ## Herramientas
@@ -32,7 +32,7 @@ Instalación por cliente: https://developer.1platform.pro/docs/saas/1platform-ap
 ## Uso alojado (HTTP)
 
 `node dist/cli.js --http` sirve Streamable HTTP sin estado en `POST /mcp` y `GET /healthz`. Las claves llegan en
-`X-1Platform-App-Key` y `X-1Platform-User-Key` en cada solicitud; el entorno lo fija `ONEPLATFORM_ENV` al arrancar.
+`X-OnePlatform-App-Key` y `X-OnePlatform-User-Key` en cada solicitud; el entorno lo fija `ONEPLATFORM_ENV` al arrancar.
 Límites: 30 solicitudes por minuto por IP, 120 por par de claves y 256 KiB por cuerpo.
 
 > El despliegue alojado (contenedor junto al API, IP del cliente hacia el API) está pendiente de medir la cadena de

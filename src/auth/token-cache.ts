@@ -123,7 +123,7 @@ export class TokenBroker {
         signal: AbortSignal.timeout(this.options.timeoutMs ?? 15_000),
       });
     } catch {
-      return {result: {ok: false, status: 502, body: JSON.stringify({error: 'No se pudo contactar a la 1Platform API.'})}};
+      return {result: {ok: false, status: 502, body: JSON.stringify({error: 'No se pudo contactar a la OnePlatform API.'})}};
     }
     const body = await response.text();
     if (!response.ok) return {result: {ok: false, status: response.status, body}};
@@ -134,7 +134,7 @@ export class TokenBroker {
       const ttl = typeof parsed.data?.expires_in === 'number' ? parsed.data.expires_in : undefined;
       return {result: {ok: true, token}, ttl};
     } catch {
-      return {result: {ok: false, status: 502, body: JSON.stringify({error: 'La 1Platform API devolvió un canje ilegible.'})}};
+      return {result: {ok: false, status: 502, body: JSON.stringify({error: 'La OnePlatform API devolvió un canje ilegible.'})}};
     }
   }
 }
