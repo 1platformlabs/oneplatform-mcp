@@ -1,0 +1,42 @@
+# Hosted MCP, PROD — https://mcp.1platform.pro → front door (185.125.168.236) → 144.76.163.230:3047.
+#
+# D-12: the container calls the API of its OWN environment over Docker's
+# private network (`telemetry-engine-net-prod`, defined with a fixed name by
+# the Core's compose, so it survives API redeploys). The API trusts private
+# hops, so the X-Forwarded-For this server writes (the client, one entry) keys
+# its per-IP limits per client — measured on the host on 2026-10-31.
+# The host has no free default address pool: never add a network here without
+# an explicit subnet.
+name: oneplatform-mcp-prod
+services:
+  mcp:
+    build:
+      context: ..
+    image: oneplatform-mcp:prod
+    container_name: oneplatform-mcp-prod
+    restart: unless-stopped
+    ports:
+      - "3047:3000"
+    environment:
+      ONEPLATFORM_ENV: prod
+      ONEPLATFORM_API_URL: http://1platform-api-prod:3005/api/v1
+      # The front door is the only public hop we trust (mirror of the Core's
+      # TRUSTED_PROXY_CIDRS); private ranges are always ours.
+      MCP_TRUSTED_PROXY_CIDRS: '["185.125.168.236/32"]'
+      PORT: "3000"
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 256m
+    pids_limit: 128
+    logging:
+      driver: json-file
+      options: {max-size: "10m", max-file: "3"}
+    networks: [core]
+networks:
+  core:
+    name: telemetry-engine-net-prod
+    external: true

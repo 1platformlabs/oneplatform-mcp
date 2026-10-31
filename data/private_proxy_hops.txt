@@ -1,0 +1,15 @@
+# Hops that are always OURS for app/core/client_address.py: the set the
+# Dockerfile passes to uvicorn's `--forwarded-allow-ips` (RFC1918, the fd00::/8
+# half of ULA, loopback — here all of 127.0.0.0/8 rather than only 127.0.0.1)
+# — a peer here is the host proxy, the Docker bridge or the host itself.
+# Deliberately an explicit list and NOT `ipaddress.is_private`/`is_loopback`:
+# those also cover 0.0.0.0/8, 169.254/16, 192.0.0/24, the documentation nets
+# (192.0.2/24, 198.51.100/24, 203.0.113/24, 2001:db8::/32), 198.18/15, 240/4
+# and all of fc00::/7 — none of which is a proxy of ours.
+# One CIDR per line; `#` starts a comment.
+127.0.0.0/8
+::1/128
+10.0.0.0/8
+172.16.0.0/12
+192.168.0.0/16
+fd00::/8

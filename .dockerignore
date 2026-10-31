@@ -1,0 +1,7 @@
+node_modules
+dist
+openapi
+.git
+e2e
+test
+*.log

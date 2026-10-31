@@ -1,0 +1,110 @@
+name: Deploy hosted MCP
+
+# main → mcp-qa.1platform.pro, then mcp.1platform.pro (IPA-05). The npm package
+# is NOT published here (D-15).
+#
+# The deploy key can only run deploy/remote-deploy.sh on the host (forced
+# command): `<env> <sha>` or `<env> rollback`. Secrets live in the `PROD`
+# environment, restricted to `main`; this repository is public and pull
+# requests from forks never get them.
+#
+# `gate` reads the repository variable MCP_DEPLOY_ENABLED: anything but `true`
+# is a green run WITH a visible warning and nothing deployed.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: deploy-hosted-mcp
+  cancel-in-progress: false
+
+jobs:
+  test:
+    name: Typecheck, tools and tests
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run typecheck
+      - name: Fetch the OpenAPI
+        run: npm run fetch-openapi
+        env:
+          OPENAPI_FETCH_STRICT: "1"
+      - run: npm run check:tools
+      - run: npm test
+      - run: npm run build
+
+  gate:
+    name: Gate (MCP_DEPLOY_ENABLED)
+    runs-on: ubuntu-24.04
+    permissions: {}
+    outputs:
+      enabled: ${{ steps.gate.outputs.enabled }}
+    steps:
+      - id: gate
+        env:
+          ENABLED: ${{ vars.MCP_DEPLOY_ENABLED }}
+        run: |
+          if [ "${ENABLED:-}" = "true" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Deploy OFF: MCP_DEPLOY_ENABLED is not 'true'. Nothing was deployed."
+          fi
+
+  deploy:
+    name: Deploy ${{ matrix.env }}
+    needs: [test, gate]
+    if: needs.gate.outputs.enabled == 'true' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    environment: PROD
+    permissions: {}
+    strategy:
+      max-parallel: 1
+      fail-fast: true
+      matrix:
+        include:
+          - env: qa
+            url: https://mcp-qa.1platform.pro
+          - env: prod
+            url: https://mcp.1platform.pro
+    steps:
+      - name: Deploy on the dedicated host
+        env:
+          SSH_HOST: ${{ secrets.MCP_DEPLOY_HOST }}
+          SSH_KEY: ${{ secrets.MCP_DEPLOY_KEY }}
+          KNOWN_HOSTS: ${{ vars.MCP_DEPLOY_KNOWN_HOSTS }}
+          TARGET_ENV: ${{ matrix.env }}
+          SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          for v in SSH_HOST SSH_KEY KNOWN_HOSTS; do [ -n "${!v:-}" ] || { echo "::error::$v is missing"; exit 1; }; done
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy && chmod 600 ~/.ssh/deploy
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          ssh -i ~/.ssh/deploy -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o BatchMode=yes \
+            "root@${SSH_HOST}" "${TARGET_ENV} ${SHA}"
+      - name: Public smoke test
+        env:
+          URL: ${{ matrix.url }}
+          TARGET_ENV: ${{ matrix.env }}
+        run: |
+          set -euo pipefail
+          for i in $(seq 1 10); do
+            body="$(curl -fsS --max-time 10 "$URL/healthz" || true)"
+            if [ "$body" = "{\"status\":\"ok\",\"env\":\"${TARGET_ENV}\"}" ]; then break; fi
+            sleep 6
+          done
+          [ "$body" = "{\"status\":\"ok\",\"env\":\"${TARGET_ENV}\"}" ] || { echo "::error::$URL/healthz answered: $body"; exit 1; }
+          list="$(curl -fsS --max-time 15 "$URL/mcp" -H 'content-type: application/json' -H 'accept: application/json, text/event-stream' \
+            -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}')"
+          echo "$list" | python3 -c 'import json,sys; n=len(json.load(sys.stdin)["result"]["tools"]); print("tools without keys:", n); sys.exit(0 if n == 3 else 1)'
