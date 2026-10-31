@@ -1,0 +1,50 @@
+name: CI
+
+# Validation only. Publishing to npm is an owner gate (épica
+# infraestructura-para-agentes-ia, D-15): no workflow here publishes, and none
+# receives an npm token.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions: {}
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Typecheck, tools and tests
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    strategy:
+      matrix:
+        node: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      # The tools are generated from the PUBLIC OpenAPI. Strict: a failed
+      # download fails the job instead of validating against nothing.
+      - name: Fetch the OpenAPI
+        run: npm run fetch-openapi
+        env:
+          OPENAPI_FETCH_STRICT: "1"
+      # The committed src/generated/tools.ts must be what today's spec produces:
+      # an operation renamed or removed upstream shows up here, not in a user's
+      # agent. Also re-checks manifest ⊂ spec, manifest ∩ denylist = ∅ and the
+      # sensitive-response-key rule.
+      - name: Generated tools match the spec
+        run: npm run check:tools
+      - run: npm test
+      - run: npm run build
+      - name: Package contents
+        run: npm pack --dry-run

@@ -1,0 +1,40 @@
+{
+  "name": "@oneplatformlabs/mcp",
+  "version": "0.1.0",
+  "description": "Servidor MCP de 1Platform: documentaci\u00f3n y operaciones de la 1Platform API con sus propias claves, en QA por defecto.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "1platform-mcp": "dist/cli.js"
+  },
+  "main": "dist/server.js",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/1platformlabs/1platform-mcp.git"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "fetch-openapi": "node scripts/fetch-openapi.mjs",
+    "build-tools": "node scripts/build-tools.mjs",
+    "check:tools": "node scripts/build-tools.mjs --check",
+    "start": "node dist/cli.js",
+    "start:http": "node dist/cli.js --http"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "typescript": "^5.6.3",
+    "vitest": "^3.2.7"
+  }
+}
