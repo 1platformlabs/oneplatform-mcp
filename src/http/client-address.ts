@@ -1,3 +1,4 @@
+import {readFileSync} from 'node:fs';
 import {isIP} from 'node:net';
 
 /**
@@ -23,16 +24,18 @@ type Version = 4 | 6;
 interface Net { version: Version; bits: bigint; prefix: number }
 export interface Addr { version: Version; bits: bigint }
 
-export const PRIVATE_HOPS = ['127.0.0.0/8', '::1/128', '10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16', 'fd00::/8'];
-
-// Cloudflare's published edges (https://www.cloudflare.com/ips-v4 and ips-v6),
-// copied from the Core's app/core/data/cloudflare_ips.txt (fetched 2026-09-29).
-export const CLOUDFLARE_RANGES = [
-  '173.245.48.0/20', '103.21.244.0/22', '103.22.200.0/22', '103.31.4.0/22', '141.101.64.0/18', '108.162.192.0/18',
-  '190.93.240.0/20', '188.114.96.0/20', '197.234.240.0/22', '198.41.128.0/17', '162.158.0.0/15', '104.16.0.0/13',
-  '104.24.0.0/14', '172.64.0.0/13', '131.0.72.0/22',
-  '2400:cb00::/32', '2606:4700::/32', '2803:f800::/32', '2405:b500::/32', '2405:8100::/32', '2a06:98c0::/29', '2c0f:f248::/32',
-];
+/**
+ * A versioned CIDR list, one per line, `#` comments — byte-for-byte copies of
+ * the Core's app/core/data/{private_proxy_hops,cloudflare_ips}.txt. A missing,
+ * empty or unparseable file throws at import, i.e. the process does not start.
+ */
+export function loadCidrFile(name: string): string[] {
+  const text = readFileSync(new URL(`../../data/${name}`, import.meta.url), 'utf8');
+  const entries = text.split('\n').map((line) => line.split('#', 1)[0]!.trim()).filter(Boolean);
+  if (!entries.length) throw new Error(`${name} has no entries`);
+  for (const entry of entries) parseNet(entry);
+  return entries;
+}
 
 /** Shortest prefix accepted in MCP_TRUSTED_PROXY_CIDRS (mirror of the Core's MIN_TRUSTED_PREFIX). */
 export const MIN_TRUSTED_PREFIX: Record<Version, number> = {4: 16, 6: 32};
@@ -55,8 +58,8 @@ function v6Bits(s: string): bigint {
   const [head, rest] = text.split('::');
   const left = head ? head.split(':') : [];
   const right = rest !== undefined && rest !== '' ? rest.split(':') : [];
-  const fill = rest === undefined ? [] : Array(8 - left.length - right.length).fill('0');
-  const groups = [...left, ...fill, ...right].map((g) => BigInt(parseInt(g || '0', 16)));
+  const fill = rest === undefined ? [] : new Array(8 - left.length - right.length).fill('0');
+  const groups = [...left, ...fill, ...right].map((g) => BigInt(Number.parseInt(g || '0', 16)));
   if (tail.length) groups.splice(6, 2, ...tail);
   return groups.reduce((acc, g) => (acc << 16n) | g, 0n);
 }
@@ -80,7 +83,8 @@ function parseNet(value: string): Net {
   const ip = parseIp(address);
   if (!ip || (address ?? '').includes('[')) throw new Error(`not an IP network: ${JSON.stringify(value)}`);
   const width = WIDTH[ip.version];
-  const prefix = prefixText === undefined ? width : /^\d+$/.test(prefixText) ? Number(prefixText) : NaN;
+  let prefix = width;
+  if (prefixText !== undefined) prefix = /^\d+$/.test(prefixText) ? Number(prefixText) : Number.NaN;
   if (!Number.isInteger(prefix) || prefix < 0 || prefix > width) throw new Error(`not an IP network: ${JSON.stringify(value)}`);
   const mask = prefix === 0 ? 0n : ((1n << BigInt(prefix)) - 1n) << BigInt(width - prefix);
   return {version: ip.version, bits: ip.bits & mask, prefix};
@@ -94,6 +98,12 @@ function inNet(ip: Addr, net: Net): boolean {
 }
 
 const inAny = (ip: Addr, nets: readonly Net[]) => nets.some((n) => inNet(ip, n));
+
+/** Always ours: private ranges (see the data file for why not `isPrivate`). */
+export const PRIVATE_HOPS = loadCidrFile('private_proxy_hops.txt');
+
+/** Cloudflare's published edges, trusted as ONE intermediate hop. */
+export const CLOUDFLARE_RANGES = loadCidrFile('cloudflare_ips.txt');
 
 /**
  * Strict parse of MCP_TRUSTED_PROXY_CIDRS: an invalid entry, or one broader than

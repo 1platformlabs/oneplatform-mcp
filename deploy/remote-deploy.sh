@@ -17,7 +17,11 @@ read -r ENV TARGET EXTRA <<<"$ARGS" || true
 fail() { echo "::error::$*" >&2; exit 1; }
 [[ "${ENV:-}" =~ ^(qa|prod)$ ]] || fail "env must be qa or prod"
 [[ -z "${EXTRA:-}" ]] || fail "unexpected arguments"
-case "$ENV" in prod) PORT=3047 ;; qa) PORT=3048 ;; esac
+case "$ENV" in
+  prod) PORT=3047 ;;
+  qa) PORT=3048 ;;
+  *) fail "env must be qa or prod" ;;
+esac
 
 DIR=/home/apps/oneplatform-mcp
 REPO=https://github.com/1platformlabs/oneplatform-mcp.git
