@@ -28,3 +28,23 @@ export function credentialsFrom(appKey: string | undefined, userKey: string | un
   const u = userKey?.trim();
   return a && u ? {appKey: a, userKey: u} : undefined;
 }
+
+/**
+ * Hosted only: the internal URL of THIS deployment's API (same host, Docker
+ * network), set by the deployment, never by a request. It must be plain
+ * http(s) and end in /api/v1; anything else stops the process.
+ */
+export function apiBaseFromEnv(env: Env, value: string | undefined): string | undefined {
+  const text = value?.trim();
+  if (!text) return undefined;
+  let url: URL;
+  try {
+    url = new URL(text);
+  } catch {
+    throw new Error(`ONEPLATFORM_API_URL is not a URL (env ${env})`);
+  }
+  if (!/^https?:$/.test(url.protocol) || url.username || url.password || url.search || url.hash || !/\/api\/v1\/?$/.test(url.pathname)) {
+    throw new Error(`ONEPLATFORM_API_URL must be http(s)://host[:port]/api/v1 (env ${env})`);
+  }
+  return url.href.replace(/\/$/, '');
+}

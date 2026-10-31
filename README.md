@@ -35,28 +35,32 @@ Instalación por cliente: https://developer.1platform.pro/docs/saas/1platform-ap
 `X-OnePlatform-App-Key` y `X-OnePlatform-User-Key` en cada solicitud; el entorno lo fija `ONEPLATFORM_ENV` al arrancar.
 Límites: 30 solicitudes por minuto por IP, 120 por par de claves y 256 KiB por cuerpo.
 
-> El despliegue alojado (contenedor junto al API, IP del cliente hacia el API) está pendiente de medir la cadena de
-> proxies en el host real. Hasta entonces el transporte HTTP no escribe `X-Forwarded-For` y no debe exponerse.
+| URL | API |
+|---|---|
+| `https://mcp-qa.1platform.pro/mcp` | QA |
+| `https://mcp.1platform.pro/mcp` | Producción |
 
-## Comportamiento
-
-- Canjea las claves por los dos tokens una vez y los reutiliza hasta dos minutos antes de vencer; un canje fallido se
-  recuerda 60 s.
-- Ante un `401` vuelve a canjear el token de usuario y, si sigue, el de aplicación (como mucho una vez por minuto). Un
-  `429` no se reintenta.
-- Devuelve el cuerpo y el código de estado del API tal cual, marcados como datos no confiables, recortados a 100 KiB.
-  Quita `bank_authorization` de las transacciones y el token de los sitios.
-- Los parámetros de ruta se validan contra un patrón fijo: `..`, `/` o `%` se rechazan sin llamar a la red.
-- Ninguna clave ni token aparece en los registros.
-
-## Desarrollo
+El entorno lo decide la URL; ninguna cabecera o parámetro lo cambia.
 
 ```bash
-npm ci
-npm run fetch-openapi   # copia del OpenAPI público (no se versiona)
-npm run build-tools     # regenera src/generated/tools.ts desde el manifiesto
-npm test
-npm run build
+claude mcp add --transport http oneplatform https://mcp-qa.1platform.pro/mcp \
+  --header "X-OnePlatform-App-Key: $ONEPLATFORM_APP_KEY" \
+  --header "X-OnePlatform-User-Key: $ONEPLATFORM_USER_KEY"
 ```
 
-Publicar en npm lo decide el dueño del paquete: ningún flujo de CI publica.
+### Despliegue
+
+| Variable | Valor |
+|---|---|
+| `ONEPLATFORM_API_URL` | URL interna del API del mismo entorno (`http(s)://host[:puerto]/api/v1`). Sin ella, la pública |
+| `MCP_TRUSTED_PROXY_CIDRS` | Saltos públicos de confianza además de los privados (`["185.125.168.236/32"]`). Una entrada inválida o más amplia que /16 (IPv4) o /32 (IPv6) detiene el proceso |
+
+La IP del cliente se resuelve detrás de Cloudflare y del front door con un port del resolver del API
+([`src/http/client-address.ts`](src/http/client-address.ts), vectores compartidos en
+[`test/vectors/client-address.json`](test/vectors/client-address.json)). Esa IP limita al cliente en el MCP y viaja
+al API como única entrada de `X-Forwarded-For`, escrita de nuevo y nunca copiada de la solicitud: el contenedor
+llama al API por la red privada de Docker, así que el API cuenta un balde por cliente.
+
+`deploy/compose.{qa,prod}.yml` y [`deploy/remote-deploy.sh`](deploy/remote-deploy.sh) (comando forzado de la llave
+de despliegue: `<qa|prod> <sha de main>` o `<qa|prod> rollback`); el workflow `Deploy hosted MCP` despliega QA y
+luego producción en cada push a `main` cuando la variable `MCP_DEPLOY_ENABLED` vale `true`.

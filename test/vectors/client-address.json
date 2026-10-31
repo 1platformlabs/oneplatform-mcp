@@ -1,0 +1,191 @@
+{
+ "source": "1platform-api tests/unit/core/test_client_address.py (origin/main 4de892dc), trusted=[185.125.168.236/32]",
+ "trusted": [
+  "185.125.168.236/32"
+ ],
+ "vectors": [
+  {
+   "peer": "185.125.168.236",
+   "xff": "203.0.113.7, 162.158.90.12",
+   "key": "203.0.113.7",
+   "why": "the client Cloudflare saw"
+  },
+  {
+   "peer": "185.125.168.236",
+   "xff": "198.51.100.9, 162.158.90.12",
+   "key": "198.51.100.9",
+   "why": "a second client is a second key"
+  },
+  {
+   "peer": "185.125.168.236",
+   "xff": "1.1.1.1, 203.0.113.7, 162.158.90.12",
+   "key": "203.0.113.7",
+   "why": "forged left part never reached (1.1.1.1)"
+  },
+  {
+   "peer": "185.125.168.236",
+   "xff": "8.8.8.8, 9.9.9.9, 203.0.113.7, 162.158.90.12",
+   "key": "203.0.113.7",
+   "why": "forged left part never reached (8.8.8.8, 9.9.9.9)"
+  },
+  {
+   "peer": "185.125.168.236",
+   "xff": "10.0.0.1, 203.0.113.7, 162.158.90.12",
+   "key": "203.0.113.7",
+   "why": "forged left part never reached (10.0.0.1)"
+  },
+  {
+   "peer": "185.125.168.236",
+   "xff": "162.158.90.12, 203.0.113.7, 162.158.90.12",
+   "key": "203.0.113.7",
+   "why": "forged left part never reached (162.158.90.12)"
+  },
+  {
+   "peer": "185.125.168.236",
+   "xff": "203.0.113.7, 2606:4700::6810:1",
+   "key": "203.0.113.7",
+   "why": "IPv6 edge"
+  },
+  {
+   "peer": "185.125.168.236",
+   "xff": "9.9.9.1, 2a06:98c0:3600::103, 162.158.90.12",
+   "key": "2a06:98c0:3600::/64",
+   "why": "worker forwarding a forged header keys on the worker"
+  },
+  {
+   "peer": "185.125.168.236",
+   "xff": "162.158.90.12",
+   "key": "162.158.90.12",
+   "why": "a lone edge keys on the edge"
+  },
+  {
+   "peer": "185.125.168.236",
+   "xff": "not-an-ip, 162.158.90.12",
+   "key": "162.158.90.12",
+   "why": "garbage left of the edge keys on the edge"
+  },
+  {
+   "peer": "185.125.168.236",
+   "xff": "2001:db8:aa:bb::1, 162.158.90.12",
+   "key": "2001:db8:aa:bb::/64",
+   "why": "IPv6 /64"
+  },
+  {
+   "peer": "185.125.168.236",
+   "xff": "2001:db8:aa:bb:ffff:ffff:ffff:fffe, 162.158.90.12",
+   "key": "2001:db8:aa:bb::/64",
+   "why": "same /64"
+  },
+  {
+   "peer": "185.125.168.236",
+   "xff": "2001:db8:aa:bc::1, 162.158.90.12",
+   "key": "2001:db8:aa:bc::/64",
+   "why": "neighbouring /64"
+  },
+  {
+   "peer": "185.125.168.236",
+   "xff": "::ffff:203.0.113.7, 162.158.90.12",
+   "key": "203.0.113.7",
+   "why": "IPv4-mapped is the IPv4"
+  },
+  {
+   "peer": "::ffff:185.125.168.236",
+   "xff": "203.0.113.7, 162.158.90.12",
+   "key": "203.0.113.7",
+   "why": "IPv4-mapped peer"
+  },
+  {
+   "peer": "185.125.168.236",
+   "xff": "1.2.3.4, 203.0.113.66",
+   "key": "203.0.113.66",
+   "why": "straight to the front door"
+  },
+  {
+   "peer": "185.125.168.236",
+   "xff": "5.6.7.8, 203.0.113.66",
+   "key": "203.0.113.66",
+   "why": "straight to the front door"
+  },
+  {
+   "peer": "185.125.168.236",
+   "xff": ", 203.0.113.66",
+   "key": "203.0.113.66",
+   "why": "straight to the front door"
+  },
+  {
+   "peer": "203.0.113.66",
+   "xff": "1.2.3.4, 162.158.90.12",
+   "key": "203.0.113.66",
+   "why": "straight to the container ignores the header"
+  },
+  {
+   "peer": "162.158.90.12",
+   "xff": "1.2.3.4",
+   "key": "162.158.90.12",
+   "why": "a Cloudflare peer is not our hop"
+  },
+  {
+   "peer": "185.125.168.236",
+   "xff": null,
+   "key": "185.125.168.236",
+   "why": "trusted peer without header"
+  },
+  {
+   "peer": "172.17.0.1",
+   "xff": "",
+   "key": "172.17.0.1",
+   "why": "private peer without header"
+  },
+  {
+   "peer": "185.125.168.236",
+   "xff": "203.0.113.7, 162.158.90.12, not-an-ip",
+   "key": "185.125.168.236",
+   "why": "garbage right of the edge stops at our last hop"
+  },
+  {
+   "peer": "127.0.0.1",
+   "xff": "203.0.113.7, 162.158.90.12, 10.0.0.5, 185.125.168.236",
+   "key": "203.0.113.7",
+   "why": "all our hops skipped"
+  },
+  {
+   "peer": "185.125.168.236",
+   "xff": "203.0.113.7:5555, 162.158.90.12",
+   "key": "203.0.113.7",
+   "why": "v4:port"
+  },
+  {
+   "peer": "185.125.168.236",
+   "xff": "[2001:db8::42]:443, 162.158.90.12",
+   "key": "2001:db8::/64",
+   "why": "[v6]:port"
+  },
+  {
+   "peer": "testclient",
+   "xff": "1.2.3.4",
+   "key": null,
+   "why": "peer not an IP"
+  },
+  {
+   "peer": null,
+   "xff": "1.2.3.4",
+   "key": null,
+   "why": "no peer"
+  }
+ ],
+ "rejected": [
+  "0.0.0.0/0",
+  "::/0",
+  "10.0.0.0/8",
+  "2001:db8::/31",
+  "nope",
+  "1.2.3.4/33",
+  "0.0.0.0/15"
+ ],
+ "accepted": [
+  "185.125.168.236/32",
+  "185.125.0.0/16",
+  "2001:db8::/32",
+  "203.0.113.9"
+ ]
+}
