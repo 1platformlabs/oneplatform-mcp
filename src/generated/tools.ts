@@ -251,7 +251,7 @@ export const API_TOOLS: ApiTool[] = [
               "type": "null"
             }
           ],
-          "description": "Filter by status (active/paid/cancelled/expired)"
+          "description": "Filter by status (active/paid/cancelled/expired/denied)"
         },
         "page": {
           "type": "integer",
