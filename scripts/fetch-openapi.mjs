@@ -1,14 +1,13 @@
 #!/usr/bin/env node
 /**
- * Copy of the public OnePlatform OpenAPI used to GENERATE the tools (mirror of the
- * portal's scripts/fetch-openapi.mjs). Not committed: the generated
+ * Live API OpenAPI used to GENERATE the tools, independently of the portal cache. Not committed: the generated
  * src/generated/tools.ts is, and CI re-derives it with OPENAPI_FETCH_STRICT=1 so
  * a stale spec cannot hide a drift. The URL is never printed: an override may
  * carry credentials.
  */
 import {mkdir, writeFile, access} from 'node:fs/promises';
 
-const url = process.env.ONEP_API_OPENAPI_URL || 'https://developer.1platform.pro/openapi/1platform-api.json';
+const url = process.env.ONEP_API_OPENAPI_URL || 'https://api.1platform.pro/openapi.json';
 const out = new URL('../openapi/1platform-api.json', import.meta.url);
 const strict = process.env.OPENAPI_FETCH_STRICT === '1';
 
@@ -20,16 +19,16 @@ try {
   await mkdir(new URL('../openapi/', import.meta.url), {recursive: true});
   await writeFile(out, JSON.stringify(spec));
   console.log(`fetch-openapi: ${Object.keys(spec.paths).length} paths`);
-} catch (error) {
+} catch {
   if (strict) {
-    console.error(`fetch-openapi: failed (${error.message}); strict mode does not fall back to the cache`);
+    console.error(`fetch-openapi: failed; strict mode does not fall back to the cache`);
     process.exit(1);
   }
   try {
     await access(out);
-    console.warn(`WARN fetch-openapi: failed (${error.message}); using the cached copy, which may be stale`);
+    console.warn(`WARN fetch-openapi: failed; using the cached copy, which may be stale`);
   } catch {
-    console.error(`fetch-openapi: failed (${error.message}) and there is no cached copy`);
+    console.error(`fetch-openapi: failed and there is no cached copy`);
     process.exit(1);
   }
 }

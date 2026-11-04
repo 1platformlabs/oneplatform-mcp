@@ -32,7 +32,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run typecheck
-      # The tools are generated from the PUBLIC OpenAPI. Strict: a failed
+      # The tools are generated from the live API, independently of the portal. Strict: a failed
       # download fails the job instead of validating against nothing.
       - name: Fetch the OpenAPI
         run: npm run fetch-openapi
@@ -44,6 +44,7 @@ jobs:
       # sensitive-response-key rule.
       - name: Generated tools match the spec
         run: npm run check:tools
+      - run: npm run test:docs-freshness
       - run: npm test
       - run: npm run build
       - name: Package contents

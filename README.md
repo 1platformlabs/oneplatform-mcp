@@ -84,3 +84,19 @@ llama al API por la red privada de Docker, así que el API cuenta un balde por c
 `deploy/compose.{qa,prod}.yml` y [`deploy/remote-deploy.sh`](deploy/remote-deploy.sh) (comando forzado de la llave
 de despliegue: `<qa|prod> <sha de main>` o `<qa|prod> rollback`); el workflow `Deploy hosted MCP` despliega QA y
 luego producción en cada push a `main` cuando la variable `MCP_DEPLOY_ENABLED` vale `true`.
+
+## Vigencia de la documentación
+
+Las herramientas de documentación leen `llms.txt`, los Markdown y el OpenAPI publicados por el portal,
+con caché de diez minutos. El portal debe publicar su contrato actualizado para que `api_get_operation`
+lo entregue; instalar de nuevo el paquete MCP no corrige una especificación atrasada en el portal.
+
+`npm run check:docs-freshness` compara rutas, operaciones, esquemas y autenticación del portal con la API viva.
+Falla ante diferencias o errores de descarga, sin respaldo silencioso. Ignora prosa y ejemplos saneados;
+no sustituye la revisión editorial. Se ejecuta cada dos horas mediante un workflow de sólo lectura.
+Para verificar un portal candidato, configure `ONEPLATFORM_DOCS_OPENAPI_URL` con su OpenAPI; para un
+banco local también puede configurar `ONEP_API_OPENAPI_URL`. No se imprimen esas URLs.
+
+La generación de herramientas (`fetch-openapi` y `check:tools`) usa directamente el OpenAPI público de la API.
+Así, una copia atrasada en el portal no puede ocultar cambios de las herramientas ejecutables. La allowlist,
+los toolsets y los límites de escritura siguen en `tools.manifest.json` y `denylist.json`.
