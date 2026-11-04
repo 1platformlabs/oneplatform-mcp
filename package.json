@@ -1,7 +1,7 @@
 {
   "name": "@oneplatformlabs/mcp",
   "version": "0.2.0",
-  "description": "Servidor MCP de OnePlatform: documentaci\u00f3n y operaciones de la OnePlatform API con sus propias claves, en QA por defecto.",
+  "description": "Servidor MCP de OnePlatform: documentación y operaciones de la OnePlatform API con sus propias claves, en QA por defecto.",
   "license": "MIT",
   "type": "module",
   "bin": {
@@ -28,7 +28,9 @@
     "build-tools": "node scripts/build-tools.mjs",
     "check:tools": "node scripts/build-tools.mjs --check",
     "start": "node dist/cli.js",
-    "start:http": "node dist/cli.js --http"
+    "start:http": "node dist/cli.js --http",
+    "check:docs-freshness": "node scripts/check-docs-freshness.mjs",
+    "test:docs-freshness": "node --test scripts/check-docs-freshness.self-test.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.32.2"
