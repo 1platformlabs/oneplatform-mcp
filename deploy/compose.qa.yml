@@ -1,8 +1,11 @@
 # Hosted MCP, QA — https://mcp-qa.1platform.pro → front door (185.125.168.236) → 144.76.163.230:3048.
 #
 # D-12: the container calls the API of its OWN environment over Docker's
-# private network (`telemetry-engine-net-qa`, defined with a fixed name by
-# the Core's compose, so it survives API redeploys). The API trusts private
+# private network `mcp-net-qa`, defined with a fixed name (and an explicit
+# subnet) by the Core's compose, so it survives API redeploys. Only the API and
+# this container are on it: until #6 the MCP shared `telemetry-engine-net-qa`
+# and could also reach the telemetry engine. The Core must be deployed first
+# (it creates the network); without it `up` fails and the deploy rolls back. The API trusts private
 # hops, so the X-Forwarded-For this server writes (the client, one entry) keys
 # its per-IP limits per client — measured on the host on 2026-10-31.
 # The host has no free default address pool: never add a network here without
@@ -38,5 +41,5 @@ services:
     networks: [core]
 networks:
   core:
-    name: telemetry-engine-net-qa
+    name: mcp-net-qa
     external: true

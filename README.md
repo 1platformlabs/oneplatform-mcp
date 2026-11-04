@@ -81,6 +81,11 @@ La IP del cliente se resuelve detrás de Cloudflare y del front door con un port
 al API como única entrada de `X-Forwarded-For`, escrita de nuevo y nunca copiada de la solicitud: el contenedor
 llama al API por la red privada de Docker, así que el API cuenta un balde por cliente.
 
+Esa red es `mcp-net-{qa,prod}`: la crea el compose del Core con subred explícita y sólo el API y este
+contenedor están en ella (hasta #6 el MCP compartía la red del motor de telemetría). Por eso el Core se
+despliega antes: sin la red, el `up` falla y el deploy vuelve a la imagen anterior. Una rama vieja del Core
+en QA saca al API de la red hasta que traiga `main`.
+
 `deploy/compose.{qa,prod}.yml` y [`deploy/remote-deploy.sh`](deploy/remote-deploy.sh) (comando forzado de la llave
 de despliegue: `<qa|prod> <sha de main>` o `<qa|prod> rollback`); el workflow `Deploy hosted MCP` despliega QA y
 luego producción en cada push a `main` cuando la variable `MCP_DEPLOY_ENABLED` vale `true`.
