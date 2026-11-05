@@ -11,7 +11,8 @@ permissions: {}
 jobs:
   freshness:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    # Downloads: 120 s budget + one retry per contract (scripts/check-docs-freshness.mjs).
+    timeout-minutes: 10
     permissions:
       contents: read
     steps:

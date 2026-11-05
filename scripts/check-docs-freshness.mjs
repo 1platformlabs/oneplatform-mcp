@@ -22,12 +22,22 @@ export function compareContracts(portal, live) {
   const count = spec => Object.values(spec.paths).reduce((n, item) => n + Object.values(item).filter(op => op && typeof op === 'object' && op.operationId).length, 0);
   return {current: hash(portal) === hash(live), portalOperations: count(portal), liveOperations: count(live)};
 }
+// The portal contract is ~7 MB; from CI runners 30 s was not always enough (issue #10).
+export const DOWNLOAD_TIMEOUT_MS = 120_000;
+export const DOWNLOAD_ATTEMPTS = 2;
+class HttpStatusError extends Error {}
 export async function checkFreshness({fetchImpl = fetch, portalUrl = 'https://developer.1platform.pro/openapi/1platform-api.json', liveUrl = 'https://api.1platform.pro/openapi.json'} = {}) {
-  const read = async url => {
-    const response = await fetchImpl(url, {signal: AbortSignal.timeout(30_000)});
-    if (!response.ok) throw new Error('Contract download failed');
+  // fetch already negotiates gzip/deflate; the budget covers download and body parsing.
+  const attempt = async url => {
+    const response = await fetchImpl(url, {signal: AbortSignal.timeout(DOWNLOAD_TIMEOUT_MS)});
+    if (!response.ok) throw new HttpStatusError('Contract download failed');
     return response.json();
   };
+  // One retry for network errors and timeouts only: an HTTP error or an invalid body is an answer, not a blip.
+  const read = (url, left = DOWNLOAD_ATTEMPTS) => attempt(url).catch(error => {
+    if (left <= 1 || error instanceof HttpStatusError || error instanceof SyntaxError) throw error;
+    return read(url, left - 1);
+  });
   const [portal, live] = await Promise.all([read(portalUrl), read(liveUrl)]);
   return compareContracts(portal, live);
 }
