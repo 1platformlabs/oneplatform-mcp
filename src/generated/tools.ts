@@ -1568,7 +1568,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get Analytics Status\n\nRetrieve the current analytics provisioning status for a website. Returns property details, connection state, and any error messages. Requires both app and user tokens. Rate limit: 30/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get Analytics Status\n\nRetrieve the current analytics provisioning status for a website. Returns property details, connection state, and any error messages. Requires both app and user tokens. Rate limit: 120/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1599,7 +1599,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get Site Overview Metrics\n\nRetrieve aggregated site metrics including sessions, users, pageviews, bounce rate, and top pages/sources for a given period with optional comparison. Requires both app and user tokens. Rate limit: 20/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get Site Overview Metrics\n\nRetrieve aggregated site metrics including sessions, users, pageviews, bounce rate, and top pages/sources for a given period with optional comparison. Requires both app and user tokens. Rate limit: 80/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1645,7 +1645,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get Single Page Metrics\n\nRetrieve analytics metrics for a specific page path on the website. Returns views, unique views, average time on page, and bounce rate. Requires both app and user tokens. Rate limit: 20/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get Single Page Metrics\n\nRetrieve analytics metrics for a specific page path on the website. Returns views, unique views, average time on page, and bounce rate. Requires both app and user tokens. Rate limit: 80/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1689,7 +1689,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get Realtime Metrics\n\nRetrieve real-time analytics data including active users, top pages, traffic sources, and countries for the last 30 minutes. Requires both app and user tokens. Rate limit: 10/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get Realtime Metrics\n\nRetrieve real-time analytics data including active users, top pages, traffic sources, and countries for the last 30 minutes. Requires both app and user tokens. Rate limit: 40/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1720,7 +1720,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List AdSense Sites\n\nList sites registered with AdSense and their approval states. Useful to verify whether the website is approved for ads. Requires both app and user tokens. Rate limit: 30/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List AdSense Sites\n\nList sites registered with AdSense and their approval states. Useful to verify whether the website is approved for ads. Requires both app and user tokens. Rate limit: 120/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1764,7 +1764,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Earnings Overview\n\nRetrieve a quick earnings overview with optional period comparison. Free plan is limited to the last 7 days; Pro unlocks 30/90 day periods. Requires both app and user tokens. Rate limit: 20/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Earnings Overview\n\nRetrieve a quick earnings overview with optional period comparison. Free plan is limited to the last 7 days; Pro unlocks 30/90 day periods. Requires both app and user tokens. Rate limit: 80/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1808,7 +1808,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Earnings by Page\n\nRetrieve earnings broken down by page URL (Pro plan only). Returns per-page revenue, page views, RPM, and clicks. Requires both app and user tokens. Rate limit: 20/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Earnings by Page\n\nRetrieve earnings broken down by page URL (Pro plan only). Returns per-page revenue, page views, RPM, and clicks. Requires both app and user tokens. Rate limit: 80/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1848,7 +1848,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List AdSense Alerts\n\nList account alerts surfaced by AdSense (Pro plan only). Returns severity, message, and alert type for each entry. Requires both app and user tokens. Rate limit: 30/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List AdSense Alerts\n\nList account alerts surfaced by AdSense (Pro plan only). Returns severity, message, and alert type for each entry. Requires both app and user tokens. Rate limit: 120/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1964,7 +1964,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Read effective sending limits\n\nReturns tenant and actor usage for the current UTC day, the earliest shared remainder and server-defined retention. These are operational limits, not prices. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 50/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Read effective sending limits\n\nReturns tenant and actor usage for the current UTC day, the earliest shared remainder and server-defined retention. These are operational limits, not prices. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 200/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
     "inputSchema": {
       "type": "object",
       "properties": {},
@@ -1987,7 +1987,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List your service email senders\n\nLists owned, nondeleted senders and their verified sending capability. It does not create or verify domains. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 50/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List your service email senders\n\nLists owned, nondeleted senders and their verified sending capability. It does not create or verify domains. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 200/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2032,7 +2032,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List public transactional templates\n\nLists the public service_notice version 1 allowlist only. Private platform templates cannot be sent through this API. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 50/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List public transactional templates\n\nLists the public service_notice version 1 allowlist only. Private platform templates cannot be sent through this API. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 200/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2068,7 +2068,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List your service notices\n\nLists messages owned by the actor within the actor's tenant. Recipient addresses remain masked; pending or rejected admissions are not presented as sends. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 50/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List your service notices\n\nLists messages owned by the actor within the actor's tenant. Recipient addresses remain masked; pending or rejected admissions are not presented as sends. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 200/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2160,7 +2160,7 @@ export const API_TOOLS: ApiTool[] = [
     "pathPatterns": {
       "message_id": "^[0-9a-f]{24}$"
     },
-    "description": "Read one service notice and its attempts\n\nReturns sanitized metadata and attempt reasons. Never returns the original recipient, variables, credentials, private transport identifiers or transport response bodies. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 50/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Read one service notice and its attempts\n\nReturns sanitized metadata and attempt reasons. Never returns the original recipient, variables, credentials, private transport identifiers or transport response bodies. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 200/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
     "inputSchema": {
       "type": "object",
       "properties": {
