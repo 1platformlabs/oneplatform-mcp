@@ -34,13 +34,10 @@ export async function checkFreshness({fetchImpl = fetch, portalUrl = 'https://de
     return response.json();
   };
   // One retry for network errors and timeouts only: an HTTP error or an invalid body is an answer, not a blip.
-  const read = async url => {
-    for (let n = 1; ; n++) {
-      try { return await attempt(url); } catch (error) {
-        if (n >= DOWNLOAD_ATTEMPTS || error instanceof HttpStatusError || error instanceof SyntaxError) throw error;
-      }
-    }
-  };
+  const read = (url, left = DOWNLOAD_ATTEMPTS) => attempt(url).catch(error => {
+    if (left <= 1 || error instanceof HttpStatusError || error instanceof SyntaxError) throw error;
+    return read(url, left - 1);
+  });
   const [portal, live] = await Promise.all([read(portalUrl), read(liveUrl)]);
   return compareContracts(portal, live);
 }

@@ -69,11 +69,11 @@ test('two failed attempts still fail closed; HTTP errors and invalid bodies are 
   const clock = virtualClock(t); const calls = [];
   await assert.rejects(checkFreshness({portalUrl: 'p', liveUrl: 'p', fetchImpl: slowFetch(clock, 600, calls)}));
   assert.equal(calls.length, 4); // two URLs x two attempts, never a third
-  for (const reply of [() => new Response('unavailable', {status: 503}), () => new Response('{not json')]) {
+  await Promise.all([() => new Response('unavailable', {status: 503}), () => new Response('{not json')].map(async reply => {
     let n = 0;
     await assert.rejects(checkFreshness({fetchImpl: async () => {n++; return reply();}}));
     assert.equal(n, 2); // one per URL
-  }
+  }));
 });
 test('CLI: two network failures exit 1 with the same message and no URL', async () => {
   const {createServer} = await import('node:http');
