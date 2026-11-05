@@ -97,7 +97,8 @@ con caché de diez minutos. El portal debe publicar su contrato actualizado para
 lo entregue; instalar de nuevo el paquete MCP no corrige una especificación atrasada en el portal.
 
 `npm run check:docs-freshness` compara rutas, operaciones, esquemas y autenticación del portal con la API viva.
-Falla ante diferencias o errores de descarga, sin respaldo silencioso. Ignora prosa y ejemplos saneados;
+Falla ante diferencias o errores de descarga, sin respaldo silencioso; cada descarga tiene 120 s y un
+solo reintento ante error de red o tiempo agotado (no ante HTTP de error). Ignora prosa y ejemplos saneados;
 no sustituye la revisión editorial. Se ejecuta cada dos horas mediante un workflow de sólo lectura.
 Para verificar un portal candidato, configure `ONEPLATFORM_DOCS_OPENAPI_URL` con su OpenAPI; para un
 banco local también puede configurar `ONEP_API_OPENAPI_URL`. No se imprimen esas URLs.
