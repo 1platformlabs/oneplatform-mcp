@@ -418,6 +418,21 @@
       "operationId": "updateTelemetryIssue",
       "readOnly": false,
       "toolset": "telemetria"
+    },
+    {
+      "operationId": "getDataCatalog",
+      "readOnly": true,
+      "toolset": "datos"
+    },
+    {
+      "operationId": "queryData",
+      "readOnly": true,
+      "toolset": "datos"
+    },
+    {
+      "operationId": "listDataDashboards",
+      "readOnly": true,
+      "toolset": "datos"
     }
   ]
 }

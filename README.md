@@ -24,6 +24,7 @@ claves, el servidor suma las de la API, agrupadas por vertical (*toolset*):
 | `telemetria` | Proyectos, errores, último evento, logs, rendimiento y uso; **marcar un error** como resuelto o ignorado |
 | `ventas` | Preparación, canales, ofertas, prospectos, tablero y reporte del embudo |
 | `agentes` | Agentes, catálogo, herramientas, presupuesto, ejecuciones y acciones pendientes; **detener** una ejecución |
+| `datos` | Catálogo de datos, consultas sobre sus propias copias (cobros, movimientos, embudo, facturas, ventas de sus tiendas) y lista de tableros (sólo lectura: el MCP no crea tableros ni envíos) |
 
 Por defecto se listan todos. Para un cliente que admite pocas herramientas, elija las verticales que usa:
 `ONEPLATFORM_TOOLSETS=pagos,envios` (local) o la cabecera `X-OnePlatform-Toolsets: pagos,envios` (alojado).

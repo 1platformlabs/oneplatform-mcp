@@ -3782,5 +3782,286 @@ export const API_TOOLS: ApiTool[] = [
       ],
       "additionalProperties": false
     }
+  },
+  {
+    "name": "getDataCatalog",
+    "method": "GET",
+    "path": "/api/v1/data/catalog",
+    "readOnly": true,
+    "toolset": "datos",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Datasets I can analyse\n\nThe datasets you may read (only those whose source you can already see), with their dimensions, measures, filters and chart types, and the cut-off of your copies.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "queryData",
+    "method": "POST",
+    "path": "/api/v1/data/query",
+    "readOnly": true,
+    "toolset": "datos",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [],
+    "bodyParams": [
+      "dataset",
+      "measures",
+      "dimensions",
+      "filters",
+      "time_range",
+      "store_scope",
+      "chart",
+      "limit"
+    ],
+    "pathPatterns": {},
+    "description": "Run one widget\n\nRuns one widget definition over your own copies. Money is always grouped by currency; `kpi`, `pie` and `funnel` with money require a single-currency filter. `time_range.preset=all` returns the whole available period (bounded by the platform ceiling, reported in `range.limited`).\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "dataset": {
+          "type": "string",
+          "enum": [
+            "movements",
+            "collections",
+            "sales_funnel",
+            "invoices",
+            "store_sales"
+          ],
+          "description": "The dataset to read"
+        },
+        "measures": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "maxItems": 4,
+          "minItems": 1,
+          "description": "1-4 measures of the dataset"
+        },
+        "dimensions": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "maxItems": 2,
+          "description": "0-2 dimensions (at most one of day/week/month)"
+        },
+        "filters": {
+          "items": {
+            "properties": {
+              "field": {
+                "type": "string",
+                "maxLength": 40,
+                "minLength": 1,
+                "pattern": "^[a-z][a-z0-9_]{0,39}$",
+                "description": "A filterable field of the dataset, as listed in the catalogue"
+              },
+              "op": {
+                "type": "string",
+                "enum": [
+                  "eq",
+                  "in",
+                  "gte",
+                  "lte",
+                  "between"
+                ],
+                "description": "Closed set of operators"
+              },
+              "value": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "integer"
+                        },
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "boolean"
+                        }
+                      ]
+                    },
+                    "type": "array"
+                  }
+                ],
+                "description": "One value (`eq`, `gte`, `lte`), 1-50 values (`in`) or exactly two (`between`)"
+              }
+            },
+            "additionalProperties": false,
+            "type": "object",
+            "required": [
+              "field",
+              "op",
+              "value"
+            ]
+          },
+          "type": "array",
+          "maxItems": 8,
+          "description": "Up to 8 filters"
+        },
+        "time_range": {
+          "properties": {
+            "preset": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "last_7_days",
+                    "last_30_days",
+                    "last_90_days",
+                    "last_365_days",
+                    "this_month",
+                    "last_month",
+                    "all"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "A named period in the workspace timezone. `all` is the whole available history (bounded by the platform ceiling, reported in `range.limited`)"
+            },
+            "from": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "First day of a custom period"
+            },
+            "to": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Last day of a custom period (inclusive)"
+            }
+          },
+          "additionalProperties": false,
+          "type": "object"
+        },
+        "store_scope": {
+          "anyOf": [
+            {
+              "properties": {
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "all_owned",
+                    "selected"
+                  ],
+                  "description": "`all_owned`: every store you own that is linked and verified, resolved when the query runs; `selected`: only the listed ones"
+                },
+                "website_ids": {
+                  "anyOf": [
+                    {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "description": "1-100 distinct store ids (`selected` only)"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object",
+              "required": [
+                "mode"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Which of your stores (store sales only)"
+        },
+        "chart": {
+          "type": "string",
+          "enum": [
+            "bar",
+            "line",
+            "pie",
+            "funnel",
+            "table",
+            "kpi"
+          ],
+          "description": "How the panel draws the result",
+          "default": "table"
+        },
+        "limit": {
+          "type": "integer",
+          "maximum": 50000,
+          "minimum": 1,
+          "description": "Row cap; the server clips it further",
+          "default": 500
+        }
+      },
+      "required": [
+        "dataset",
+        "measures",
+        "time_range"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listDataDashboards",
+    "method": "GET",
+    "path": "/api/v1/data/dashboards",
+    "readOnly": true,
+    "toolset": "datos",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "My dashboards and the shared ones\n\nYour private dashboards and the ones a workspace admin shared.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
   }
 ];
