@@ -1,7 +1,7 @@
 import {readFileSync} from 'node:fs';
 import {describe, expect, it} from 'vitest';
 
-import {buildTools, deniedBy, loadSpec, TOOLSETS as BUILD_TOOLSETS} from '../scripts/build-tools.mjs';
+import {buildTools, deniedBy, loadSpec, READ_ONLY_POSTS, TOOLSETS as BUILD_TOOLSETS} from '../scripts/build-tools.mjs';
 import {API_TOOLS} from '../src/generated/tools.js';
 import {handleCall} from '../src/server.js';
 import {parseToolsets, TOOLSETS} from '../src/toolsets.js';
@@ -51,6 +51,21 @@ describe('denylist por método (retiros y dominios: se leen, no se escriben)', (
   it('readOnly exige GET y el toolset tiene que existir', () => {
     expect(buildTools(loadSpec(specFile), {tools: [{operationId: 'stopAgentRun', readOnly: true, toolset: 'agentes'}]}, denylist).errors.join()).toMatch(/readOnly but POST/);
     expect(buildTools(loadSpec(specFile), {tools: [{operationId: 'listAgents', readOnly: true, toolset: 'nomina'}]}, denylist).errors.join()).toMatch(/toolset/);
+  });
+  it('un POST sólo pasa por lectura si está en la lista cerrada (vertical-data: queryData)', () => {
+    expect([...READ_ONLY_POSTS]).toEqual(['queryData']);
+    const ok = buildTools(loadSpec(specFile), {tools: [{operationId: 'queryData', readOnly: true, toolset: 'datos'}]}, denylist);
+    expect(ok.errors).toEqual([]);
+    expect(ok.tools[0]).toMatchObject({method: 'POST', readOnly: true});
+    // Los otros dos endpoints POST de la misma vertical NO entran por esa puerta.
+    for (const operationId of ['queryDataBatch', 'createDataDashboard']) {
+      expect(buildTools(loadSpec(specFile), {tools: [{operationId, readOnly: true, toolset: 'datos'}]}, denylist).errors.join()).toMatch(/readOnly but POST/);
+    }
+  });
+  it('la vertical datos sólo lee: catálogo, consulta y tableros', () => {
+    expect(API_TOOLS.filter((t) => t.toolset === 'datos').map((t) => [t.name, t.readOnly]).sort()).toEqual([
+      ['getDataCatalog', true], ['listDataDashboards', true], ['queryData', true],
+    ]);
   });
   it('ninguna escritura del manifiesto cobra, envía a terceros ni factura', () => {
     expect(API_TOOLS.filter((t) => !t.readOnly).map((t) => t.name).sort()).toEqual(['cancelPaymentLink', 'createPaymentLink', 'stopAgentRun', 'updateTelemetryIssue']);
