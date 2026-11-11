@@ -418,6 +418,387 @@
       "operationId": "updateTelemetryIssue",
       "readOnly": false,
       "toolset": "telemetria"
+    },
+    {
+      "operationId": "createSubscriptionPlan",
+      "readOnly": false,
+      "toolset": "suscripciones"
+    },
+    {
+      "operationId": "updateSubscriptionPlan",
+      "readOnly": false,
+      "toolset": "suscripciones"
+    },
+    {
+      "operationId": "publishSubscriptionPlan",
+      "readOnly": false,
+      "toolset": "suscripciones"
+    },
+    {
+      "operationId": "archiveSubscriptionPlan",
+      "readOnly": false,
+      "toolset": "suscripciones"
+    },
+    {
+      "operationId": "createSubscriptionInvitation",
+      "readOnly": false,
+      "toolset": "suscripciones"
+    },
+    {
+      "operationId": "createCustomer",
+      "readOnly": false,
+      "toolset": "suscripciones"
+    },
+    {
+      "operationId": "updateCustomer",
+      "readOnly": false,
+      "toolset": "suscripciones"
+    },
+    {
+      "operationId": "cancelMerchantSubscription",
+      "readOnly": false,
+      "toolset": "suscripciones"
+    },
+    {
+      "operationId": "getTerminalPayment",
+      "readOnly": true,
+      "toolset": "terminal"
+    },
+    {
+      "operationId": "createTerminalRequest",
+      "readOnly": false,
+      "toolset": "terminal"
+    },
+    {
+      "operationId": "updateTerminalRequest",
+      "readOnly": false,
+      "toolset": "terminal"
+    },
+    {
+      "operationId": "cancelTerminalRequest",
+      "readOnly": false,
+      "toolset": "terminal"
+    },
+    {
+      "operationId": "listCashOutMethods",
+      "readOnly": true,
+      "toolset": "retiros"
+    },
+    {
+      "operationId": "getAnalyticsOAuthStatus",
+      "readOnly": true,
+      "toolset": "analitica"
+    },
+    {
+      "operationId": "getAnalyticsProperty",
+      "readOnly": true,
+      "toolset": "analitica"
+    },
+    {
+      "operationId": "getAnalyticsSiteTag",
+      "readOnly": true,
+      "toolset": "analitica"
+    },
+    {
+      "operationId": "listAnalyticsAccounts",
+      "readOnly": true,
+      "toolset": "analitica"
+    },
+    {
+      "operationId": "listAnalyticsStreams",
+      "readOnly": true,
+      "toolset": "analitica"
+    },
+    {
+      "operationId": "listCustomDimensions",
+      "readOnly": true,
+      "toolset": "analitica"
+    },
+    {
+      "operationId": "listKeyEvents",
+      "readOnly": true,
+      "toolset": "analitica"
+    },
+    {
+      "operationId": "getAdSenseStatus",
+      "readOnly": true,
+      "toolset": "analitica"
+    },
+    {
+      "operationId": "getAdSenseOAuthStatus",
+      "readOnly": true,
+      "toolset": "analitica"
+    },
+    {
+      "operationId": "listAdSenseAccounts",
+      "readOnly": true,
+      "toolset": "analitica"
+    },
+    {
+      "operationId": "listAdSensePolicyIssues",
+      "readOnly": true,
+      "toolset": "analitica"
+    },
+    {
+      "operationId": "getHeatmapSite",
+      "readOnly": true,
+      "toolset": "analitica"
+    },
+    {
+      "operationId": "getHeatmapMap",
+      "readOnly": true,
+      "toolset": "analitica"
+    },
+    {
+      "operationId": "getHeatmapSnapshotState",
+      "readOnly": true,
+      "toolset": "analitica"
+    },
+    {
+      "operationId": "getCalendar",
+      "readOnly": true,
+      "toolset": "agenda"
+    },
+    {
+      "operationId": "listAppointments",
+      "readOnly": true,
+      "toolset": "agenda"
+    },
+    {
+      "operationId": "getAppointment",
+      "readOnly": true,
+      "toolset": "agenda"
+    },
+    {
+      "operationId": "getAppointmentBySubject",
+      "readOnly": true,
+      "toolset": "agenda"
+    },
+    {
+      "operationId": "listCalendarSlots",
+      "readOnly": true,
+      "toolset": "agenda"
+    },
+    {
+      "operationId": "listVisitAdvisors",
+      "readOnly": true,
+      "toolset": "agenda"
+    },
+    {
+      "operationId": "getMyIntakeLink",
+      "readOnly": true,
+      "toolset": "agenda"
+    },
+    {
+      "operationId": "bookAppointment",
+      "readOnly": false,
+      "toolset": "agenda"
+    },
+    {
+      "operationId": "rescheduleAppointment",
+      "readOnly": false,
+      "toolset": "agenda"
+    },
+    {
+      "operationId": "cancelAppointment",
+      "readOnly": false,
+      "toolset": "agenda"
+    },
+    {
+      "operationId": "completeAppointment",
+      "readOnly": false,
+      "toolset": "agenda"
+    },
+    {
+      "operationId": "reassignAppointment",
+      "readOnly": false,
+      "toolset": "agenda"
+    },
+    {
+      "operationId": "createBookingLink",
+      "readOnly": false,
+      "omit": [
+        "rotate"
+      ],
+      "toolset": "agenda"
+    },
+    {
+      "operationId": "createMyIntakeLink",
+      "readOnly": false,
+      "omit": [
+        "rotate"
+      ],
+      "toolset": "agenda"
+    },
+    {
+      "operationId": "getSocialConfig",
+      "readOnly": true,
+      "toolset": "redes"
+    },
+    {
+      "operationId": "listSocialSpaces",
+      "readOnly": true,
+      "toolset": "redes"
+    },
+    {
+      "operationId": "listSocialAccounts",
+      "readOnly": true,
+      "toolset": "redes"
+    },
+    {
+      "operationId": "getSocialCreatorInfo",
+      "readOnly": true,
+      "toolset": "redes"
+    },
+    {
+      "operationId": "listSocialPosts",
+      "readOnly": true,
+      "toolset": "redes"
+    },
+    {
+      "operationId": "getSocialPost",
+      "readOnly": true,
+      "toolset": "redes"
+    },
+    {
+      "operationId": "getSocialCalendar",
+      "readOnly": true,
+      "toolset": "redes"
+    },
+    {
+      "operationId": "listSocialComments",
+      "readOnly": true,
+      "toolset": "redes"
+    },
+    {
+      "operationId": "getSocialAnalytics",
+      "readOnly": true,
+      "toolset": "redes"
+    },
+    {
+      "operationId": "getSocialSettings",
+      "readOnly": true,
+      "toolset": "redes"
+    },
+    {
+      "operationId": "listSocialSpaceMembers",
+      "readOnly": true,
+      "toolset": "redes"
+    },
+    {
+      "operationId": "createSocialPost",
+      "readOnly": false,
+      "toolset": "redes"
+    },
+    {
+      "operationId": "updateSocialPost",
+      "readOnly": false,
+      "toolset": "redes"
+    },
+    {
+      "operationId": "submitSocialPost",
+      "readOnly": false,
+      "toolset": "redes"
+    },
+    {
+      "operationId": "rescheduleSocialPost",
+      "readOnly": false,
+      "toolset": "redes"
+    },
+    {
+      "operationId": "cancelSocialPost",
+      "readOnly": false,
+      "toolset": "redes"
+    },
+    {
+      "operationId": "listTasks",
+      "readOnly": true,
+      "toolset": "tareas"
+    },
+    {
+      "operationId": "getTask",
+      "readOnly": true,
+      "toolset": "tareas"
+    },
+    {
+      "operationId": "listSubtasks",
+      "readOnly": true,
+      "toolset": "tareas"
+    },
+    {
+      "operationId": "listAvailableSubtasks",
+      "readOnly": true,
+      "toolset": "tareas"
+    },
+    {
+      "operationId": "listTaskAttachments",
+      "readOnly": true,
+      "toolset": "tareas"
+    },
+    {
+      "operationId": "getTaskAttachmentUrl",
+      "readOnly": true,
+      "toolset": "tareas"
+    },
+    {
+      "operationId": "createTask",
+      "readOnly": false,
+      "toolset": "tareas"
+    },
+    {
+      "operationId": "updateTask",
+      "readOnly": false,
+      "toolset": "tareas"
+    },
+    {
+      "operationId": "assignTask",
+      "readOnly": false,
+      "toolset": "tareas"
+    },
+    {
+      "operationId": "createSubtask",
+      "readOnly": false,
+      "toolset": "tareas"
+    },
+    {
+      "operationId": "updateSubtaskStatus",
+      "readOnly": false,
+      "toolset": "tareas"
+    },
+    {
+      "operationId": "listStudioTemplates",
+      "readOnly": true,
+      "toolset": "estudio"
+    },
+    {
+      "operationId": "listStudioOrders",
+      "readOnly": true,
+      "toolset": "estudio"
+    },
+    {
+      "operationId": "getStudioOrder",
+      "readOnly": true,
+      "toolset": "estudio"
+    },
+    {
+      "operationId": "listStudioAssets",
+      "readOnly": true,
+      "toolset": "estudio"
+    },
+    {
+      "operationId": "getStudioAssetUrl",
+      "readOnly": true,
+      "toolset": "estudio"
+    },
+    {
+      "operationId": "listStudioDebts",
+      "readOnly": true,
+      "toolset": "estudio"
+    },
+    {
+      "operationId": "listStudioPresenters",
+      "readOnly": true,
+      "toolset": "estudio"
     }
   ]
 }

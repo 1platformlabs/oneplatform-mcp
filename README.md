@@ -12,24 +12,32 @@ claves, el servidor suma las de la API, agrupadas por vertical (*toolset*):
 |---|---|
 | `cuenta` | Perfil, historial de saldo, consumo, comercios y avisos. Siempre activo: de acá sale el `businessId` |
 | `pagos` | Links de pago (listar, ver, **crear** y **cancelar**) y transacciones |
-| `retiros` | Saldo retirable, movimientos, retiros y cobros que pueden pasar al saldo retirable (sólo lectura) |
-| `suscripciones` | Planes, suscripciones y clientes del comercio |
-| `terminal` | Solicitudes de terminal de tarjetas y su estado |
+| `retiros` | Saldo retirable, movimientos, retiros, métodos de retiro (enmascarados) y cobros que pueden pasar al saldo retirable (sólo lectura) |
+| `suscripciones` | Planes, suscripciones y clientes del comercio; **crear, editar, publicar y archivar** planes, **crear y editar** clientes, **emitir** una invitación y **cancelar** una suscripción |
+| `terminal` | Solicitudes de terminal de tarjetas, su estado y el detalle de un pago con terminal; **crear, corregir y retirar** una solicitud (el envío y los documentos siguen en el panel) |
 | `facturacion` | Facturas electrónicas (sólo lectura: el MCP no emite ni anula) |
 | `envios` | Envíos (sólo lectura: el MCP no despacha) |
 | `sitios` | Sitios, artículos, trabajos de generación, categorías y rendimiento en buscadores |
-| `analitica` | Estado y métricas de analítica, ingresos y alertas de anuncios, mapas de calor |
+| `analitica` | Estado, propiedad, flujos, dimensiones, eventos clave, etiqueta y métricas de analítica; estado, cuentas, ingresos, alertas y problemas de políticas de anuncios; sitios, mapas e instantáneas de mapas de calor (sólo lectura) |
 | `correo` | Remitentes, plantillas, cuota y mensajes del correo transaccional; conversaciones del correo del negocio |
 | `dominios` | Dominios, disponibilidad, precios, transferencias y registros de correo (sólo lectura) |
 | `telemetria` | Proyectos, errores, último evento, logs, rendimiento y uso; **marcar un error** como resuelto o ignorado |
 | `ventas` | Preparación, canales, ofertas, prospectos, tablero y reporte del embudo |
 | `agentes` | Agentes, catálogo, herramientas, presupuesto, ejecuciones y acciones pendientes; **detener** una ejecución |
+| `agenda` | Calendario, visitas, horarios libres, asesores y enlaces de reserva; **agendar, mover, reasignar, completar y cancelar** una visita; **obtener** el enlace de reserva de un registro o el propio de una oferta (sin revocar el vigente) |
+| `redes` | Configuración, portafolios, cuentas conectadas, publicaciones, calendario, comentarios, analítica y aprobaciones; **crear y editar** un borrador, **programar** (o mandar a aprobación), **mover** y **cancelar** una publicación |
+| `tareas` | Tareas, subtareas, bandeja de subtareas disponibles y archivos; **crear, editar y asignar** tareas, **crear** subtareas y **tomar o completar** una subtarea |
+| `estudio` | Catálogo de plantillas, pedidos, piezas entregadas y sus enlaces, deudas y presentadores del estudio creativo (sólo lectura) |
 
 Por defecto se listan todos. Para un cliente que admite pocas herramientas, elija las verticales que usa:
 `ONEPLATFORM_TOOLSETS=pagos,envios` (local) o la cabecera `X-OnePlatform-Toolsets: pagos,envios` (alojado).
 
-Las escrituras (en negrita) no cobran saldo, no emiten documentos fiscales, no mueven dinero ni envían mensajes a
-terceros, y el cliente pide confirmación antes de ejecutarlas. La lista exacta está en
+Las escrituras (en negrita) no cobran saldo en el acto, no emiten documentos fiscales ni mueven dinero, y el cliente
+pide confirmación antes de ejecutarlas. Dos excepciones conocidas, iguales a las del panel: agendar, mover o cancelar
+una visita dispara los avisos de la agenda a la persona y al asesor, y programar una publicación la deja en cola para
+salir en la red en la fecha elegida, cuando se cobra (cancelarla antes no cobra nada). Publicar ya, aprobar, responder
+comentarios, encargar piezas del estudio y pagar quedan fuera del MCP. En `redes` las herramientas trabajan sobre el portafolio
+propio de la persona: el MCP no reenvía la cabecera para actuar en un portafolio ajeno. La lista exacta está en
 [`tools.manifest.json`](tools.manifest.json) y lo que nunca puede exponerse, en [`denylist.json`](denylist.json):
 administración, credenciales, webhooks, cobros, emisión fiscal y movimientos de dinero. En retiros y dominios sólo se
 permiten lecturas.

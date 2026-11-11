@@ -52,8 +52,32 @@ describe('denylist por método (retiros y dominios: se leen, no se escriben)', (
     expect(buildTools(loadSpec(specFile), {tools: [{operationId: 'stopAgentRun', readOnly: true, toolset: 'agentes'}]}, denylist).errors.join()).toMatch(/readOnly but POST/);
     expect(buildTools(loadSpec(specFile), {tools: [{operationId: 'listAgents', readOnly: true, toolset: 'nomina'}]}, denylist).errors.join()).toMatch(/toolset/);
   });
-  it('ninguna escritura del manifiesto cobra, envía a terceros ni factura', () => {
-    expect(API_TOOLS.filter((t) => !t.readOnly).map((t) => t.name).sort()).toEqual(['cancelPaymentLink', 'createPaymentLink', 'stopAgentRun', 'updateTelemetryIssue']);
+  it('las escrituras del manifiesto son exactamente las revisadas (ninguna cobra en el acto, factura ni mueve dinero)', () => {
+    expect(API_TOOLS.filter((t) => !t.readOnly).map((t) => t.name).sort()).toEqual([
+      'archiveSubscriptionPlan', 'assignTask', 'bookAppointment', 'cancelAppointment', 'cancelMerchantSubscription',
+      'cancelPaymentLink', 'cancelSocialPost', 'cancelTerminalRequest', 'completeAppointment', 'createBookingLink',
+      'createCustomer', 'createMyIntakeLink', 'createPaymentLink', 'createSocialPost', 'createSubscriptionInvitation',
+      'createSubscriptionPlan', 'createSubtask', 'createTask', 'createTerminalRequest', 'publishSubscriptionPlan',
+      'reassignAppointment', 'rescheduleAppointment', 'rescheduleSocialPost', 'stopAgentRun', 'submitSocialPost',
+      'updateCustomer', 'updateSocialPost', 'updateSubscriptionPlan', 'updateSubtaskStatus', 'updateTask',
+      'updateTelemetryIssue', 'updateTerminalRequest',
+    ]);
+  });
+  it('los enlaces de agenda no pueden revocar el enlace vigente (rotate fuera del esquema)', () => {
+    for (const name of ['createBookingLink', 'createMyIntakeLink']) {
+      const tool = API_TOOLS.find((t) => t.name === name)!;
+      expect(tool.omit).toEqual(['rotate']);
+      expect(Object.keys(tool.inputSchema.properties)).not.toContain('rotate');
+      expect(tool.bodyParams).not.toContain('rotate');
+    }
+  });
+  it('quedan fuera publicar ya, pagar, encargar piezas, enviar la solicitud de terminal, aprobar y borrar', () => {
+    const names = new Set(API_TOOLS.map((t) => t.name));
+    for (const excluded of ['publishSocialPostNow', 'approveSocialPost', 'replySocialComment', 'resolveSocialTarget', 'reassignSocialTargetPayer',
+      'deleteSocialPost', 'createStudioOrder', 'payStudioDebt', 'createStudioPresenter', 'deleteStudioPresenter', 'submitTerminalRequest',
+      'deleteTask', 'deleteTaskAttachment', 'quoteCashOutPayout', 'requestCashOutPayout']) {
+      expect(names.has(excluded)).toBe(false);
+    }
   });
   it('el secreto de medición de la analítica se quita de la respuesta', () => {
     expect(API_TOOLS.find((t) => t.name === 'getAnalyticsStatus')!.redact).toEqual(['mp_secret_id', 'mp_secret_masked']);

@@ -7,7 +7,7 @@
  *
  * Mirror of TOOLSETS in scripts/build-tools.mjs (a test keeps them equal).
  */
-export const TOOLSETS = ['cuenta', 'pagos', 'retiros', 'suscripciones', 'terminal', 'facturacion', 'envios', 'sitios', 'analitica', 'correo', 'dominios', 'telemetria', 'ventas', 'agentes'] as const;
+export const TOOLSETS = ['cuenta', 'pagos', 'retiros', 'suscripciones', 'terminal', 'facturacion', 'envios', 'sitios', 'analitica', 'correo', 'dominios', 'telemetria', 'ventas', 'agentes', 'agenda', 'redes', 'tareas', 'estudio'] as const;
 export type Toolset = (typeof TOOLSETS)[number];
 
 export class UnknownToolset extends Error {}
