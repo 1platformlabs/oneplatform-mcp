@@ -18,7 +18,7 @@ import {Docs, DocsError, DOCS_TOOLS} from './tools/docs.js';
  * chains tools.
  */
 export const SERVER_NAME = 'oneplatform';
-export const SERVER_VERSION = '0.3.0';
+export const SERVER_VERSION = '0.4.0';
 
 export interface ServerDeps {
   credentials?: Credentials;

@@ -10,7 +10,9 @@
  *    collision is an error, not a silent overwrite);
  *  - `$ref`s are inlined;
  *  - `omit` fields leave the schema;
- *  - list operations get `limit` defaulting to 20.
+ *  - list operations get `limit` defaulting to 20;
+ *  - `notes` from the manifest are appended to the description (warnings the
+ *    OpenAPI summary does not carry, e.g. a money flow that still needs a person).
  *
  * It also enforces the two invariants an allowlist exists for: the manifest is a
  * subset of the spec, and it does not intersect the denylist. And it fails if a
@@ -95,6 +97,7 @@ export function buildTools(spec, manifest, denylist) {
     if (denied) { errors.push(`${entry.operationId}: in the denylist (${denied})`); continue; }
     if (entry.readOnly === true && found.method !== 'GET') { errors.push(`${entry.operationId}: readOnly but ${found.method}`); continue; }
     if (!TOOLSETS.includes(entry.toolset)) { errors.push(`${entry.operationId}: toolset "${entry.toolset}" is not one of ${TOOLSETS.join(', ')}`); continue; }
+    if (entry.notes !== undefined && !(Array.isArray(entry.notes) && entry.notes.every((n) => typeof n === 'string' && n.trim()))) { errors.push(`${entry.operationId}: notes must be a list of non-empty strings`); continue; }
     const omit = entry.omit ?? [];
     const redact = entry.redact ?? [];
     const properties = {};
@@ -143,9 +146,11 @@ export function buildTools(spec, manifest, denylist) {
     const summary = String(found.op.summary ?? entry.operationId).trim();
     const detail = String(found.op.description ?? '').trim().split('\n\n')[0].slice(0, 600);
     const notes = [];
-    if (found.path.includes('{businessId}')) notes.push('Obtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.');
+    const businessParam = found.path.match(/\{(businessId|business_id)\}/)?.[1];
+    if (businessParam) notes.push(`Obtenga el ${businessParam} con listBusinessesForUser antes de llamar a esta herramienta.`);
     notes.push('Un 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.');
     if (!entry.readOnly) notes.push('Escribe en la cuenta: confirme con la persona antes de ejecutarla.');
+    for (const note of entry.notes ?? []) notes.push(String(note).trim());
     tools.push({
       name: entry.operationId,
       method: found.method,

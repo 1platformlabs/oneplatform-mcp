@@ -1,5 +1,5 @@
 {
-  "$comment": "Operations no tool may ever expose (D-9). The manifest test fails if it intersects this list, by operationId or by path. Covers: admin and platform surfaces, credentials, webhooks, and anything that charges balance, issues tax documents or moves money. writePathPrefixes deny every NON-GET operation under the prefix (withdrawals and domain registration move money); their reads stay allowed.",
+  "$comment": "Operations no tool may ever expose (D-9). The manifest test fails if it intersects this list, by operationId or by path. Covers: admin and platform surfaces, credentials, webhooks, and anything that charges balance, issues tax documents or moves money. writePathPrefixes deny every NON-GET operation under the prefix (withdrawals and domain registration move money); their reads stay allowed. Reviewed exception (épica cobros-remotos-a-terminal): createTerminalCharge and cancelTerminalCharge are allowed because they never touch 1Platform balance, ledger or tax documents: they ring the business's own physical card terminal and no money moves until the payer taps or inserts their card there; the approved payment is credited like any card-terminal payment, with no fee. Charging balance (createPaymentTransaction, topups), refunds and cash-out stay denied.",
   "pathPrefixes": [
     "/api/v1/admin",
     "/api/v1/platform",

@@ -4456,6 +4456,253 @@ export const API_TOOLS: ApiTool[] = [
     }
   },
   {
+    "name": "listBusinessTerminals",
+    "method": "GET",
+    "path": "/api/v1/businesses/{business_id}/terminals",
+    "readOnly": true,
+    "toolset": "terminal",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "business_id"
+    ],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List the business's connected terminals\n\nTerminals a remote charge can be sent to: those of the business's connected card-terminal account, plus whether remote charges are switched on.\n\nObtenga el business_id con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nremote_charges_enabled=false indica que la plataforma todavía no habilitó los cobros remotos: createTerminalCharge responderá 403 terminal_charges_disabled.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "business_id": {
+          "type": "string",
+          "description": "The business (commerce) id"
+        }
+      },
+      "required": [
+        "business_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "createTerminalCharge",
+    "method": "POST",
+    "path": "/api/v1/businesses/{business_id}/terminal-charges",
+    "readOnly": false,
+    "toolset": "terminal",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "business_id"
+    ],
+    "queryParams": [],
+    "bodyParams": [
+      "terminal_id",
+      "amount",
+      "reference",
+      "description",
+      "expires_in_seconds",
+      "idempotency_key"
+    ],
+    "pathPatterns": {},
+    "description": "Send a charge to a terminal\n\nSend an amount to one of the business's connected terminals; the cashier collects it there.\n\nObtenga el business_id con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.\n\nExcepción revisada a la regla de no mover dinero: no cobra saldo de 1Platform, sólo hace sonar la terminal física del comercio, y el cobro no ocurre hasta que el pagador acerque su tarjeta. Confirme monto, terminal y referencia con la persona. Un 403 terminal_charges_disabled significa que la plataforma todavía no habilitó los cobros remotos.\n\nidempotency_key va en el cuerpo y es por INTENTO: la misma clave con el mismo cuerpo devuelve el mismo cobro (200, sin cobrar otra vez), incluso uno rechazado; para reintentar después de un rechazo use una clave NUEVA. Un 202 (status submitting) no es un error: consulte el cobro con getTerminalCharge en vez de mandarlo de nuevo.\n\nUn cobro en timeout todavía puede aprobarse: consulte su estado antes de volver a cobrar el mismo pedido. Un 409 terminal_charge_reference_in_use significa que esa referencia ya tiene un cobro vivo o aprobado. reference_conflict=true en la respuesta marca un pedido cobrado dos veces: avísele a la persona.\n\nEstados del cobro: submitting (el envío aún no se confirmó), created (esperando en la terminal), in_progress (el cajero lo tomó), approved, denied, cancelled, expired, timeout (la terminal no respondió: todavía puede aprobarse), rejected (rechazado al enviarlo; retryable=true indica que un reintento con una clave NUEVA puede funcionar) y unreconciled (No confirmado: revise el pago antes de volver a cobrar). reference_conflict=true marca un pedido que pudo cobrarse dos veces. currency es null hasta que el cobro se liga al pago (el monto va en la moneda de la terminal).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "business_id": {
+          "type": "string",
+          "description": "The business (commerce) id"
+        },
+        "terminal_id": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "A terminal connected to this business (see `listBusinessTerminals`)."
+        },
+        "amount": {
+          "type": "string",
+          "pattern": "^(?=.*[1-9])\\d{1,16}(\\.\\d{1,2})?$",
+          "description": "Amount to collect as a decimal STRING with up to two decimals, greater than zero, in the terminal's currency."
+        },
+        "reference": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._-]{1,64}$",
+          "description": "Your order reference. Only one live or approved charge per reference and business."
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 140
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Optional text shown with the charge (≤140 characters, no control or direction characters)."
+        },
+        "expires_in_seconds": {
+          "type": "integer",
+          "maximum": 600,
+          "minimum": 60,
+          "description": "How long the terminal may take to pick the charge up (60-600 s).",
+          "default": 180
+        },
+        "idempotency_key": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._-]{8,64}$",
+          "description": "Your key for THIS attempt. Same key + same body replays the charge; use a new key to try again after a rejection."
+        }
+      },
+      "required": [
+        "business_id",
+        "terminal_id",
+        "amount",
+        "reference",
+        "idempotency_key"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getTerminalCharge",
+    "method": "GET",
+    "path": "/api/v1/businesses/{business_id}/terminal-charges/{charge_id}",
+    "readOnly": true,
+    "toolset": "terminal",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "business_id",
+      "charge_id"
+    ],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Get a remote charge\n\nThe charge with its current status, synchronized with the terminal, and the linked payment once approved.\n\nObtenga el business_id con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEstados del cobro: submitting (el envío aún no se confirmó), created (esperando en la terminal), in_progress (el cajero lo tomó), approved, denied, cancelled, expired, timeout (la terminal no respondió: todavía puede aprobarse), rejected (rechazado al enviarlo; retryable=true indica que un reintento con una clave NUEVA puede funcionar) y unreconciled (No confirmado: revise el pago antes de volver a cobrar). reference_conflict=true marca un pedido que pudo cobrarse dos veces. currency es null hasta que el cobro se liga al pago (el monto va en la moneda de la terminal).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "business_id": {
+          "type": "string",
+          "description": "The business (commerce) id"
+        },
+        "charge_id": {
+          "type": "string",
+          "description": "The remote charge id"
+        }
+      },
+      "required": [
+        "business_id",
+        "charge_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listTerminalCharges",
+    "method": "GET",
+    "path": "/api/v1/businesses/{business_id}/terminal-charges",
+    "readOnly": true,
+    "toolset": "terminal",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "business_id"
+    ],
+    "queryParams": [
+      "status",
+      "limit",
+      "skip"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List remote charges\n\nThe business's remote charges, newest first.\n\nObtenga el business_id con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEstados del cobro: submitting (el envío aún no se confirmó), created (esperando en la terminal), in_progress (el cajero lo tomó), approved, denied, cancelled, expired, timeout (la terminal no respondió: todavía puede aprobarse), rejected (rechazado al enviarlo; retryable=true indica que un reintento con una clave NUEVA puede funcionar) y unreconciled (No confirmado: revise el pago antes de volver a cobrar). reference_conflict=true marca un pedido que pudo cobrarse dos veces. currency es null hasta que el cobro se liga al pago (el monto va en la moneda de la terminal).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "business_id": {
+          "type": "string",
+          "description": "The business (commerce) id"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "submitting",
+                "created",
+                "in_progress",
+                "approved",
+                "denied",
+                "cancelled",
+                "expired",
+                "timeout",
+                "rejected",
+                "unreconciled"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Only charges in this status"
+        },
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Page size (max 100)",
+          "default": 20
+        },
+        "skip": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Offset",
+          "default": 0
+        }
+      },
+      "required": [
+        "business_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "cancelTerminalCharge",
+    "method": "POST",
+    "path": "/api/v1/businesses/{business_id}/terminal-charges/{charge_id}/cancel",
+    "readOnly": false,
+    "toolset": "terminal",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "business_id",
+      "charge_id"
+    ],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Cancel a remote charge\n\nCancel a charge the terminal has not picked up yet.\n\nObtenga el business_id con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.\n\nSólo se cancela un cobro que la terminal todavía no tomó (created, o submitting: queda cancel_requested=true y se aplica al confirmarse). Si el cajero ya lo tomó (in_progress) o el cobro ya terminó, responde 409 terminal_charge_state: consulte el cobro con getTerminalCharge.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "business_id": {
+          "type": "string",
+          "description": "The business (commerce) id"
+        },
+        "charge_id": {
+          "type": "string",
+          "description": "The remote charge id"
+        }
+      },
+      "required": [
+        "business_id",
+        "charge_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
     "name": "listCashOutMethods",
     "method": "GET",
     "path": "/api/v1/users/cash-out/methods",
@@ -6447,7 +6694,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List tasks for the current user\n\nLists planned-work tasks. `scope=mine` (default) — created by the caller OR assigned to them. `scope=assigned` — only assigned to the caller. `scope=all` — every task in the tenant, `task_manager` only (silently downgraded to `mine` otherwise).\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List tasks for the current user\n\nLists planned-work tasks. `scope=mine` (default) — created by the caller OR assigned to them. `scope=assigned` — only assigned to the caller. `scope=all` — every task in the tenant, `task_manager` only (silently downgraded to `mine` otherwise). `scope=takeable` — open tasks (not managed by a feature, not already the caller's) whose required skill is one of the caller's ACTIVE skills; no `task_manager` needed, empty when the caller holds none.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -6464,7 +6711,7 @@ export const API_TOOLS: ApiTool[] = [
         },
         "scope": {
           "type": "string",
-          "description": "One of: mine, assigned, all (task_manager only).",
+          "description": "One of: mine, assigned, all (task_manager only), takeable (tasks the caller may take).",
           "default": "mine"
         },
         "skip": {
@@ -6499,7 +6746,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get a task's detail, including its bounded activity log\n\nReturns a single task with its bounded activity log (`events`, last 50 entries — creation and every status change). Uses the SAME access rule as `GET /tasks/{id}/subtasks` (RT-M1): the creator, the assignee, a `task_manager`, or anyone holding the skill of at least one of the task's subtasks — anyone else gets 404. `GET /tasks` (list) never returns `events` (DPI-08 CA-3).\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get a task's detail, including its bounded activity log\n\nReturns a single task with its bounded activity log (`events`, last 50 entries — creation and every status change). Uses the SAME access rule as `GET /tasks/{id}/subtasks` (RT-M1): the creator, the assignee, a `task_manager`, or anyone holding the skill of at least one of the task's subtasks, or — while the task is open and not managed by a feature — anyone holding its required skill as an active skill, or a person an owner of the task mentioned in a comment (read-only participant); anyone else gets 404. `viewer_access` says which of those the caller is. `GET /tasks` (list) never returns `even\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -6665,7 +6912,8 @@ export const API_TOOLS: ApiTool[] = [
     "bodyParams": [
       "description",
       "due_at",
-      "assigned_to_user_id"
+      "assigned_to_user_id",
+      "required_skill_id"
     ],
     "pathPatterns": {},
     "description": "Create a new task\n\nCreates a new task, unstarted. Requires the `task_manager` skill (humans) OR a `ServiceKey` with the `tasks.write` capability, scope `tenant` (agents, TSK-08).\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
@@ -6700,6 +6948,17 @@ export const API_TOOLS: ApiTool[] = [
             }
           ],
           "description": "Optional. Active user of the SAME tenant who takes the task from the start — same rule as `POST /tasks/{id}/assign` (404 `task_assignee_not_eligible` otherwise). Only a human `task_manager` may set it; a service key gets 403. Omit it to leave the task unassigned."
+        },
+        "required_skill_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Optional (reasignacion-de-tareas D-3). Active skill of the SAME tenant a member needs to take the task (`POST /tasks/{id}/take`). Only a human `task_manager` may send this key — 403 `task_skill_requires_manager` otherwise; an unknown, retired, system or foreign skill is 404 `task_skill_not_found`."
         }
       },
       "required": [],
@@ -6722,7 +6981,8 @@ export const API_TOOLS: ApiTool[] = [
       "description",
       "status",
       "due_at",
-      "expected_status"
+      "expected_status",
+      "required_skill_id"
     ],
     "pathPatterns": {},
     "description": "Update a task\n\nPartially updates a task. Reachable by the creator, the assignee, or a `task_manager` (D-5.1) — anyone else gets 404, never a partial field list. Setting `status='done'` stamps `completed_at`. Every write is atomic (D-10') — a status change is recorded as a bounded activity event and never reverted by a concurrent edit of another field. Pass `expected_status` to opt into a strict compare-and-swap: a mismatch returns 409 `task_status_conflict` with nothing written (or 404 if the task is gone). Omitting it still guards the write against the status just read, with one silent retry from a fresh re\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
@@ -6790,6 +7050,17 @@ export const API_TOOLS: ApiTool[] = [
             }
           ],
           "description": "Optional CAS guard (D-10'): the status the caller last saw. If given and it no longer matches the task's CURRENT status, the request is rejected with 409 `task_status_conflict` and nothing is written — used by the board's drag gesture so a stale card move never reverts a concurrent change. Omit it to keep the previous last-writer-wins behaviour."
+        },
+        "required_skill_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Optional (reasignacion-de-tareas D-3). Active skill of the SAME tenant a member needs to take the task (`POST /tasks/{id}/take`). Only a human `task_manager` may send this key — 403 `task_skill_requires_manager` otherwise; an unknown, retired, system or foreign skill is 404 `task_skill_not_found`. An explicit `null` removes the skill; omitting the key leaves it unchanged (the only field of this body where `null` means something)."
         }
       },
       "required": [
