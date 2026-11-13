@@ -1,5 +1,5 @@
 {
-  "$comment": "Allowlist of API tools (épica infraestructura-para-agentes-ia, D-9). Nothing outside this list reaches the API. readOnly=false tools are marked destructive: the client asks before running them. omit[] fields are removed from the schema AND dropped if the model sends them anyway. redact[] keys are removed from the response. toolset groups tools by product vertical: ONEPLATFORM_TOOLSETS (local) or X-OnePlatform-Toolsets (hosted) narrow the list; docs tools are always listed.",
+  "$comment": "Allowlist of API tools (épica infraestructura-para-agentes-ia, D-9). Nothing outside this list reaches the API. readOnly=false tools are marked destructive: the client asks before running them. omit[] fields are removed from the schema AND dropped if the model sends them anyway. redact[] keys are removed from the response. notes[] are appended to the tool description (warnings the OpenAPI summary does not carry). toolset groups tools by product vertical: ONEPLATFORM_TOOLSETS (local) or X-OnePlatform-Toolsets (hosted) narrow the list; docs tools are always listed.",
   "tools": [
     {
       "operationId": "getUserProfile",
@@ -478,6 +478,49 @@
       "operationId": "cancelTerminalRequest",
       "readOnly": false,
       "toolset": "terminal"
+    },
+    {
+      "operationId": "listBusinessTerminals",
+      "readOnly": true,
+      "toolset": "terminal",
+      "notes": [
+        "remote_charges_enabled=false indica que la plataforma todavía no habilitó los cobros remotos: createTerminalCharge responderá 403 terminal_charges_disabled."
+      ]
+    },
+    {
+      "operationId": "createTerminalCharge",
+      "readOnly": false,
+      "toolset": "terminal",
+      "notes": [
+        "Excepción revisada a la regla de no mover dinero: no cobra saldo de 1Platform, sólo hace sonar la terminal física del comercio, y el cobro no ocurre hasta que el pagador acerque su tarjeta. Confirme monto, terminal y referencia con la persona. Un 403 terminal_charges_disabled significa que la plataforma todavía no habilitó los cobros remotos.",
+        "idempotency_key va en el cuerpo y es por INTENTO: la misma clave con el mismo cuerpo devuelve el mismo cobro (200, sin cobrar otra vez), incluso uno rechazado; para reintentar después de un rechazo use una clave NUEVA. Un 202 (status submitting) no es un error: consulte el cobro con getTerminalCharge en vez de mandarlo de nuevo.",
+        "Un cobro en timeout todavía puede aprobarse: consulte su estado antes de volver a cobrar el mismo pedido. Un 409 terminal_charge_reference_in_use significa que esa referencia ya tiene un cobro vivo o aprobado. reference_conflict=true en la respuesta marca un pedido cobrado dos veces: avísele a la persona.",
+        "Estados del cobro: submitting (el envío aún no se confirmó), created (esperando en la terminal), in_progress (el cajero lo tomó), approved, denied, cancelled, expired, timeout (la terminal no respondió: todavía puede aprobarse), rejected (rechazado al enviarlo; retryable=true indica que un reintento con una clave NUEVA puede funcionar) y unreconciled (No confirmado: revise el pago antes de volver a cobrar). reference_conflict=true marca un pedido que pudo cobrarse dos veces. currency es null hasta que el cobro se liga al pago (el monto va en la moneda de la terminal)."
+      ]
+    },
+    {
+      "operationId": "getTerminalCharge",
+      "readOnly": true,
+      "toolset": "terminal",
+      "notes": [
+        "Estados del cobro: submitting (el envío aún no se confirmó), created (esperando en la terminal), in_progress (el cajero lo tomó), approved, denied, cancelled, expired, timeout (la terminal no respondió: todavía puede aprobarse), rejected (rechazado al enviarlo; retryable=true indica que un reintento con una clave NUEVA puede funcionar) y unreconciled (No confirmado: revise el pago antes de volver a cobrar). reference_conflict=true marca un pedido que pudo cobrarse dos veces. currency es null hasta que el cobro se liga al pago (el monto va en la moneda de la terminal)."
+      ]
+    },
+    {
+      "operationId": "listTerminalCharges",
+      "readOnly": true,
+      "toolset": "terminal",
+      "notes": [
+        "Estados del cobro: submitting (el envío aún no se confirmó), created (esperando en la terminal), in_progress (el cajero lo tomó), approved, denied, cancelled, expired, timeout (la terminal no respondió: todavía puede aprobarse), rejected (rechazado al enviarlo; retryable=true indica que un reintento con una clave NUEVA puede funcionar) y unreconciled (No confirmado: revise el pago antes de volver a cobrar). reference_conflict=true marca un pedido que pudo cobrarse dos veces. currency es null hasta que el cobro se liga al pago (el monto va en la moneda de la terminal)."
+      ]
+    },
+    {
+      "operationId": "cancelTerminalCharge",
+      "readOnly": false,
+      "toolset": "terminal",
+      "notes": [
+        "Sólo se cancela un cobro que la terminal todavía no tomó (created, o submitting: queda cancel_requested=true y se aplica al confirmarse). Si el cajero ya lo tomó (in_progress) o el cobro ya terminó, responde 409 terminal_charge_state: consulte el cobro con getTerminalCharge."
+      ]
     },
     {
       "operationId": "listCashOutMethods",

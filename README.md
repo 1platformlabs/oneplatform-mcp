@@ -14,7 +14,7 @@ claves, el servidor suma las de la API, agrupadas por vertical (*toolset*):
 | `pagos` | Links de pago (listar, ver, **crear** y **cancelar**) y transacciones |
 | `retiros` | Saldo retirable, movimientos, retiros, métodos de retiro (enmascarados) y cobros que pueden pasar al saldo retirable (sólo lectura) |
 | `suscripciones` | Planes, suscripciones y clientes del comercio; **crear, editar, publicar y archivar** planes, **crear y editar** clientes, **emitir** una invitación y **cancelar** una suscripción |
-| `terminal` | Solicitudes de terminal de tarjetas, su estado y el detalle de un pago con terminal; **crear, corregir y retirar** una solicitud (el envío y los documentos siguen en el panel) |
+| `terminal` | Solicitudes de terminal de tarjetas, su estado y el detalle de un pago con terminal; **crear, corregir y retirar** una solicitud (el envío y los documentos siguen en el panel). Terminales conectadas del comercio y cobros remotos: **enviar** un cobro a una terminal, consultarlo, listarlos y **cancelarlo** |
 | `facturacion` | Facturas electrónicas (sólo lectura: el MCP no emite ni anula) |
 | `envios` | Envíos (sólo lectura: el MCP no despacha) |
 | `sitios` | Sitios, artículos, trabajos de generación, categorías y rendimiento en buscadores |
@@ -33,13 +33,27 @@ Por defecto se listan todos. Para un cliente que admite pocas herramientas, elij
 `ONEPLATFORM_TOOLSETS=pagos,envios` (local) o la cabecera `X-OnePlatform-Toolsets: pagos,envios` (alojado).
 
 Las escrituras (en negrita) no cobran saldo en el acto, no emiten documentos fiscales ni mueven dinero, y el cliente
-pide confirmación antes de ejecutarlas. Dos excepciones conocidas, iguales a las del panel: agendar, mover o cancelar
-una visita dispara los avisos de la agenda a la persona y al asesor, y programar una publicación la deja en cola para
-salir en la red en la fecha elegida, cuando se cobra (cancelarla antes no cobra nada). Publicar ya, aprobar, responder
+pide confirmación antes de ejecutarlas. Tres excepciones conocidas, iguales a las del panel: agendar, mover o cancelar
+una visita dispara los avisos de la agenda a la persona y al asesor; programar una publicación la deja en cola para
+salir en la red en la fecha elegida, cuando se cobra (cancelarla antes no cobra nada); y enviar un cobro remoto
+(`createTerminalCharge`) hace sonar la terminal física del comercio con un monto. Ese cobro no toca el saldo de
+1Platform ni tiene cargo, y no se cobra nada hasta que el pagador acerque su tarjeta a la terminal; el pago aprobado
+entra como cualquier pago con terminal. Por eso es la única excepción revisada a la regla de no mover dinero, y la
+herramienta advierte lo que el agente debe saber antes de repetirlo:
+
+- `idempotency_key` va en el cuerpo y es **por intento**: la misma clave con el mismo cuerpo devuelve el mismo cobro,
+  también uno rechazado. Para reintentar después de un rechazo hay que usar una clave **nueva**.
+- Un `202` con `status: submitting` no es un error: se consulta el cobro en vez de mandarlo otra vez.
+- Un cobro en `timeout` todavía puede aprobarse: hay que consultarlo antes de volver a cobrar el mismo pedido.
+  `reference_conflict: true` marca un pedido cobrado dos veces, y `unreconciled` significa «No confirmado: revise el
+  pago».
+- La capacidad está en preparación: hasta que la plataforma la habilite, `listBusinessTerminals` devuelve
+  `remote_charges_enabled: false` y crear responde `403 terminal_charges_disabled`. Publicar ya, aprobar, responder
 comentarios, encargar piezas del estudio y pagar quedan fuera del MCP. En `redes` las herramientas trabajan sobre el portafolio
 propio de la persona: el MCP no reenvía la cabecera para actuar en un portafolio ajeno. La lista exacta está en
 [`tools.manifest.json`](tools.manifest.json) y lo que nunca puede exponerse, en [`denylist.json`](denylist.json):
-administración, credenciales, webhooks, cobros, emisión fiscal y movimientos de dinero. En retiros y dominios sólo se
+administración, credenciales, webhooks, cobros de saldo, reembolsos, emisión fiscal y movimientos de dinero (con la
+excepción del cobro remoto a terminal, escrita en el propio archivo). En retiros y dominios sólo se
 permiten lecturas.
 
 ## Uso local (stdio)
