@@ -2194,6 +2194,8 @@ export const API_TOOLS: ApiTool[] = [
       "unread",
       "q",
       "domain_id",
+      "address_id",
+      "folder",
       "scope"
     ],
     "bodyParams": [],
@@ -2263,6 +2265,33 @@ export const API_TOOLS: ApiTool[] = [
             }
           ],
           "description": "Only the conversations received on this domain (the `id` of the domain). It narrows the list and `unread_total`; it never widens what the caller may see. A domain the caller cannot reach simply yields an empty list"
+        },
+        "address_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 24,
+              "minLength": 24,
+              "pattern": "^[0-9a-f]{24}$",
+              "description": "Internal document identifier, rendered as its 24-character lowercase hex string."
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Only the conversations of this address (the `id` of the address). It narrows the list and `unread_total`; it never widens what the caller may see. An address the caller cannot reach simply yields an empty list"
+        },
+        "folder": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^(inbox|unread|starred|sent|archived)$"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Mailbox folder: `inbox` (not archived, not a conversation the merchant started that nobody answered), `unread`, `starred`, `sent` (any conversation with a message sent) or `archived`. Omit it for the unfiltered list"
         },
         "scope": {
           "anyOf": [
@@ -6447,7 +6476,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List tasks for the current user\n\nLists planned-work tasks. `scope=mine` (default) — created by the caller OR assigned to them. `scope=assigned` — only assigned to the caller. `scope=all` — every task in the tenant, `task_manager` only (silently downgraded to `mine` otherwise).\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List tasks for the current user\n\nLists planned-work tasks. `scope=mine` (default) — created by the caller OR assigned to them. `scope=assigned` — only assigned to the caller. `scope=all` — every task in the tenant, `task_manager` only (silently downgraded to `mine` otherwise). `scope=takeable` — open tasks (not managed by a feature, not already the caller's) whose required skill is one of the caller's ACTIVE skills; no `task_manager` needed, empty when the caller holds none.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -6464,7 +6493,7 @@ export const API_TOOLS: ApiTool[] = [
         },
         "scope": {
           "type": "string",
-          "description": "One of: mine, assigned, all (task_manager only).",
+          "description": "One of: mine, assigned, all (task_manager only), takeable (tasks the caller may take).",
           "default": "mine"
         },
         "skip": {
@@ -6499,7 +6528,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get a task's detail, including its bounded activity log\n\nReturns a single task with its bounded activity log (`events`, last 50 entries — creation and every status change). Uses the SAME access rule as `GET /tasks/{id}/subtasks` (RT-M1): the creator, the assignee, a `task_manager`, or anyone holding the skill of at least one of the task's subtasks — anyone else gets 404. `GET /tasks` (list) never returns `events` (DPI-08 CA-3).\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get a task's detail, including its bounded activity log\n\nReturns a single task with its bounded activity log (`events`, last 50 entries — creation and every status change). Uses the SAME access rule as `GET /tasks/{id}/subtasks` (RT-M1): the creator, the assignee, a `task_manager`, or anyone holding the skill of at least one of the task's subtasks, or — while the task is open and not managed by a feature — anyone holding its required skill as an active skill, or a person an owner of the task mentioned in a comment (read-only participant); anyone else gets 404. `viewer_access` says which of those the caller is. `GET /tasks` (list) never returns `even\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -6665,7 +6694,8 @@ export const API_TOOLS: ApiTool[] = [
     "bodyParams": [
       "description",
       "due_at",
-      "assigned_to_user_id"
+      "assigned_to_user_id",
+      "required_skill_id"
     ],
     "pathPatterns": {},
     "description": "Create a new task\n\nCreates a new task, unstarted. Requires the `task_manager` skill (humans) OR a `ServiceKey` with the `tasks.write` capability, scope `tenant` (agents, TSK-08).\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
@@ -6700,6 +6730,17 @@ export const API_TOOLS: ApiTool[] = [
             }
           ],
           "description": "Optional. Active user of the SAME tenant who takes the task from the start — same rule as `POST /tasks/{id}/assign` (404 `task_assignee_not_eligible` otherwise). Only a human `task_manager` may set it; a service key gets 403. Omit it to leave the task unassigned."
+        },
+        "required_skill_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Optional (reasignacion-de-tareas D-3). Active skill of the SAME tenant a member needs to take the task (`POST /tasks/{id}/take`). Only a human `task_manager` may send this key — 403 `task_skill_requires_manager` otherwise; an unknown, retired, system or foreign skill is 404 `task_skill_not_found`."
         }
       },
       "required": [],
@@ -6722,7 +6763,8 @@ export const API_TOOLS: ApiTool[] = [
       "description",
       "status",
       "due_at",
-      "expected_status"
+      "expected_status",
+      "required_skill_id"
     ],
     "pathPatterns": {},
     "description": "Update a task\n\nPartially updates a task. Reachable by the creator, the assignee, or a `task_manager` (D-5.1) — anyone else gets 404, never a partial field list. Setting `status='done'` stamps `completed_at`. Every write is atomic (D-10') — a status change is recorded as a bounded activity event and never reverted by a concurrent edit of another field. Pass `expected_status` to opt into a strict compare-and-swap: a mismatch returns 409 `task_status_conflict` with nothing written (or 404 if the task is gone). Omitting it still guards the write against the status just read, with one silent retry from a fresh re\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
@@ -6790,6 +6832,17 @@ export const API_TOOLS: ApiTool[] = [
             }
           ],
           "description": "Optional CAS guard (D-10'): the status the caller last saw. If given and it no longer matches the task's CURRENT status, the request is rejected with 409 `task_status_conflict` and nothing is written — used by the board's drag gesture so a stale card move never reverts a concurrent change. Omit it to keep the previous last-writer-wins behaviour."
+        },
+        "required_skill_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Optional (reasignacion-de-tareas D-3). Active skill of the SAME tenant a member needs to take the task (`POST /tasks/{id}/take`). Only a human `task_manager` may send this key — 403 `task_skill_requires_manager` otherwise; an unknown, retired, system or foreign skill is 404 `task_skill_not_found`. An explicit `null` removes the skill; omitting the key leaves it unchanged (the only field of this body where `null` means something)."
         }
       },
       "required": [
@@ -7150,6 +7203,511 @@ export const API_TOOLS: ApiTool[] = [
       "type": "object",
       "properties": {},
       "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listProspectingGoals",
+    "method": "GET",
+    "path": "/api/v1/prospecting/goals",
+    "readOnly": true,
+    "toolset": "prospeccion",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "status",
+      "limit",
+      "offset"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List prospecting goals\n\nGoals of your workspace, newest first. Every member with the module can read them. **Auth:** `Authorization: Bearer <app_token>` + `x-user-token: <user_token>`. The workspace is always the caller's own. Writing is for the goal's owner or a workspace administrator.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "anyOf": [
+            {
+              "enum": [
+                "active",
+                "paused",
+                "archived"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Only goals in this status"
+        },
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Page size (max 100)",
+          "default": 20
+        },
+        "offset": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Items to skip",
+          "default": 0
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getProspectingGoal",
+    "method": "GET",
+    "path": "/api/v1/prospecting/goals/{goal_id}",
+    "readOnly": true,
+    "toolset": "prospeccion",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "goal_id"
+    ],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Get a prospecting goal\n\nOne goal of your workspace. **Auth:** `Authorization: Bearer <app_token>` + `x-user-token: <user_token>`. The workspace is always the caller's own. Writing is for the goal's owner or a workspace administrator.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "goal_id": {
+          "type": "string",
+          "description": "Goal id"
+        }
+      },
+      "required": [
+        "goal_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getProspectingGoalReadiness",
+    "method": "GET",
+    "path": "/api/v1/prospecting/goals/{goal_id}/readiness",
+    "readOnly": true,
+    "toolset": "prospeccion",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "goal_id"
+    ],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Readiness of a prospecting goal\n\nWhether each connection works for the goal — mailbox, calendar, Sales, its agent and the diagnosis price — each with a stable reason code when it does not. Derived on read. **Auth:** `Authorization: Bearer <app_token>` + `x-user-token: <user_token>`. The workspace is always the caller's own. Writing is for the goal's owner or a workspace administrator.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "goal_id": {
+          "type": "string",
+          "description": "Goal id"
+        }
+      },
+      "required": [
+        "goal_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getProspectingBoard",
+    "method": "GET",
+    "path": "/api/v1/prospecting/goals/{goal_id}/board",
+    "readOnly": true,
+    "toolset": "prospeccion",
+    "omit": [],
+    "redact": [
+      "contact"
+    ],
+    "pathParams": [
+      "goal_id"
+    ],
+    "queryParams": [
+      "per_stage"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Board of a prospecting goal\n\nColumns in order: to diagnose, to review, ready, contacted, replied, meeting, closed. «To review» and «ready» are derived from the messages. Each column brings its total and its most recently updated prospects (up to `per_stage`). **Auth:** `Authorization: Bearer <app_token>` + `x-user-token: <user_token>`. The workspace is always the caller's own. Writing is for the goal's owner or a workspace administrator.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "goal_id": {
+          "type": "string",
+          "description": "Goal id"
+        },
+        "per_stage": {
+          "type": "integer",
+          "maximum": 20,
+          "minimum": 1,
+          "description": "Prospects per column (max 20)",
+          "default": 5
+        }
+      },
+      "required": [
+        "goal_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getProspectingMetrics",
+    "method": "GET",
+    "path": "/api/v1/prospecting/goals/{goal_id}/metrics",
+    "readOnly": true,
+    "toolset": "prospeccion",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "goal_id"
+    ],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "What works: the funnel of a goal\n\nSent, mature, replied, positive, meetings and hand-offs by channel, segment, piece and variant, each prospect counted once under its FIRST touch. «To review» and «ready» come from the messages. The variant comparison is a practical rule (a minimum of mature sends per variant and a minimum gap), not a statistical test: the losing variant is retired automatically and one always stays. **Auth:** `Authorization: Bearer <app_token>` + `x-user-token: <user_token>`. The workspace is always the caller's own. Writing is for the goal's owner or a workspace administrator.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "goal_id": {
+          "type": "string",
+          "description": "Goal id"
+        }
+      },
+      "required": [
+        "goal_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listProspectingProspects",
+    "method": "GET",
+    "path": "/api/v1/prospecting/goals/{goal_id}/prospects",
+    "readOnly": true,
+    "toolset": "prospeccion",
+    "omit": [],
+    "redact": [
+      "contact"
+    ],
+    "pathParams": [
+      "goal_id"
+    ],
+    "queryParams": [
+      "stage",
+      "limit",
+      "offset"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List the prospects of a goal\n\nProspects of the goal, most recently updated first. **Auth:** `Authorization: Bearer <app_token>` + `x-user-token: <user_token>`. The workspace is always the caller's own. Writing is for the goal's owner or a workspace administrator.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "goal_id": {
+          "type": "string",
+          "description": "Goal id"
+        },
+        "stage": {
+          "anyOf": [
+            {
+              "enum": [
+                "new",
+                "diagnosed",
+                "contacted",
+                "replied",
+                "meeting",
+                "closed_no_reply",
+                "handed_off",
+                "closed_negative",
+                "closed_opt_out",
+                "closed_discarded"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Only prospects at this stage"
+        },
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Page size (max 100)",
+          "default": 20
+        },
+        "offset": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Items to skip",
+          "default": 0
+        }
+      },
+      "required": [
+        "goal_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "createProspectingProspect",
+    "method": "POST",
+    "path": "/api/v1/prospecting/goals/{goal_id}/prospects",
+    "readOnly": false,
+    "toolset": "prospeccion",
+    "omit": [],
+    "redact": [
+      "contact"
+    ],
+    "pathParams": [
+      "goal_id"
+    ],
+    "queryParams": [],
+    "bodyParams": [
+      "company",
+      "website",
+      "country",
+      "segment",
+      "contact"
+    ],
+    "pathPatterns": {},
+    "description": "Add a prospect\n\nAdds a company with its website, email or profile. If one of those already belongs to a prospect of the goal, that prospect is returned (`created: false`) and its empty fields are completed. **Auth:** `Authorization: Bearer <app_token>` + `x-user-token: <user_token>`. The workspace is always the caller's own. Writing is for the goal's owner or a workspace administrator.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "goal_id": {
+          "type": "string",
+          "description": "Goal id"
+        },
+        "company": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Company name",
+          "default": ""
+        },
+        "website": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 2000
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Company website (or its profile URL)"
+        },
+        "country": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 2,
+              "minLength": 2
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "ISO 3166-1 alpha-2 country code"
+        },
+        "segment": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 80
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Segment, in your words"
+        },
+        "contact": {
+          "properties": {
+            "name": {
+              "type": "string",
+              "maxLength": 120,
+              "description": "Name of the contact person",
+              "default": ""
+            },
+            "role": {
+              "type": "string",
+              "maxLength": 120,
+              "description": "Role of the contact person",
+              "default": ""
+            },
+            "email": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 254
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Email of the contact person"
+            },
+            "linkedin": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 500
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Profile URL of the contact person"
+            }
+          },
+          "additionalProperties": false,
+          "type": "object"
+        }
+      },
+      "required": [
+        "goal_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "importProspectingProspects",
+    "method": "POST",
+    "path": "/api/v1/prospecting/goals/{goal_id}/prospects/import",
+    "readOnly": false,
+    "toolset": "prospeccion",
+    "omit": [],
+    "redact": [
+      "contact"
+    ],
+    "pathParams": [
+      "goal_id"
+    ],
+    "queryParams": [],
+    "bodyParams": [
+      "rows"
+    ],
+    "pathPatterns": {},
+    "description": "Import prospects\n\nUp to the workspace's row limit. Each row is created, matched (skipped, completing its empty fields), refused because the company is on the do-not-contact list, or rejected with a reason. **Auth:** `Authorization: Bearer <app_token>` + `x-user-token: <user_token>`. The workspace is always the caller's own. Writing is for the goal's owner or a workspace administrator.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "goal_id": {
+          "type": "string",
+          "description": "Goal id"
+        },
+        "rows": {
+          "items": {
+            "properties": {
+              "company": {
+                "type": "string",
+                "maxLength": 200,
+                "description": "Company name",
+                "default": ""
+              },
+              "website": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 2000
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "Company website (or its profile URL)"
+              },
+              "country": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 2,
+                    "minLength": 2
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "ISO 3166-1 alpha-2 country code"
+              },
+              "segment": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 80
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "Segment, in your words"
+              },
+              "contact": {
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "maxLength": 120,
+                    "description": "Name of the contact person",
+                    "default": ""
+                  },
+                  "role": {
+                    "type": "string",
+                    "maxLength": 120,
+                    "description": "Role of the contact person",
+                    "default": ""
+                  },
+                  "email": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 254
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "description": "Email of the contact person"
+                  },
+                  "linkedin": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 500
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "description": "Profile URL of the contact person"
+                  }
+                },
+                "additionalProperties": false,
+                "type": "object"
+              }
+            },
+            "additionalProperties": false,
+            "type": "object"
+          },
+          "type": "array",
+          "maxItems": 1000,
+          "minItems": 1,
+          "description": "Rows to import (the workspace limit applies)"
+        }
+      },
+      "required": [
+        "goal_id",
+        "rows"
+      ],
       "additionalProperties": false
     }
   }
