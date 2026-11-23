@@ -111,6 +111,21 @@
       "toolset": "pagos"
     },
     {
+      "operationId": "listEmbedDomains",
+      "readOnly": true,
+      "toolset": "pagos"
+    },
+    {
+      "operationId": "registerEmbedDomain",
+      "readOnly": false,
+      "toolset": "pagos"
+    },
+    {
+      "operationId": "removeEmbedDomain",
+      "readOnly": false,
+      "toolset": "pagos"
+    },
+    {
       "operationId": "getCashOutSummary",
       "readOnly": true,
       "toolset": "retiros"

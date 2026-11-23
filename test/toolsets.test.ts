@@ -58,7 +58,8 @@ describe('denylist por método (retiros y dominios: se leen, no se escriben)', (
       'cancelPaymentLink', 'cancelSocialPost', 'cancelTerminalRequest', 'completeAppointment', 'createBookingLink',
       'createCustomer', 'createMyIntakeLink', 'createPaymentLink', 'createProspectingProspect', 'createSocialPost', 'createSubscriptionInvitation',
       'createSubscriptionPlan', 'createSubtask', 'createTask', 'createTerminalRequest', 'importProspectingProspects', 'publishSubscriptionPlan',
-      'reassignAppointment', 'rescheduleAppointment', 'rescheduleSocialPost', 'stopAgentRun', 'submitSocialPost',
+      // dominios-para-cobro-embebido: pedir el alta o la baja de un dominio abre una solicitud al equipo; no cobra ni mueve dinero.
+      'reassignAppointment', 'registerEmbedDomain', 'removeEmbedDomain', 'rescheduleAppointment', 'rescheduleSocialPost', 'stopAgentRun', 'submitSocialPost',
       'updateCustomer', 'updateSocialPost', 'updateSubscriptionPlan', 'updateSubtaskStatus', 'updateTask',
       'updateTelemetryIssue', 'updateTerminalRequest',
     ]);

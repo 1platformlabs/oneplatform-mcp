@@ -890,6 +890,116 @@ export const API_TOOLS: ApiTool[] = [
     }
   },
   {
+    "name": "listEmbedDomains",
+    "method": "GET",
+    "path": "/api/v1/payment-embed-domains",
+    "readOnly": true,
+    "toolset": "pagos",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "limit",
+      "cursor"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List Payment Embed Domains\n\nLists the domains of the caller's workspace where the payment is embedded (removed ones are not listed), each with its state and the team's last answer (`last_request`). `enabled` says whether new requests can be made right now. Newest first; `limit` ≤ 100 and `cursor` = the `next_cursor` of the previous page. Two-token, workspace admin. Rate limit: 50 req/min.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Page size (1-100).",
+          "default": 20
+        },
+        "cursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 24
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "`next_cursor` of the previous page."
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "registerEmbedDomain",
+    "method": "POST",
+    "path": "/api/v1/payment-embed-domains",
+    "readOnly": false,
+    "toolset": "pagos",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [],
+    "bodyParams": [
+      "domain",
+      "label"
+    ],
+    "pathPatterns": {},
+    "description": "Register A Payment Embed Domain\n\nRegisters a domain where the workspace will embed the payment page. The entry is born `pending` and the platform team is asked to enable it in the workspace's OWN payment account; once they answer it becomes `active` or `rejected`. Only for workspaces with a payment account of their own (422 `embed_domain_needs_dedicated_account`, `data.reason` = `shared` | `ambiguous`). Two-token, workspace admin; refused under impersonation. Rate limit: 10 req/min.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "domain": {
+          "type": "string",
+          "maxLength": 300,
+          "minLength": 1,
+          "description": "Public hostname where the payment is embedded. `https://`, a trailing `/` and a trailing `.` are removed and the value is lower-cased; a port, a path, a wildcard, a non-ASCII name or a private address are refused (422 `embed_domain_invalid`)."
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 80,
+          "description": "Optional name to recognise the domain (≤ 80 characters, plain text).",
+          "default": ""
+        }
+      },
+      "required": [
+        "domain"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "removeEmbedDomain",
+    "method": "DELETE",
+    "path": "/api/v1/payment-embed-domains/{entry_id}",
+    "readOnly": false,
+    "toolset": "pagos",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "entry_id"
+    ],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Remove A Payment Embed Domain\n\nAsks for the removal of a domain. An `active` domain becomes `removal_pending` (202) and the team is asked to remove it from the payment account; a `rejected` one is removed at once (200). A domain with a request in progress (`pending`, `removal_pending`) cannot be removed (409). Two-token, workspace admin; refused under impersonation. Rate limit: 10 req/min.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "entry_id": {
+          "type": "string",
+          "description": "Id of the domain entry."
+        }
+      },
+      "required": [
+        "entry_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
     "name": "getCashOutSummary",
     "method": "GET",
     "path": "/api/v1/users/cash-out/summary",

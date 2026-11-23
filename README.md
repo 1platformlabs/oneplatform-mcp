@@ -11,7 +11,7 @@ claves, el servidor suma las de la API, agrupadas por vertical (*toolset*):
 | Toolset | Qué puede hacer el agente |
 |---|---|
 | `cuenta` | Perfil, historial de saldo, consumo, comercios y avisos. Siempre activo: de acá sale el `businessId` |
-| `pagos` | Links de pago (listar, ver, **crear** y **cancelar**) y transacciones |
+| `pagos` | Links de pago (listar, ver, **crear** y **cancelar**), transacciones y dominios del cobro embebido (listar, **registrar** y **dar de baja**) |
 | `retiros` | Saldo retirable, movimientos, retiros, métodos de retiro (enmascarados) y cobros que pueden pasar al saldo retirable (sólo lectura) |
 | `suscripciones` | Planes, suscripciones y clientes del comercio; **crear, editar, publicar y archivar** planes, **crear y editar** clientes, **emitir** una invitación y **cancelar** una suscripción |
 | `terminal` | Solicitudes de terminal de tarjetas, su estado y el detalle de un pago con terminal; **crear, corregir y retirar** una solicitud (el envío y los documentos siguen en el panel) |
