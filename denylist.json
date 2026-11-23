@@ -1,5 +1,5 @@
 {
-  "$comment": "Operations no tool may ever expose (D-9). The manifest test fails if it intersects this list, by operationId or by path. Covers: admin and platform surfaces, credentials, webhooks, and anything that charges balance, issues tax documents or moves money. writePathPrefixes deny every NON-GET operation under the prefix (withdrawals and domain registration move money); their reads stay allowed.",
+  "$comment": "Operations no tool may ever expose (D-9). The manifest test fails if it intersects this list, by operationId or by path. Covers: admin and platform surfaces, credentials, webhooks, and anything that charges balance, issues tax documents or moves money. writePathPrefixes deny every NON-GET operation under the prefix (withdrawals and domain registration move money); their reads stay allowed. Prospección (vertical-prospeccion D-24): el MCP lee objetivos, embudo y prospectos SIN datos de contacto y da de alta/importa prospectos; aprobar, enviar, marcar enviado, modo, traspaso, supresión, mensajes y cualquier lectura de contacto quedan fuera.",
   "pathPrefixes": [
     "/api/v1/admin",
     "/api/v1/platform",
@@ -20,7 +20,25 @@
     "getWebhookConfig",
     "listWebhookDeliveries",
     "getWebhookDelivery",
-    "retryWebhookDelivery"
+    "retryWebhookDelivery",
+    "approveProspectingMessage",
+    "sendProspectingMessage",
+    "markProspectingMessageSent",
+    "setProspectingGoalMode",
+    "handoffProspectingProspect",
+    "suppressProspectingProspect",
+    "listProspectingSuppressions",
+    "deleteProspectingSuppression",
+    "getProspectingProspect",
+    "updateProspectingProspect",
+    "recordProspectingReply",
+    "reopenProspectingDiagnosis",
+    "listProspectingMessages",
+    "saveProspectingMessage",
+    "discardProspectingMessage",
+    "setProspectingGoalAgent",
+    "createProspectingGoal",
+    "updateProspectingGoal"
   ],
   "reviewedResponseKeys": {
     "$comment": "Response keys that match the sensitive pattern and were reviewed as NOT secret. Anything else matching must be in the tool's redact[] (T-22).",

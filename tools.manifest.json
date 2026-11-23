@@ -799,6 +799,58 @@
       "operationId": "listStudioPresenters",
       "readOnly": true,
       "toolset": "estudio"
+    },
+    {
+      "operationId": "listProspectingGoals",
+      "readOnly": true,
+      "toolset": "prospeccion"
+    },
+    {
+      "operationId": "getProspectingGoal",
+      "readOnly": true,
+      "toolset": "prospeccion"
+    },
+    {
+      "operationId": "getProspectingGoalReadiness",
+      "readOnly": true,
+      "toolset": "prospeccion"
+    },
+    {
+      "operationId": "getProspectingBoard",
+      "readOnly": true,
+      "redact": [
+        "contact"
+      ],
+      "toolset": "prospeccion"
+    },
+    {
+      "operationId": "getProspectingMetrics",
+      "readOnly": true,
+      "toolset": "prospeccion"
+    },
+    {
+      "operationId": "listProspectingProspects",
+      "readOnly": true,
+      "redact": [
+        "contact"
+      ],
+      "toolset": "prospeccion"
+    },
+    {
+      "operationId": "createProspectingProspect",
+      "readOnly": false,
+      "redact": [
+        "contact"
+      ],
+      "toolset": "prospeccion"
+    },
+    {
+      "operationId": "importProspectingProspects",
+      "readOnly": false,
+      "redact": [
+        "contact"
+      ],
+      "toolset": "prospeccion"
     }
   ]
 }

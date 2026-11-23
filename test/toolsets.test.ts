@@ -56,8 +56,8 @@ describe('denylist por método (retiros y dominios: se leen, no se escriben)', (
     expect(API_TOOLS.filter((t) => !t.readOnly).map((t) => t.name).sort()).toEqual([
       'archiveSubscriptionPlan', 'assignTask', 'bookAppointment', 'cancelAppointment', 'cancelMerchantSubscription',
       'cancelPaymentLink', 'cancelSocialPost', 'cancelTerminalRequest', 'completeAppointment', 'createBookingLink',
-      'createCustomer', 'createMyIntakeLink', 'createPaymentLink', 'createSocialPost', 'createSubscriptionInvitation',
-      'createSubscriptionPlan', 'createSubtask', 'createTask', 'createTerminalRequest', 'publishSubscriptionPlan',
+      'createCustomer', 'createMyIntakeLink', 'createPaymentLink', 'createProspectingProspect', 'createSocialPost', 'createSubscriptionInvitation',
+      'createSubscriptionPlan', 'createSubtask', 'createTask', 'createTerminalRequest', 'importProspectingProspects', 'publishSubscriptionPlan',
       'reassignAppointment', 'rescheduleAppointment', 'rescheduleSocialPost', 'stopAgentRun', 'submitSocialPost',
       'updateCustomer', 'updateSocialPost', 'updateSubscriptionPlan', 'updateSubtaskStatus', 'updateTask',
       'updateTelemetryIssue', 'updateTerminalRequest',
