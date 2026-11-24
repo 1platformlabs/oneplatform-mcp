@@ -29,7 +29,7 @@ claves, el servidor suma las de la API, agrupadas por vertical (*toolset*):
 | `tareas` | Tareas, subtareas, bandeja de subtareas disponibles y archivos; **crear, editar y asignar** tareas, **crear** subtareas y **tomar o completar** una subtarea |
 | `estudio` | Catálogo de plantillas, pedidos, piezas entregadas y sus enlaces, deudas y presentadores del estudio creativo (sólo lectura) |
 | `prospeccion` | Objetivos, preparación, embudo, métricas y listado de prospectos **sin datos de contacto**; **dar de alta** e **importar** prospectos (los mensajes nunca los aprueba ni envía el MCP) |
-| `cupones` | Cupones del espacio y de sus tiendas: listar, consultar y exportar un lote en CSV; **crear** un cupón y **editarlo** (pausar, reactivar o archivar) |
+| `cupones` | Cupones del espacio y de sus tiendas: listar, consultar y exportar un lote en CSV; **crear** un cupón del espacio y **editarlo** (pausar, reactivar o archivar) |
 
 Por defecto se listan todos. Para un cliente que admite pocas herramientas, elija las verticales que usa:
 `ONEPLATFORM_TOOLSETS=pagos,envios` (local) o la cabecera `X-OnePlatform-Toolsets: pagos,envios` (alojado).
@@ -38,7 +38,7 @@ Las escrituras (en negrita) no cobran saldo en el acto, no emiten documentos fis
 pide confirmación antes de ejecutarlas. Dos excepciones conocidas, iguales a las del panel: agendar, mover o cancelar
 una visita dispara los avisos de la agenda a la persona y al asesor, y programar una publicación la deja en cola para
 salir en la red en la fecha elegida, cuando se cobra (cancelarla antes no cobra nada). Publicar ya, aprobar, responder
-comentarios, encargar piezas del estudio y pagar quedan fuera del MCP. En `prospeccion` aprobar, enviar, marcar enviado, cambiar el modo, traspasar a ventas, excluir empresas y leer datos de contacto también quedan fuera: los borradores los revisa una persona en el panel. En `cupones` el canje de saldo, el protocolo de canje de las tiendas, la emisión de lotes y el alta de un cupón de tienda (que puede cobrar su tarifa) quedan fuera. En `redes` las herramientas trabajan sobre el portafolio
+comentarios, encargar piezas del estudio y pagar quedan fuera del MCP. En `prospeccion` aprobar, enviar, marcar enviado, cambiar el modo, traspasar a ventas, excluir empresas y leer datos de contacto también quedan fuera: los borradores los revisa una persona en el panel. En `cupones` el canje de saldo, el protocolo de canje de las tiendas, la emisión de lotes y el alta de un cupón de tienda (que puede cobrar su tarifa) quedan fuera; los cupones de una tienda se consultan pero se editan sólo en el panel. En `redes` las herramientas trabajan sobre el portafolio
 propio de la persona: el MCP no reenvía la cabecera para actuar en un portafolio ajeno. La lista exacta está en
 [`tools.manifest.json`](tools.manifest.json) y lo que nunca puede exponerse, en [`denylist.json`](denylist.json):
 administración, credenciales, webhooks, cobros, emisión fiscal y movimientos de dinero. En retiros y dominios sólo se

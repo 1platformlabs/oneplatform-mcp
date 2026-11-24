@@ -7968,6 +7968,45 @@ export const API_TOOLS: ApiTool[] = [
     }
   },
   {
+    "name": "getMyStoreCoupon",
+    "method": "GET",
+    "path": "/api/v1/coupons/stores/{slug}/coupons/{coupon_id}",
+    "readOnly": true,
+    "toolset": "cupones",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "slug",
+      "coupon_id"
+    ],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "One coupon of one of my stores\n\nA store that is not one of yours, or a coupon of another issuer (your own space included), answers 404.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "slug": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "Store slug"
+        },
+        "coupon_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "Coupon id"
+        }
+      },
+      "required": [
+        "slug",
+        "coupon_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
     "name": "createCoupon",
     "method": "POST",
     "path": "/api/v1/coupons",

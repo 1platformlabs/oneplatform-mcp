@@ -74,7 +74,7 @@ describe('denylist por método (retiros y dominios: se leen, no se escriben)', (
   });
   it('cupones: ni charge_fee ni cabeceras llegan al modelo', () => {
     for (const t of API_TOOLS.filter((x) => x.toolset === 'cupones')) expect(Object.keys(t.inputSchema.properties)).not.toContain('charge_fee');
-    expect(API_TOOLS.filter((x) => x.toolset === 'cupones').map((x) => x.name).sort()).toEqual(['createCoupon', 'exportCouponBatch', 'getCoupon', 'listCoupons', 'listMyCouponStores', 'listMyStoreCoupons', 'updateCoupon']);
+    expect(API_TOOLS.filter((x) => x.toolset === 'cupones').map((x) => x.name).sort()).toEqual(['createCoupon', 'exportCouponBatch', 'getCoupon', 'getMyStoreCoupon', 'listCoupons', 'listMyCouponStores', 'listMyStoreCoupons', 'updateCoupon']);
   });
   it('los enlaces de agenda no pueden revocar el enlace vigente (rotate fuera del esquema)', () => {
     for (const name of ['createBookingLink', 'createMyIntakeLink']) {

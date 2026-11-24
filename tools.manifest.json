@@ -878,6 +878,11 @@
       "toolset": "cupones"
     },
     {
+      "operationId": "getMyStoreCoupon",
+      "readOnly": true,
+      "toolset": "cupones"
+    },
+    {
       "operationId": "createCoupon",
       "readOnly": false,
       "omit": [
