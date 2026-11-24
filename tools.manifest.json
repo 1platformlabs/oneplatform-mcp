@@ -851,6 +851,49 @@
         "contact"
       ],
       "toolset": "prospeccion"
+    },
+    {
+      "operationId": "listCoupons",
+      "readOnly": true,
+      "toolset": "cupones"
+    },
+    {
+      "operationId": "getCoupon",
+      "readOnly": true,
+      "toolset": "cupones"
+    },
+    {
+      "operationId": "exportCouponBatch",
+      "readOnly": true,
+      "toolset": "cupones"
+    },
+    {
+      "operationId": "listMyCouponStores",
+      "readOnly": true,
+      "toolset": "cupones"
+    },
+    {
+      "operationId": "listMyStoreCoupons",
+      "readOnly": true,
+      "toolset": "cupones"
+    },
+    {
+      "operationId": "getMyStoreCoupon",
+      "readOnly": true,
+      "toolset": "cupones"
+    },
+    {
+      "operationId": "createCoupon",
+      "readOnly": false,
+      "omit": [
+        "charge_fee"
+      ],
+      "toolset": "cupones"
+    },
+    {
+      "operationId": "updateCoupon",
+      "readOnly": false,
+      "toolset": "cupones"
     }
   ]
 }

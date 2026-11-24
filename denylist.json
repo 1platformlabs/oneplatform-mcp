@@ -1,5 +1,5 @@
 {
-  "$comment": "Operations no tool may ever expose (D-9). The manifest test fails if it intersects this list, by operationId or by path. Covers: admin and platform surfaces, credentials, webhooks, and anything that charges balance, issues tax documents or moves money. writePathPrefixes deny every NON-GET operation under the prefix (withdrawals and domain registration move money); their reads stay allowed. Prospección (vertical-prospeccion D-24): el MCP lee objetivos, embudo y prospectos SIN datos de contacto y da de alta/importa prospectos; aprobar, enviar, marcar enviado, modo, traspaso, supresión, mensajes y cualquier lectura de contacto quedan fuera.",
+  "$comment": "Operations no tool may ever expose (D-9). The manifest test fails if it intersects this list, by operationId or by path. Covers: admin and platform surfaces, credentials, webhooks, and anything that charges balance, issues tax documents or moves money. writePathPrefixes deny every NON-GET operation under the prefix (withdrawals and domain registration move money); their reads stay allowed. Prospección (vertical-prospeccion D-24): el MCP lee objetivos, embudo y prospectos SIN datos de contacto y da de alta/importa prospectos; aprobar, enviar, marcar enviado, modo, traspaso, supresión, mensajes y cualquier lectura de contacto quedan fuera. Cupones (cupones-motor-core D-15): el MCP lista, consulta, exporta, crea y edita los cupones del espacio (incl. pausar/archivar por PATCH); el canje de saldo (/users/coupons), las rutas de máquina de tiendas (/integrations/coupons) y el protocolo de canje (/coupons/redemptions) quedan fuera. createCouponBatch exige Idempotency-Key y el MCP nunca envía esa cabecera; createMyStoreCoupon puede cobrar la tarifa de emisión de la tienda (saldo): ninguno de los dos se expone. Los cupones de una tienda propia se leen (listMyStoreCoupons, getMyStoreCoupon) pero no se modifican desde el MCP (updateMyStoreCoupon pausa, reanuda, archiva o edita un cupón vivo de la tienda: queda en el panel). Los adjuntos de los mensajes de Prospección (api#1390) siguen la regla de mensajes de D-24: fuera.",
   "pathPrefixes": [
     "/api/v1/admin",
     "/api/v1/platform",
@@ -8,7 +8,10 @@
     "/api/v1/webhooks",
     "/api/v1/users/balance/topups",
     "/api/v1/users/trades",
-    "/api/v1/ads"
+    "/api/v1/ads",
+    "/api/v1/users/coupons",
+    "/api/v1/integrations/coupons",
+    "/api/v1/coupons/redemptions"
   ],
   "operationIds": [
     "createInvoice",
@@ -38,7 +41,13 @@
     "discardProspectingMessage",
     "setProspectingGoalAgent",
     "createProspectingGoal",
-    "updateProspectingGoal"
+    "updateProspectingGoal",
+    "createCouponBatch",
+    "createMyStoreCoupon",
+    "updateMyStoreCoupon",
+    "uploadProspectingMessageAttachment",
+    "removeProspectingMessageAttachment",
+    "getProspectingMessageAttachment"
   ],
   "reviewedResponseKeys": {
     "$comment": "Response keys that match the sensitive pattern and were reviewed as NOT secret. Anything else matching must be in the tool's redact[] (T-22).",
