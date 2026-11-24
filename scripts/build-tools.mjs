@@ -72,7 +72,7 @@ export function sensitiveKeys(schema, out = new Set()) {
   return out;
 }
 
-export const TOOLSETS = ['cuenta', 'pagos', 'retiros', 'suscripciones', 'terminal', 'facturacion', 'envios', 'sitios', 'analitica', 'correo', 'dominios', 'telemetria', 'ventas', 'agentes', 'datos'];
+export const TOOLSETS = ['cuenta', 'pagos', 'retiros', 'suscripciones', 'terminal', 'facturacion', 'envios', 'sitios', 'analitica', 'correo', 'dominios', 'telemetria', 'ventas', 'agentes', 'agenda', 'redes', 'tareas', 'estudio', 'prospeccion', 'cupones', 'datos'];
 
 /**
  * POST operations that only READ (vertical-data VD-09). `queryData` takes its

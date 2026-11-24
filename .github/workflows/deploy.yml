@@ -3,6 +3,9 @@ name: Deploy hosted MCP
 # main → mcp-qa.1platform.pro, then mcp.1platform.pro (IPA-05). The npm package
 # is NOT published here (D-15).
 #
+# GitHub only publishes (the image is built on the host by remote-deploy.sh).
+# Typecheck, tools check, tests and docs freshness run locally (/local-checks).
+#
 # The deploy key can only run deploy/remote-deploy.sh on the host (forced
 # command): `<env> <sha>` or `<env> rollback`. Secrets live in the `PROD`
 # environment, restricted to `main`; this repository is public and pull
@@ -22,27 +25,6 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  test:
-    name: Typecheck, tools and tests
-    runs-on: ubuntu-24.04
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-      - run: npm ci --ignore-scripts
-      - run: npm run typecheck
-      - name: Fetch the OpenAPI
-        run: npm run fetch-openapi
-        env:
-          OPENAPI_FETCH_STRICT: "1"
-      - run: npm run check:tools
-      - run: npm test
-      - run: npm run build
-
   gate:
     name: Gate (MCP_DEPLOY_ENABLED)
     runs-on: ubuntu-24.04
@@ -63,7 +45,7 @@ jobs:
 
   deploy:
     name: Deploy ${{ matrix.env }}
-    needs: [test, gate]
+    needs: [gate]
     if: needs.gate.outputs.enabled == 'true' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     environment: PROD
