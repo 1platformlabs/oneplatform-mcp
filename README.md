@@ -24,7 +24,7 @@ claves, el servidor suma las de la API, agrupadas por vertical (*toolset*):
 | `telemetria` | Proyectos, errores, último evento, logs, rendimiento y uso; **marcar un error** como resuelto o ignorado |
 | `ventas` | Preparación, canales, ofertas, prospectos, tablero y reporte del embudo |
 | `agentes` | Agentes, catálogo, herramientas, presupuesto, ejecuciones y acciones pendientes; **detener** una ejecución |
-| `datos` | Catálogo de datos, consultas sobre sus propias copias (cobros, movimientos, embudo, facturas, ventas de sus tiendas) y lista de tableros (sólo lectura: el MCP no crea tableros ni envíos) |
+| `datos` | Catálogo de datos, consultas sobre sus propias copias (comercios, cobros, movimientos, embudo, facturas, ventas de sus tiendas) y lista de tableros (sólo lectura: el MCP no crea tableros ni envíos) |
 
 Por defecto se listan todos. Para un cliente que admite pocas herramientas, elija las verticales que usa:
 `ONEPLATFORM_TOOLSETS=pagos,envios` (local) o la cabecera `X-OnePlatform-Toolsets: pagos,envios` (alojado).
@@ -34,6 +34,13 @@ terceros, y el cliente pide confirmación antes de ejecutarlas. La lista exacta 
 [`tools.manifest.json`](tools.manifest.json) y lo que nunca puede exponerse, en [`denylist.json`](denylist.json):
 administración, credenciales, webhooks, cobros, emisión fiscal y movimientos de dinero. En retiros y dominios sólo se
 permiten lecturas.
+
+«Reenviar link» (`resendPaymentLink`, VD-30) está excluido explícitamente: envía un correo a un cliente y requiere
+la acción de una persona en el panel. El toolset `datos` conserva únicamente lecturas.
+La creación idempotente del tablero inicial (`initializeDataDashboard`) también está excluida;
+listar los tableros desde MCP no crea el tablero inicial ni su marca de siembra.
+`queryData.time_field` permite consultar por fecha de creación (`created_date`) o de pago (`paid_date`)
+cuando el catálogo del dataset lo admite; conserva `local_date` por defecto para los tableros existentes.
 
 ## Uso local (stdio)
 

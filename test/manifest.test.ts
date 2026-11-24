@@ -87,3 +87,41 @@ describe('T-22 redaction of sensitive response keys', () => {
     expect([...sensitiveKeys({type: 'object', properties: {data: {type: 'object', properties: {signing_secret: {type: 'string'}}}}})]).toEqual(['signing_secret']);
   });
 });
+
+
+describe('VD-30 resend remains a human-only customer communication', () => {
+  it('rejects a resendPaymentLink manifest entry even when the API exposes it', () => {
+    const spec = {paths: {'/api/v1/payment-links/{link_id}/resend': {
+      post: {operationId: 'resendPaymentLink', responses: {'202': {description: 'Accepted'}}},
+    }}};
+    const attempted = {tools: [{operationId: 'resendPaymentLink', readOnly: false, toolset: 'pagos'}]};
+    expect(buildTools(spec, attempted, denylist).errors)
+      .toContain('resendPaymentLink: in the denylist (operationId resendPaymentLink)');
+    expect(manifest.tools.some((tool: {operationId: string}) => tool.operationId === 'resendPaymentLink')).toBe(false);
+  });
+
+  it('keeps every datos operation read-only', () => {
+    const dataTools = manifest.tools.filter((tool: {toolset: string}) => tool.toolset === 'datos');
+    expect(dataTools.length).toBeGreaterThan(0);
+    expect(dataTools.every((tool: {readOnly: boolean}) => tool.readOnly)).toBe(true);
+  });
+
+  it('denies starter initialization while keeping the dashboard listing read-only', () => {
+    const spec = {paths: {'/api/v1/data/dashboards/initialize': {
+      post: {operationId: 'initializeDataDashboard', responses: {'200': {description: 'Initialized'}}},
+    }}};
+    expect(buildTools(spec, {tools: [{operationId: 'initializeDataDashboard', readOnly: false, toolset: 'datos'}]}, denylist).errors)
+      .toContain('initializeDataDashboard: in the denylist (operationId initializeDataDashboard)');
+    expect(API_TOOLS.find((tool) => tool.name === 'listDataDashboards')?.readOnly).toBe(true);
+  });
+
+  it('exposes merchant data and creation cohorts through the bounded query tool', () => {
+    const query = API_TOOLS.find((tool) => tool.name === 'queryData')!;
+    expect(query.inputSchema.properties.dataset).toMatchObject({enum: expect.arrayContaining(['merchants'])});
+    expect(query.inputSchema.properties.time_field).toMatchObject({
+      enum: ['local_date', 'created_date', 'paid_date'], default: 'local_date',
+    });
+    expect(query.bodyParams).toContain('time_field');
+    expect(query.readOnly).toBe(true);
+  });
+});

@@ -1,5 +1,5 @@
 {
-  "$comment": "Operations no tool may ever expose (D-9). The manifest test fails if it intersects this list, by operationId or by path. Covers: admin and platform surfaces, credentials, webhooks, and anything that charges balance, issues tax documents or moves money. writePathPrefixes deny every NON-GET operation under the prefix (withdrawals and domain registration move money); their reads stay allowed.",
+  "$comment": "Operations no tool may ever expose (D-9). The manifest test fails if it intersects this list, by operationId or by path. Covers: admin and platform surfaces, credentials, webhooks, and anything that charges balance, issues tax documents or moves money. writePathPrefixes deny every NON-GET operation under the prefix (withdrawals and domain registration move money); their reads stay allowed. VD-30: resendPaymentLink emails a customer and remains a human action in the dashboard; Data tools stay read-only; initializeDataDashboard is an explicit UI write, never a side effect of the MCP listing.",
   "pathPrefixes": [
     "/api/v1/admin",
     "/api/v1/platform",
@@ -20,7 +20,9 @@
     "getWebhookConfig",
     "listWebhookDeliveries",
     "getWebhookDelivery",
-    "retryWebhookDelivery"
+    "retryWebhookDelivery",
+    "resendPaymentLink",
+    "initializeDataDashboard"
   ],
   "reviewedResponseKeys": {
     "$comment": "Response keys that match the sensitive pattern and were reviewed as NOT secret. Anything else matching must be in the tool's redact[] (T-22).",
