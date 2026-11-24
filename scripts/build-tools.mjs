@@ -72,7 +72,7 @@ export function sensitiveKeys(schema, out = new Set()) {
   return out;
 }
 
-export const TOOLSETS = ['cuenta', 'pagos', 'retiros', 'suscripciones', 'terminal', 'facturacion', 'envios', 'sitios', 'analitica', 'correo', 'dominios', 'telemetria', 'ventas', 'agentes', 'agenda', 'redes', 'tareas', 'estudio', 'prospeccion'];
+export const TOOLSETS = ['cuenta', 'pagos', 'retiros', 'suscripciones', 'terminal', 'facturacion', 'envios', 'sitios', 'analitica', 'correo', 'dominios', 'telemetria', 'ventas', 'agentes', 'agenda', 'redes', 'tareas', 'estudio', 'prospeccion', 'cupones'];
 
 const under = (path, prefix) => path === prefix || path.startsWith(`${prefix}/`);
 

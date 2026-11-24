@@ -56,12 +56,25 @@ describe('denylist por método (retiros y dominios: se leen, no se escriben)', (
     expect(API_TOOLS.filter((t) => !t.readOnly).map((t) => t.name).sort()).toEqual([
       'archiveSubscriptionPlan', 'assignTask', 'bookAppointment', 'cancelAppointment', 'cancelMerchantSubscription',
       'cancelPaymentLink', 'cancelSocialPost', 'cancelTerminalRequest', 'completeAppointment', 'createBookingLink',
-      'createCustomer', 'createMyIntakeLink', 'createPaymentLink', 'createProspectingProspect', 'createSocialPost', 'createSubscriptionInvitation',
+      'createCoupon', 'createCustomer', 'createMyIntakeLink', 'createPaymentLink', 'createProspectingProspect', 'createSocialPost', 'createSubscriptionInvitation',
       'createSubscriptionPlan', 'createSubtask', 'createTask', 'createTerminalRequest', 'importProspectingProspects', 'publishSubscriptionPlan',
       'reassignAppointment', 'rescheduleAppointment', 'rescheduleSocialPost', 'stopAgentRun', 'submitSocialPost',
-      'updateCustomer', 'updateSocialPost', 'updateSubscriptionPlan', 'updateSubtaskStatus', 'updateTask',
+      'updateCoupon', 'updateCustomer', 'updateSocialPost', 'updateSubscriptionPlan', 'updateSubtaskStatus', 'updateTask',
       'updateTelemetryIssue', 'updateTerminalRequest',
     ]);
+  });
+  it('cupones: las rutas de máquina, el canje de saldo y el protocolo de canje están en la denylist', () => {
+    expect(deniedBy(denylist, 'redeemBalanceCoupon', '/api/v1/users/coupons/redeem', 'POST')).toMatch(/path prefix/);
+    expect(deniedBy(denylist, 'reserveStoreCoupon', '/api/v1/integrations/coupons/stores/{slug}/redemptions', 'POST')).toMatch(/path prefix/);
+    expect(deniedBy(denylist, 'reserveCoupon', '/api/v1/coupons/redemptions', 'POST')).toMatch(/path prefix/);
+    expect(deniedBy(denylist, 'confirmCouponRedemption', '/api/v1/coupons/redemptions/{redemption_id}/confirm', 'POST')).toMatch(/path prefix/);
+    expect(deniedBy(denylist, 'createPlatformCoupon', '/api/v1/platform/coupons', 'POST')).toMatch(/path prefix/);
+    expect(deniedBy(denylist, 'createCouponBatch', '/api/v1/coupons/batches', 'POST')).toMatch(/operationId/);
+    expect(deniedBy(denylist, 'listCoupons', '/api/v1/coupons', 'GET')).toBeUndefined();
+  });
+  it('cupones: ni charge_fee ni cabeceras llegan al modelo', () => {
+    for (const t of API_TOOLS.filter((x) => x.toolset === 'cupones')) expect(Object.keys(t.inputSchema.properties)).not.toContain('charge_fee');
+    expect(API_TOOLS.filter((x) => x.toolset === 'cupones').map((x) => x.name).sort()).toEqual(['createCoupon', 'exportCouponBatch', 'getCoupon', 'listCoupons', 'listMyCouponStores', 'listMyStoreCoupons', 'updateCoupon']);
   });
   it('los enlaces de agenda no pueden revocar el enlace vigente (rotate fuera del esquema)', () => {
     for (const name of ['createBookingLink', 'createMyIntakeLink']) {
@@ -75,6 +88,7 @@ describe('denylist por método (retiros y dominios: se leen, no se escriben)', (
     const names = new Set(API_TOOLS.map((t) => t.name));
     for (const excluded of ['publishSocialPostNow', 'approveSocialPost', 'replySocialComment', 'resolveSocialTarget', 'reassignSocialTargetPayer',
       'deleteSocialPost', 'createStudioOrder', 'payStudioDebt', 'createStudioPresenter', 'deleteStudioPresenter', 'submitTerminalRequest',
+      'createCouponBatch', 'createMyStoreCoupon', 'redeemBalanceCoupon', 'reserveCoupon', 'validateCoupon', 'confirmCouponRedemption', 'releaseCouponRedemption',
       'deleteTask', 'deleteTaskAttachment', 'quoteCashOutPayout', 'requestCashOutPayout']) {
       expect(names.has(excluded)).toBe(false);
     }

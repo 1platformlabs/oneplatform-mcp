@@ -7710,5 +7710,716 @@ export const API_TOOLS: ApiTool[] = [
       ],
       "additionalProperties": false
     }
+  },
+  {
+    "name": "listCoupons",
+    "method": "GET",
+    "path": "/api/v1/coupons",
+    "readOnly": true,
+    "toolset": "cupones",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "status",
+      "batch",
+      "q",
+      "cursor",
+      "limit"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List my coupons\n\nNewest first, by cursor.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^(active|paused|archived)$"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Only coupons in this state"
+        },
+        "batch": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 64
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Only coupons of this batch"
+        },
+        "q": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 32
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Codes that start with this text"
+        },
+        "cursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 64
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "`next_cursor` of the previous page"
+        },
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Page size (max 100)",
+          "default": 20
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getCoupon",
+    "method": "GET",
+    "path": "/api/v1/coupons/{coupon_id}",
+    "readOnly": true,
+    "toolset": "cupones",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "coupon_id"
+    ],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "One of my coupons\n\nA coupon of another issuer answers 404.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "coupon_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "Coupon id"
+        }
+      },
+      "required": [
+        "coupon_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "exportCouponBatch",
+    "method": "GET",
+    "path": "/api/v1/coupons/export",
+    "readOnly": true,
+    "toolset": "cupones",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "batch"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Export a batch as CSV\n\nOne row per code (at most 500): code, value, currency, type, window, status, confirmed uses.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "batch": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "Batch id"
+        }
+      },
+      "required": [
+        "batch"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listMyCouponStores",
+    "method": "GET",
+    "path": "/api/v1/coupons/stores",
+    "readOnly": true,
+    "toolset": "cupones",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "My stores in the coupon engine\n\nYour live store sites whose store is registered in the coupon engine.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listMyStoreCoupons",
+    "method": "GET",
+    "path": "/api/v1/coupons/stores/{slug}",
+    "readOnly": true,
+    "toolset": "cupones",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "slug"
+    ],
+    "queryParams": [
+      "status",
+      "batch",
+      "q",
+      "cursor",
+      "limit"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Coupons of one of my stores\n\nNewest first, by cursor.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "slug": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "Store slug"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^(active|paused|archived)$"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Only coupons in this state"
+        },
+        "batch": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 64
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Only coupons of this batch"
+        },
+        "q": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 32
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Codes that start with this text"
+        },
+        "cursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 64
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "`next_cursor` of the previous page"
+        },
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Page size (max 100)",
+          "default": 20
+        }
+      },
+      "required": [
+        "slug"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "createCoupon",
+    "method": "POST",
+    "path": "/api/v1/coupons",
+    "readOnly": false,
+    "toolset": "cupones",
+    "omit": [
+      "charge_fee"
+    ],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [],
+    "bodyParams": [
+      "label",
+      "recipient_name",
+      "gift_message",
+      "recipient_email",
+      "gift_locale",
+      "price_cents",
+      "code",
+      "type",
+      "value_minor",
+      "currency",
+      "min_subtotal_minor",
+      "max_uses",
+      "max_uses_per_customer",
+      "starts_at",
+      "ends_at",
+      "combinable_with_sales"
+    ],
+    "pathPatterns": {},
+    "description": "Create a coupon\n\nPercentage or fixed amount, with an optional window and use limits. Omit `code` to have one generated.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 120
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Internal label"
+        },
+        "recipient_name": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 120
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Gift: who receives it"
+        },
+        "gift_message": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 500
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Gift: message (no links)"
+        },
+        "recipient_email": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "email"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Gift: recipient's email"
+        },
+        "gift_locale": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "es",
+                "en"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Gift: language of the message"
+        },
+        "price_cents": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "maximum": 100000000,
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Gift: sale price in cents"
+        },
+        "code": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 64
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "6-32 of A-Z0-9 once normalised (upper case, spaces and dashes removed). Omit it to have a 12-character code generated"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "percentage",
+            "fixed_amount"
+          ],
+          "description": "percentage or fixed_amount"
+        },
+        "value_minor": {
+          "type": "integer",
+          "maximum": 100000000,
+          "minimum": 1,
+          "description": "Percent (1-100) or amount in minor units"
+        },
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "ISO 4217. Required in a space; a store defaults to the store's currency"
+        },
+        "min_subtotal_minor": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "maximum": 100000000,
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Minimum subtotal to apply it"
+        },
+        "max_uses": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "maximum": 1000000,
+              "minimum": 1
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "1 = single use; null = open"
+        },
+        "max_uses_per_customer": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "maximum": 1000000,
+              "minimum": 1
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Uses per customer"
+        },
+        "starts_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "When it starts to apply"
+        },
+        "ends_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "When it stops applying"
+        },
+        "combinable_with_sales": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Omitted: true for fixed_amount, false for percentage (the storefront's rule)"
+        }
+      },
+      "required": [
+        "type",
+        "value_minor"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "updateCoupon",
+    "method": "PATCH",
+    "path": "/api/v1/coupons/{coupon_id}",
+    "readOnly": false,
+    "toolset": "cupones",
+    "omit": [],
+    "redact": [],
+    "pathParams": [
+      "coupon_id"
+    ],
+    "queryParams": [],
+    "bodyParams": [
+      "label",
+      "recipient_name",
+      "gift_message",
+      "recipient_email",
+      "gift_locale",
+      "price_cents",
+      "value_minor",
+      "starts_at",
+      "ends_at",
+      "min_subtotal_minor",
+      "max_uses",
+      "max_uses_per_customer",
+      "combinable_with_sales",
+      "status"
+    ],
+    "pathPatterns": {},
+    "description": "Edit one of my coupons\n\nAbsent fields are untouched. Whether it is single-use, and whether it has a cap, never change; an existing cap of 2 or more may only go up; archived is final.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "coupon_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "Coupon id"
+        },
+        "label": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 120
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Internal label"
+        },
+        "recipient_name": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 120
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Gift: who receives it"
+        },
+        "gift_message": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 500
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Gift: message (no links)"
+        },
+        "recipient_email": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "email"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Gift: recipient's email"
+        },
+        "gift_locale": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "es",
+                "en"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Gift: language of the message"
+        },
+        "price_cents": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "maximum": 100000000,
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Gift: sale price in cents"
+        },
+        "value_minor": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "maximum": 100000000,
+              "minimum": 1
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "New value"
+        },
+        "starts_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "New start"
+        },
+        "ends_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "New end"
+        },
+        "min_subtotal_minor": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "maximum": 100000000,
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "New minimum subtotal"
+        },
+        "max_uses": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "maximum": 1000000,
+              "minimum": 1
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "A cap of 2 or more may only go up"
+        },
+        "max_uses_per_customer": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "maximum": 1000000,
+              "minimum": 1
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Cannot be added or removed"
+        },
+        "combinable_with_sales": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Whether it applies during a sale"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "active",
+                "paused",
+                "archived"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "active, paused or archived (final)"
+        }
+      },
+      "required": [
+        "coupon_id"
+      ],
+      "additionalProperties": false
+    }
   }
 ];
