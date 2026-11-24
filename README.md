@@ -35,7 +35,7 @@ terceros, y el cliente pide confirmación antes de ejecutarlas. La lista exacta 
 administración, credenciales, webhooks, cobros, emisión fiscal y movimientos de dinero. En retiros y dominios sólo se
 permiten lecturas.
 
-«Reenviar link» (`resendPaymentLink`, VD-30) está excluido explícitamente: envía un correo a un cliente y requiere
+«Reenviar link» (`sendPaymentLinkAgain`, VD-30) está excluido explícitamente: envía un correo a un cliente y requiere
 la acción de una persona en el panel. El toolset `datos` conserva únicamente lecturas.
 La creación idempotente del tablero inicial (`initializeDataDashboard`) también está excluida;
 listar los tableros desde MCP no crea el tablero inicial ni su marca de siembra.

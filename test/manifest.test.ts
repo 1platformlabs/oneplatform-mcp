@@ -90,14 +90,14 @@ describe('T-22 redaction of sensitive response keys', () => {
 
 
 describe('VD-30 resend remains a human-only customer communication', () => {
-  it('rejects a resendPaymentLink manifest entry even when the API exposes it', () => {
-    const spec = {paths: {'/api/v1/payment-links/{link_id}/resend': {
-      post: {operationId: 'resendPaymentLink', responses: {'202': {description: 'Accepted'}}},
+  it('rejects a sendPaymentLinkAgain manifest entry even when the API exposes it', () => {
+    const spec = {paths: {'/api/v1/payment-links/{link_id}/send-again': {
+      post: {operationId: 'sendPaymentLinkAgain', responses: {'202': {description: 'Accepted'}}},
     }}};
-    const attempted = {tools: [{operationId: 'resendPaymentLink', readOnly: false, toolset: 'pagos'}]};
+    const attempted = {tools: [{operationId: 'sendPaymentLinkAgain', readOnly: false, toolset: 'pagos'}]};
     expect(buildTools(spec, attempted, denylist).errors)
-      .toContain('resendPaymentLink: in the denylist (operationId resendPaymentLink)');
-    expect(manifest.tools.some((tool: {operationId: string}) => tool.operationId === 'resendPaymentLink')).toBe(false);
+      .toContain('sendPaymentLinkAgain: in the denylist (operationId sendPaymentLinkAgain)');
+    expect(manifest.tools.some((tool: {operationId: string}) => tool.operationId === 'sendPaymentLinkAgain')).toBe(false);
   });
 
   it('keeps every datos operation read-only', () => {
