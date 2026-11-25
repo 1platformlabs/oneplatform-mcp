@@ -2558,14 +2558,14 @@ export const API_TOOLS: ApiTool[] = [
           "type": "integer",
           "maximum": 100,
           "minimum": 1,
-          "description": "Proyectos por página.",
+          "description": "Projects per page.",
           "default": 20
         },
         "skip": {
           "type": "integer",
           "maximum": 10000,
           "minimum": 0,
-          "description": "Proyectos a saltear.",
+          "description": "Projects to skip.",
           "default": 0
         },
         "website_id": {
@@ -2578,7 +2578,7 @@ export const API_TOOLS: ApiTool[] = [
               "type": "null"
             }
           ],
-          "description": "Sólo el proyecto vinculado a este sitio del llamador."
+          "description": "Only the project linked to this site of the caller."
         }
       },
       "required": [],
@@ -2679,7 +2679,7 @@ export const API_TOOLS: ApiTool[] = [
               "type": "null"
             }
           ],
-          "description": "Texto a buscar en el título del issue."
+          "description": "Text to search for in the issue title."
         },
         "cursor": {
           "anyOf": [
@@ -2691,13 +2691,13 @@ export const API_TOOLS: ApiTool[] = [
               "type": "null"
             }
           ],
-          "description": "Cursor opaco de la página anterior. Se manda tal cual vino en `next_cursor`."
+          "description": "Opaque cursor from the previous page. Send it exactly as it came in `next_cursor`."
         },
         "limit": {
           "type": "integer",
           "maximum": 100,
           "minimum": 1,
-          "description": "Issues por página.",
+          "description": "Issues per page.",
           "default": 20
         }
       },
@@ -2763,7 +2763,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Structured logs in a window\n\nRegistros estructurados del proyecto, del más reciente al más viejo.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "Structured logs in a window\n\nThe project's structured logs, newest first.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2775,7 +2775,7 @@ export const API_TOOLS: ApiTool[] = [
           "type": "integer",
           "maximum": 6,
           "minimum": 1,
-          "description": "Días hacia atrás desde ahora. El máximo es más chico que el de rendimiento porque los registros son la consulta que puede caer al frío.",
+          "description": "Days back from now. The maximum is smaller than for performance because logs are the query that can fall through to cold storage.",
           "default": 1
         },
         "level": {
@@ -2788,7 +2788,7 @@ export const API_TOOLS: ApiTool[] = [
               "type": "null"
             }
           ],
-          "description": "Nivel exacto a filtrar: `debug`, `info`, `warning`, `error` o `fatal`."
+          "description": "Exact level to filter by: `debug`, `info`, `warning`, `error` or `fatal`."
         },
         "q": {
           "anyOf": [
@@ -2800,7 +2800,7 @@ export const API_TOOLS: ApiTool[] = [
               "type": "null"
             }
           ],
-          "description": "Texto a buscar en el cuerpo del registro."
+          "description": "Text to search for in the log body."
         },
         "cursor": {
           "anyOf": [
@@ -2812,13 +2812,13 @@ export const API_TOOLS: ApiTool[] = [
               "type": "null"
             }
           ],
-          "description": "Cursor opaco de la página anterior. Se manda tal cual vino en `next_cursor`."
+          "description": "Opaque cursor from the previous page. Send it exactly as it came in `next_cursor`."
         },
         "limit": {
           "type": "integer",
           "maximum": 100,
           "minimum": 1,
-          "description": "Registros por página.",
+          "description": "Logs per page.",
           "default": 20
         }
       },
@@ -2847,7 +2847,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Slowest transactions in a window\n\nGrupos de transacción del proyecto, del más lento al más rápido.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "Slowest transactions in a window\n\nThe project's transaction groups, slowest first.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2859,7 +2859,7 @@ export const API_TOOLS: ApiTool[] = [
           "type": "integer",
           "maximum": 30,
           "minimum": 1,
-          "description": "Días hacia atrás desde ahora. El máximo es el que el motor garantiza en caliente.",
+          "description": "Days back from now. The maximum is what the engine guarantees in hot storage.",
           "default": 7
         },
         "q": {
@@ -2872,7 +2872,7 @@ export const API_TOOLS: ApiTool[] = [
               "type": "null"
             }
           ],
-          "description": "Texto a buscar en el nombre de la transacción."
+          "description": "Text to search for in the transaction name."
         },
         "cursor": {
           "anyOf": [
@@ -2884,13 +2884,13 @@ export const API_TOOLS: ApiTool[] = [
               "type": "null"
             }
           ],
-          "description": "Cursor opaco de la página anterior. Se manda tal cual vino en `next_cursor`."
+          "description": "Opaque cursor from the previous page. Send it exactly as it came in `next_cursor`."
         },
         "limit": {
           "type": "integer",
           "maximum": 100,
           "minimum": 1,
-          "description": "Transacciones por página.",
+          "description": "Transactions per page.",
           "default": 20
         }
       },
