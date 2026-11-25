@@ -22,14 +22,14 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/profile",
     "readOnly": true,
-    "toolset": "cuenta",
+    "toolset": "account",
     "omit": [],
     "redact": [],
     "pathParams": [],
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get current user profile\n\nRetrieve the authenticated user's profile information.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get current user profile\n\nRetrieve the authenticated user's profile information.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {},
@@ -42,7 +42,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/balance-history",
     "readOnly": true,
-    "toolset": "cuenta",
+    "toolset": "account",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -55,7 +55,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get Balance History\n\nRetrieve the authenticated user's balance movements — credits and service charges — newest first.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get Balance History\n\nRetrieve the authenticated user's balance movements — credits and service charges — newest first.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -116,7 +116,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/consumption/summary",
     "readOnly": true,
-    "toolset": "cuenta",
+    "toolset": "account",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -126,7 +126,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get Consumption Summary\n\nRetrieve consumption summary grouped by operation type.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get Consumption Summary\n\nRetrieve consumption summary grouped by operation type.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -164,7 +164,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/businesses",
     "readOnly": true,
-    "toolset": "cuenta",
+    "toolset": "account",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -173,7 +173,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List Businesses for current user\n\nReturn every business the authenticated user has access to via branch assignments.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List Businesses for current user\n\nReturn every business the authenticated user has access to via branch assignments.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -192,7 +192,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/businesses/{businessId}",
     "readOnly": true,
-    "toolset": "cuenta",
+    "toolset": "account",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -201,7 +201,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get Business\n\nRetrieve details of a specific business.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get Business\n\nRetrieve details of a specific business.\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -221,7 +221,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/businesses/{businessId}/payment-links",
     "readOnly": true,
-    "toolset": "pagos",
+    "toolset": "payments",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -234,7 +234,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List payment links\n\nList a business's payment links (paginated, newest first).\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List payment links\n\nList a business's payment links (paginated, newest first).\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -278,7 +278,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/businesses/{businessId}/payment-links/{linkId}",
     "readOnly": true,
-    "toolset": "pagos",
+    "toolset": "payments",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -288,7 +288,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get a payment link\n\nGet one payment link by id.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get a payment link\n\nGet one payment link by id.\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -313,7 +313,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/transactions",
     "readOnly": true,
-    "toolset": "pagos",
+    "toolset": "payments",
     "omit": [],
     "redact": [
       "bank_authorization"
@@ -325,7 +325,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List Payment Transactions\n\nRetrieve paginated transaction history for the authenticated user.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List Payment Transactions\n\nRetrieve paginated transaction history for the authenticated user.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -352,7 +352,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/transactions/{transaction_id}",
     "readOnly": true,
-    "toolset": "pagos",
+    "toolset": "payments",
     "omit": [],
     "redact": [
       "bank_authorization"
@@ -363,7 +363,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get Transaction by ID\n\nRetrieve a single transaction owned by the authenticated user.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get Transaction by ID\n\nRetrieve a single transaction owned by the authenticated user.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -383,7 +383,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/businesses/{businessId}/invoices",
     "readOnly": true,
-    "toolset": "facturacion",
+    "toolset": "invoicing",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -400,7 +400,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List Invoices\n\nRetrieve a paginated list of invoices for a business.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List Invoices\n\nRetrieve a paginated list of invoices for a business.\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -476,7 +476,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/businesses/{businessId}/invoices/{invoiceId}",
     "readOnly": true,
-    "toolset": "facturacion",
+    "toolset": "invoicing",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -486,7 +486,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get Invoice\n\nRetrieve full details of a specific invoice.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get Invoice\n\nRetrieve full details of a specific invoice.\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -511,7 +511,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/businesses/{businessId}/deliveries",
     "readOnly": true,
-    "toolset": "envios",
+    "toolset": "shipping",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -524,7 +524,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List deliveries\n\nShipments of a business, newest first. `status=active` is the operational day view (everything not yet terminal).\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List deliveries\n\nShipments of a business, newest first. `status=active` is the operational day view (everything not yet terminal).\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -578,7 +578,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/businesses/{businessId}/deliveries/{deliveryId}",
     "readOnly": true,
-    "toolset": "envios",
+    "toolset": "shipping",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -588,7 +588,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get a delivery\n\nOne shipment with its status timeline. Reading NEVER writes: an expired quote is reported via `quote_expired` without mutating the stored document.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get a delivery\n\nOne shipment with its status timeline. Reading NEVER writes: an expired quote is reported via `quote_expired` without mutating the stored document.\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -613,7 +613,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/websites/mine",
     "readOnly": true,
-    "toolset": "sitios",
+    "toolset": "sites",
     "omit": [],
     "redact": [
       "token",
@@ -627,7 +627,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List my websites\n\nPaginated list of the websites registered by the authenticated user.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List my websites\n\nPaginated list of the websites registered by the authenticated user.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -655,7 +655,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/websites/{website_id}",
     "readOnly": true,
-    "toolset": "sitios",
+    "toolset": "sites",
     "omit": [],
     "redact": [
       "token",
@@ -668,7 +668,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get website by ID\n\nRetrieve details of a specific website by its ID.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get website by ID\n\nRetrieve details of a specific website by its ID.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -688,7 +688,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/notifications",
     "readOnly": true,
-    "toolset": "cuenta",
+    "toolset": "account",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -700,7 +700,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List notifications for the authenticated user\n\nLists in-app notifications targeted at the authenticated user (direct + broadcasts). Supports pagination via `skip`/`limit`, an `unread_only` filter, and a `category` filter (`billing`, `system` or `team`) backing the inbox tabs.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List notifications for the authenticated user\n\nLists in-app notifications targeted at the authenticated user (direct + broadcasts). Supports pagination via `skip`/`limit`, an `unread_only` filter, and a `category` filter (`billing`, `system` or `team`) backing the inbox tabs.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -748,7 +748,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/businesses/{businessId}/payment-links",
     "readOnly": false,
-    "toolset": "pagos",
+    "toolset": "payments",
     "omit": [
       "customer_email"
     ],
@@ -767,7 +767,7 @@ export const API_TOOLS: ApiTool[] = [
       "metadata"
     ],
     "pathPatterns": {},
-    "description": "Create a payment link\n\nEmit a payment link for a business to charge an external customer.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Create a payment link\n\nEmit a payment link for a business to charge an external customer.\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -859,7 +859,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/businesses/{businessId}/payment-links/{linkId}/cancel",
     "readOnly": false,
-    "toolset": "pagos",
+    "toolset": "payments",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -869,7 +869,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Cancel a payment link\n\nCancel an active payment link (active → cancelled); its URL stops allowing payment.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Cancel a payment link\n\nCancel an active payment link (active → cancelled); its URL stops allowing payment.\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -894,14 +894,14 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/cash-out/summary",
     "readOnly": true,
-    "toolset": "retiros",
+    "toolset": "payouts",
     "omit": [],
     "redact": [],
     "pathParams": [],
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Cash Out Summary\n\nWithdrawable balance per currency, the effective payout period, and whether a default payout method is ready to receive money. Repairs a pending ledger entry before reading, so a balance is never shown one movement behind. `writes_require_sign_in` says whether this session can change anything here: when it is true every write answers 403 `CASH_OUT_SESSION_REQUIRED` until the merchant signs in again.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Cash Out Summary\n\nWithdrawable balance per currency, the effective payout period, and whether a default payout method is ready to receive money. Repairs a pending ledger entry before reading, so a balance is never shown one movement behind. `writes_require_sign_in` says whether this session can change anything here: when it is true every write answers 403 `CASH_OUT_SESSION_REQUIRED` until the merchant signs in again.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {},
@@ -914,7 +914,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/cash-out/movements",
     "readOnly": true,
-    "toolset": "retiros",
+    "toolset": "payouts",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -925,7 +925,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Withdrawable Balance Statement\n\nEvery movement of the withdrawable balance, newest first. Each line carries the balance AFTER it, so a statement reads without replaying the whole book.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Withdrawable Balance Statement\n\nEvery movement of the withdrawable balance, newest first. Each line carries the balance AFTER it, so a statement reads without replaying the whole book.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -965,7 +965,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/cash-out/payouts",
     "readOnly": true,
-    "toolset": "retiros",
+    "toolset": "payouts",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -976,7 +976,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List Payouts\n\nThe merchant's own payouts, newest first. Selected by owner and NOT by workspace, so a merchant who moves to another workspace keeps seeing every payout they ever asked for.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List Payouts\n\nThe merchant's own payouts, newest first. Selected by owner and NOT by workspace, so a merchant who moves to another workspace keeps seeing every payout they ever asked for.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1014,7 +1014,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/cash-out/reclassifiable",
     "readOnly": true,
-    "toolset": "retiros",
+    "toolset": "payouts",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -1024,7 +1024,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Collections That Stayed As Platform Credit\n\nPayment-link collections of this merchant's clients that were credited as platform credit instead of the withdrawable balance, newest first, with the date from which each can be moved (`available_at` = `credited_at` plus the workspace's wait). Top-ups never appear. `resumable` marks a move that stopped half-way: repeating it finishes it. The same rows `frozen_collections` of the summary counts. Never asks the gateway.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Collections That Stayed As Platform Credit\n\nPayment-link collections of this merchant's clients that were credited as platform credit instead of the withdrawable balance, newest first, with the date from which each can be moved (`available_at` = `credited_at` plus the workspace's wait). Top-ups never appear. `resumable` marks a move that stopped half-way: repeating it finishes it. The same rows `frozen_collections` of the summary counts. Never asks the gateway.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1051,7 +1051,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/businesses/{businessId}/subscription-plans",
     "readOnly": true,
-    "toolset": "suscripciones",
+    "toolset": "subscriptions",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -1065,7 +1065,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List subscription plans\n\nList a business's subscription plans (paginated, newest first).\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List subscription plans\n\nList a business's subscription plans (paginated, newest first).\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1114,7 +1114,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/businesses/{businessId}/subscription-plans/{planId}",
     "readOnly": true,
-    "toolset": "suscripciones",
+    "toolset": "subscriptions",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -1124,7 +1124,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get a subscription plan\n\nGet one subscription plan by id.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get a subscription plan\n\nGet one subscription plan by id.\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1149,7 +1149,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/businesses/{businessId}/subscriptions",
     "readOnly": true,
-    "toolset": "suscripciones",
+    "toolset": "subscriptions",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -1164,7 +1164,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List subscriptions\n\nList a business's sold subscriptions (paginated, newest first).\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List subscriptions\n\nList a business's sold subscriptions (paginated, newest first).\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1230,7 +1230,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/businesses/{businessId}/subscriptions/{subscriptionId}",
     "readOnly": true,
-    "toolset": "suscripciones",
+    "toolset": "subscriptions",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -1240,7 +1240,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get a subscription\n\nGet one subscription with its charge history.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get a subscription\n\nGet one subscription with its charge history.\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1265,7 +1265,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/businesses/{businessId}/customers",
     "readOnly": true,
-    "toolset": "suscripciones",
+    "toolset": "subscriptions",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -1278,7 +1278,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List customers\n\nList a business's customers (paginated, newest first).\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List customers\n\nList a business's customers (paginated, newest first).\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1323,7 +1323,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/businesses/{businessId}/customers/{customerId}",
     "readOnly": true,
-    "toolset": "suscripciones",
+    "toolset": "subscriptions",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -1333,7 +1333,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get a customer\n\nGet one customer by id.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get a customer\n\nGet one customer by id.\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1370,7 +1370,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List a business's terminal requests\n\nA business's applications, newest first, paginated.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List a business's terminal requests\n\nA business's applications, newest first, paginated.\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1413,7 +1413,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get one terminal request\n\nOne application, including what is still missing before it can be sent.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get one terminal request\n\nOne application, including what is still missing before it can be sent.\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1438,14 +1438,14 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/posts",
     "readOnly": true,
-    "toolset": "sitios",
+    "toolset": "sites",
     "omit": [],
     "redact": [],
     "pathParams": [],
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List Generated Articles\n\nList the authenticated user's generated articles — i.e. completed content-generation jobs — newest first. Powers the dashboard 'articles published' KPI, which buckets `created_at` by month.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List Generated Articles\n\nList the authenticated user's generated articles — i.e. completed content-generation jobs — newest first. Powers the dashboard 'articles published' KPI, which buckets `created_at` by month.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {},
@@ -1458,7 +1458,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/posts/content/jobs/{job_id}",
     "readOnly": true,
-    "toolset": "sitios",
+    "toolset": "sites",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -1467,7 +1467,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get Content Generation Job\n\nPoll the status of an async content generation job. Returns one of `pending`, `processing`, `completed`, or `failed` along with the full result on success.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get Content Generation Job\n\nPoll the status of an async content generation job. Returns one of `pending`, `processing`, `completed`, or `failed` along with the full result on success.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1487,7 +1487,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/categories",
     "readOnly": true,
-    "toolset": "sitios",
+    "toolset": "sites",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -1496,7 +1496,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List available categories\n\nRetrieve available website categories for content classification.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List available categories\n\nRetrieve available website categories for content classification.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1515,7 +1515,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/websites/{website_id}/searchconsole/performance",
     "readOnly": true,
-    "toolset": "sitios",
+    "toolset": "sites",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -1526,7 +1526,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get Search Console performance for a website\n\nRetrieve a Search Console performance report for a verified website: 4 KPIs (clicks, impressions, CTR, average position) with a delta vs. the immediately preceding period of equal length, a daily trend, and the first 25 queries/pages/countries by clicks.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get Search Console performance for a website\n\nRetrieve a Search Console performance report for a verified website: 4 KPIs (clicks, impressions, CTR, average position) with a delta vs. the immediately preceding period of equal length, a daily trend, and the first 25 queries/pages/countries by clicks.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1556,7 +1556,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/analytics/status",
     "readOnly": true,
-    "toolset": "analitica",
+    "toolset": "analytics",
     "omit": [],
     "redact": [
       "mp_secret_id",
@@ -1568,7 +1568,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get Analytics Status\n\nRetrieve the current analytics provisioning status for a website. Returns property details, connection state, and any error messages. Requires both app and user tokens. Rate limit: 120/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get Analytics Status\n\nRetrieve the current analytics provisioning status for a website. Returns property details, connection state, and any error messages. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1588,7 +1588,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/analytics/overview",
     "readOnly": true,
-    "toolset": "analitica",
+    "toolset": "analytics",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -1599,7 +1599,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get Site Overview Metrics\n\nRetrieve aggregated site metrics including sessions, users, pageviews, bounce rate, and top pages/sources for a given period with optional comparison. Requires both app and user tokens. Rate limit: 80/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get Site Overview Metrics\n\nRetrieve aggregated site metrics including sessions, users, pageviews, bounce rate, and top pages/sources for a given period with optional comparison. Requires both app and user tokens. Rate limit: 80/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1634,7 +1634,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/analytics/page",
     "readOnly": true,
-    "toolset": "analitica",
+    "toolset": "analytics",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -1645,7 +1645,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get Single Page Metrics\n\nRetrieve analytics metrics for a specific page path on the website. Returns views, unique views, average time on page, and bounce rate. Requires both app and user tokens. Rate limit: 80/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get Single Page Metrics\n\nRetrieve analytics metrics for a specific page path on the website. Returns views, unique views, average time on page, and bounce rate. Requires both app and user tokens. Rate limit: 80/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1680,7 +1680,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/analytics/realtime",
     "readOnly": true,
-    "toolset": "analitica",
+    "toolset": "analytics",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -1689,7 +1689,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get Realtime Metrics\n\nRetrieve real-time analytics data including active users, top pages, traffic sources, and countries for the last 30 minutes. Requires both app and user tokens. Rate limit: 40/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get Realtime Metrics\n\nRetrieve real-time analytics data including active users, top pages, traffic sources, and countries for the last 30 minutes. Requires both app and user tokens. Rate limit: 40/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1709,7 +1709,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/adsense/sites",
     "readOnly": true,
-    "toolset": "analitica",
+    "toolset": "analytics",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -1720,7 +1720,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List AdSense Sites\n\nList sites registered with AdSense and their approval states. Useful to verify whether the website is approved for ads. Requires both app and user tokens. Rate limit: 120/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List AdSense Sites\n\nList sites registered with AdSense and their approval states. Useful to verify whether the website is approved for ads. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1753,7 +1753,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/adsense/earnings/overview",
     "readOnly": true,
-    "toolset": "analitica",
+    "toolset": "analytics",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -1764,7 +1764,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Earnings Overview\n\nRetrieve a quick earnings overview with optional period comparison. Free plan is limited to the last 7 days; Pro unlocks 30/90 day periods. Requires both app and user tokens. Rate limit: 80/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Earnings Overview\n\nRetrieve a quick earnings overview with optional period comparison. Free plan is limited to the last 7 days; Pro unlocks 30/90 day periods. Requires both app and user tokens. Rate limit: 80/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1798,7 +1798,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/adsense/earnings/by-page",
     "readOnly": true,
-    "toolset": "analitica",
+    "toolset": "analytics",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -1808,7 +1808,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Earnings by Page\n\nRetrieve earnings broken down by page URL (Pro plan only). Returns per-page revenue, page views, RPM, and clicks. Requires both app and user tokens. Rate limit: 80/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Earnings by Page\n\nRetrieve earnings broken down by page URL (Pro plan only). Returns per-page revenue, page views, RPM, and clicks. Requires both app and user tokens. Rate limit: 80/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1837,7 +1837,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/adsense/alerts",
     "readOnly": true,
-    "toolset": "analitica",
+    "toolset": "analytics",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -1848,7 +1848,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List AdSense Alerts\n\nList account alerts surfaced by AdSense (Pro plan only). Returns severity, message, and alert type for each entry. Requires both app and user tokens. Rate limit: 120/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List AdSense Alerts\n\nList account alerts surfaced by AdSense (Pro plan only). Returns severity, message, and alert type for each entry. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1881,7 +1881,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/heatmap/sites",
     "readOnly": true,
-    "toolset": "analitica",
+    "toolset": "analytics",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -1891,7 +1891,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List the caller's heatmap sites\n\nPaginated, newest first.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List the caller's heatmap sites\n\nPaginated, newest first.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1919,7 +1919,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/heatmap/sites/{site_id}/pages",
     "readOnly": true,
-    "toolset": "analitica",
+    "toolset": "analytics",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -1930,7 +1930,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List the routes of a site that have data\n\nRoutes with at least one stored sample in the window, busiest first. The window is anchored to the last day WITH DATA, not to today: the service runs in UTC and the reader does not.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List the routes of a site that have data\n\nRoutes with at least one stored sample in the window, busiest first. The window is anchored to the last day WITH DATA, not to today: the service runs in UTC and the reader does not.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1957,14 +1957,14 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/transactional-email/limits",
     "readOnly": true,
-    "toolset": "correo",
+    "toolset": "email",
     "omit": [],
     "redact": [],
     "pathParams": [],
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Read effective sending limits\n\nReturns tenant and actor usage for the current UTC day, the earliest shared remainder and server-defined retention. These are operational limits, not prices. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 200/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Read effective sending limits\n\nReturns tenant and actor usage for the current UTC day, the earliest shared remainder and server-defined retention. These are operational limits, not prices. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 200/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {},
@@ -1977,7 +1977,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/transactional-email/senders",
     "readOnly": true,
-    "toolset": "correo",
+    "toolset": "email",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -1987,7 +1987,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List your service email senders\n\nLists owned, nondeleted senders and their verified sending capability. It does not create or verify domains. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 200/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List your service email senders\n\nLists owned, nondeleted senders and their verified sending capability. It does not create or verify domains. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 200/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2023,7 +2023,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/transactional-email/templates",
     "readOnly": true,
-    "toolset": "correo",
+    "toolset": "email",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -2032,7 +2032,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List public transactional templates\n\nLists the public service_notice version 1 allowlist only. Private platform templates cannot be sent through this API. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 200/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List public transactional templates\n\nLists the public service_notice version 1 allowlist only. Private platform templates cannot be sent through this API. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 200/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2055,7 +2055,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/transactional-email/messages",
     "readOnly": true,
-    "toolset": "correo",
+    "toolset": "email",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -2068,7 +2068,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List your service notices\n\nLists messages owned by the actor within the actor's tenant. Recipient addresses remain masked; pending or rejected admissions are not presented as sends. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 200/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List your service notices\n\nLists messages owned by the actor within the actor's tenant. Recipient addresses remain masked; pending or rejected admissions are not presented as sends. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 200/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2149,7 +2149,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/transactional-email/messages/{message_id}",
     "readOnly": true,
-    "toolset": "correo",
+    "toolset": "email",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -2160,7 +2160,7 @@ export const API_TOOLS: ApiTool[] = [
     "pathPatterns": {
       "message_id": "^[0-9a-f]{24}$"
     },
-    "description": "Read one service notice and its attempts\n\nReturns sanitized metadata and attempt reasons. Never returns the original recipient, variables, credentials, private transport identifiers or transport response bodies. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 200/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Read one service notice and its attempts\n\nReturns sanitized metadata and attempt reasons. Never returns the original recipient, variables, credentials, private transport identifiers or transport response bodies. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 200/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2183,7 +2183,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/mail/threads",
     "readOnly": true,
-    "toolset": "correo",
+    "toolset": "email",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -2200,7 +2200,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List mail conversations\n\nA page of conversations, newest first.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List mail conversations\n\nA page of conversations, newest first.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2315,7 +2315,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/mail/threads/{thread_id}",
     "readOnly": true,
-    "toolset": "correo",
+    "toolset": "email",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -2328,7 +2328,7 @@ export const API_TOOLS: ApiTool[] = [
     "pathPatterns": {
       "thread_id": "^[0-9a-f]{24}$"
     },
-    "description": "Read one conversation\n\nThe whole conversation, oldest first.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Read one conversation\n\nThe whole conversation, oldest first.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2356,7 +2356,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/domains",
     "readOnly": true,
-    "toolset": "dominios",
+    "toolset": "domains",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -2367,7 +2367,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List user domains\n\nList all domains owned by the authenticated user with pagination.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List user domains\n\nList all domains owned by the authenticated user with pagination.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2405,7 +2405,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/domains/check",
     "readOnly": true,
-    "toolset": "dominios",
+    "toolset": "domains",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -2414,7 +2414,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Check domain availability\n\nCheck availability and pricing for one or more domains (up to 50).\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Check domain availability\n\nCheck availability and pricing for one or more domains (up to 50).\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2438,7 +2438,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/domains/pricing",
     "readOnly": true,
-    "toolset": "dominios",
+    "toolset": "domains",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -2447,7 +2447,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get TLD pricing\n\nGet registration, renewal, and transfer prices for TLDs.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get TLD pricing\n\nGet registration, renewal, and transfer prices for TLDs.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2476,7 +2476,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/domains/{domain_id}/transfer/status",
     "readOnly": true,
-    "toolset": "dominios",
+    "toolset": "domains",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -2485,7 +2485,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get domain transfer status\n\nCheck the current status of an in-progress domain transfer.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get domain transfer status\n\nCheck the current status of an in-progress domain transfer.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2505,7 +2505,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/domains/{domain_id}/mail/records",
     "readOnly": true,
-    "toolset": "dominios",
+    "toolset": "domains",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -2516,7 +2516,7 @@ export const API_TOOLS: ApiTool[] = [
     "pathPatterns": {
       "domain_id": "^[0-9a-f]{24}$"
     },
-    "description": "List the DNS records a mail-only domain needs\n\nFor a domain connected for **mail only** (its DNS stays with you), the records you paste in your own DNS, each with its last known status. Empty for any other domain.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List the DNS records a mail-only domain needs\n\nFor a domain connected for **mail only** (its DNS stays with you), the records you paste in your own DNS, each with its last known status. Empty for any other domain.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2539,7 +2539,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/telemetry/projects",
     "readOnly": true,
-    "toolset": "telemetria",
+    "toolset": "telemetry",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -2550,7 +2550,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List the caller's telemetry projects\n\nNewest first.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List the caller's telemetry projects\n\nNewest first.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2590,7 +2590,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/telemetry/projects/{project_id}",
     "readOnly": true,
-    "toolset": "telemetria",
+    "toolset": "telemetry",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -2599,7 +2599,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get one telemetry project\n\nA project that belongs to another account answers **404**, not 403.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get one telemetry project\n\nA project that belongs to another account answers **404**, not 403.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2619,7 +2619,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/telemetry/projects/{project_id}/install-status",
     "readOnly": true,
-    "toolset": "telemetria",
+    "toolset": "telemetry",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -2628,7 +2628,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Whether the tag is actually reporting\n\nAnswers the only question that matters on the first day: is anything arriving, and if not, how far did it get.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Whether the tag is actually reporting\n\nAnswers the only question that matters on the first day: is anything arriving, and if not, how far did it get.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2648,7 +2648,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/telemetry/projects/{project_id}/issues",
     "readOnly": true,
-    "toolset": "telemetria",
+    "toolset": "telemetry",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -2661,7 +2661,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List the project's issues\n\nNewest activity first. The cursor is **opaque**: pass back exactly what the previous page returned and do not interpret it.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List the project's issues\n\nNewest activity first. The cursor is **opaque**: pass back exactly what the previous page returned and do not interpret it.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2712,7 +2712,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/telemetry/projects/{project_id}/issues/{issue_id}/events/latest",
     "readOnly": true,
-    "toolset": "telemetria",
+    "toolset": "telemetry",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -2722,7 +2722,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get the most recent event of an issue\n\nPersonal data was removed before this event was stored, so some values read as `[redacted]`.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get the most recent event of an issue\n\nPersonal data was removed before this event was stored, so some values read as `[redacted]`.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2748,7 +2748,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/telemetry/projects/{project_id}/logs",
     "readOnly": true,
-    "toolset": "telemetria",
+    "toolset": "telemetry",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -2763,7 +2763,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Structured logs in a window\n\nRegistros estructurados del proyecto, del más reciente al más viejo.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Structured logs in a window\n\nRegistros estructurados del proyecto, del más reciente al más viejo.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2833,7 +2833,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/telemetry/projects/{project_id}/performance",
     "readOnly": true,
-    "toolset": "telemetria",
+    "toolset": "telemetry",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -2847,7 +2847,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Slowest transactions in a window\n\nGrupos de transacción del proyecto, del más lento al más rápido.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Slowest transactions in a window\n\nGrupos de transacción del proyecto, del más lento al más rápido.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2905,7 +2905,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/telemetry/projects/{project_id}/usage",
     "readOnly": true,
-    "toolset": "telemetria",
+    "toolset": "telemetry",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -2914,7 +2914,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Usage, quota and spend for this month\n\nWhat the project has sent this month, how much of its quota that is, and what it has cost.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Usage, quota and spend for this month\n\nWhat the project has sent this month, how much of its quota that is, and what it has cost.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2934,7 +2934,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/sales/readiness",
     "readOnly": true,
-    "toolset": "ventas",
+    "toolset": "sales",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -2943,7 +2943,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get the workspace's two-step sales readiness\n\nComputes offer and channel readiness from one tenant-scoped snapshot. Stable missing-condition codes are safe to translate and never contain raw failures.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get the workspace's two-step sales readiness\n\nComputes offer and channel readiness from one tenant-scoped snapshot. Stable missing-condition codes are safe to translate and never contain raw failures.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2964,7 +2964,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/sales/channels",
     "readOnly": true,
-    "toolset": "ventas",
+    "toolset": "sales",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -2974,7 +2974,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List this workspace's connected channels\n\nPaginated, newest first. Every row says WHETHER a credential, a signing secret and a verification value are stored, and none of them says what they are — not even as ciphertext.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List this workspace's connected channels\n\nPaginated, newest first. Every row says WHETHER a credential, a signing secret and a verification value are stored, and none of them says what they are — not even as ciphertext.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -3002,7 +3002,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/sales/offers",
     "readOnly": true,
-    "toolset": "ventas",
+    "toolset": "sales",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -3013,7 +3013,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List this workspace's offers\n\nPaginated, newest first. `is_active=false` selects the offers that were switched off — they keep their leads and their history, which is why they are deactivated rather than deleted.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List this workspace's offers\n\nPaginated, newest first. `is_active=false` selects the offers that were switched off — they keep their leads and their history, which is why they are deactivated rather than deleted.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -3052,7 +3052,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/sales/leads",
     "readOnly": true,
-    "toolset": "ventas",
+    "toolset": "sales",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -3074,7 +3074,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List leads\n\nPaginated, newest first, under every filter the panel publishes. An identifier filter that does not parse returns an EMPTY page rather than being dropped: a filter that silently stops filtering is how a screen ends up showing another funnel's leads.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List leads\n\nPaginated, newest first, under every filter the panel publishes. An identifier filter that does not parse returns an EMPTY page rather than being dropped: a filter that silently stops filtering is how a screen ends up showing another funnel's leads.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -3242,7 +3242,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/sales/leads/board",
     "readOnly": true,
-    "toolset": "ventas",
+    "toolset": "sales",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -3263,7 +3263,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "The funnel board of one offer\n\nOne column per stage, in the offer's own order, each carrying its TOTAL and a bounded first page. The two numbers differ on purpose: a column holding three thousand leads reports three thousand — that is the shape of the funnel — while returning three thousand cards would let one busy column decide the latency of the whole screen.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "The funnel board of one offer\n\nOne column per stage, in the offer's own order, each carrying its TOTAL and a bounded first page. The two numbers differ on purpose: a column holding three thousand leads reports three thousand — that is the shape of the funnel — while returning three thousand cards would let one busy column decide the latency of the whole screen.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -3419,7 +3419,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/sales/leads/{leadId}",
     "readOnly": true,
-    "toolset": "ventas",
+    "toolset": "sales",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -3428,7 +3428,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Lead detail\n\nEverything the panel draws on one card: funnel position, answers recorded so far, the derived score, who owns the conversation right now, WHY the agent handed it over when that is still pending (`handover_reason`), and the state of the reservation. Same 404 for a malformed id, an unknown one and another workspace's.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Lead detail\n\nEverything the panel draws on one card: funnel position, answers recorded so far, the derived score, who owns the conversation right now, WHY the agent handed it over when that is still pending (`handover_reason`), and the state of the reservation. Same 404 for a malformed id, an unknown one and another workspace's.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -3448,7 +3448,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/sales/report",
     "readOnly": true,
-    "toolset": "ventas",
+    "toolset": "sales",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -3459,7 +3459,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "The funnel, the wins and what they cost\n\nLeads by stage, by channel and by origin over a date range, the wins, and the tokens the conversations spent.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "The funnel, the wins and what they cost\n\nLeads by stage, by channel and by origin over a date range, the wins, and the tokens the conversations spent.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -3508,7 +3508,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/agents",
     "readOnly": true,
-    "toolset": "agentes",
+    "toolset": "agents",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -3518,7 +3518,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List agents\n\nList agents for the authenticated app with pagination.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List agents\n\nList agents for the authenticated app with pagination.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -3545,14 +3545,14 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/agents/catalog",
     "readOnly": true,
-    "toolset": "agentes",
+    "toolset": "agents",
     "omit": [],
     "redact": [],
     "pathParams": [],
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List agent catalog templates\n\nReturn the full agent template catalog.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List agent catalog templates\n\nReturn the full agent template catalog.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {},
@@ -3565,14 +3565,14 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/agents/tools",
     "readOnly": true,
-    "toolset": "agentes",
+    "toolset": "agents",
     "omit": [],
     "redact": [],
     "pathParams": [],
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List the tool catalog\n\nReturn every tool an agent can be given, built from the server's tool registry.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List the tool catalog\n\nReturn every tool an agent can be given, built from the server's tool registry.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {},
@@ -3585,7 +3585,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/agents/{agent_id}/budget",
     "readOnly": true,
-    "toolset": "agentes",
+    "toolset": "agents",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -3594,7 +3594,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Read the agent's spend ceiling, consumption and current mode\n\nReturns the ceiling for the current cycle, how much of it is already reserved or settled, and the mode that follows from the two. A ceiling that is **absent** means the agent runs in `proposing` mode — it reasons and records what it would do, but the tools that spend money are not offered to it. Absent configuration never means unlimited.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Read the agent's spend ceiling, consumption and current mode\n\nReturns the ceiling for the current cycle, how much of it is already reserved or settled, and the mode that follows from the two. A ceiling that is **absent** means the agent runs in `proposing` mode — it reasons and records what it would do, but the tools that spend money are not offered to it. Absent configuration never means unlimited.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -3614,7 +3614,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/agents/{agent_id}/runs/{run_id}",
     "readOnly": true,
-    "toolset": "agentes",
+    "toolset": "agents",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -3624,7 +3624,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get a specific run\n\nRetrieve details of a specific agent run.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get a specific run\n\nRetrieve details of a specific agent run.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -3649,7 +3649,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/agent-actions",
     "readOnly": true,
-    "toolset": "agentes",
+    "toolset": "agents",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -3663,7 +3663,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List agent actions\n\nList human-in-the-loop actions for the authenticated app.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List agent actions\n\nList human-in-the-loop actions for the authenticated app.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -3734,7 +3734,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/agents/{agent_id}/runs/{run_id}/stop",
     "readOnly": false,
-    "toolset": "agentes",
+    "toolset": "agents",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -3744,7 +3744,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Stop a running agent run\n\nStop a running or pending agent run.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Stop a running agent run\n\nStop a running or pending agent run.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -3769,7 +3769,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "PATCH",
     "path": "/api/v1/users/telemetry/projects/{project_id}/issues/{issue_id}",
     "readOnly": false,
-    "toolset": "telemetria",
+    "toolset": "telemetry",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -3781,7 +3781,7 @@ export const API_TOOLS: ApiTool[] = [
       "state"
     ],
     "pathPatterns": {},
-    "description": "Resolve, ignore or reopen an issue\n\nThe decision is stored here as well as in the underlying store, so it survives a change of storage.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Resolve, ignore or reopen an issue\n\nThe decision is stored here as well as in the underlying store, so it survives a change of storage.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -3817,7 +3817,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/businesses/{businessId}/subscription-plans",
     "readOnly": false,
-    "toolset": "suscripciones",
+    "toolset": "subscriptions",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -3831,7 +3831,7 @@ export const API_TOOLS: ApiTool[] = [
       "interval_days"
     ],
     "pathPatterns": {},
-    "description": "Create a subscription plan\n\nCreate a recurring-charge plan for a business.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Create a subscription plan\n\nCreate a recurring-charge plan for a business.\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -3883,7 +3883,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "PATCH",
     "path": "/api/v1/businesses/{businessId}/subscription-plans/{planId}",
     "readOnly": false,
-    "toolset": "suscripciones",
+    "toolset": "subscriptions",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -3898,7 +3898,7 @@ export const API_TOOLS: ApiTool[] = [
       "interval_days"
     ],
     "pathPatterns": {},
-    "description": "Update a subscription plan\n\nEdit a plan. A draft is fully editable; once published, the amount and the frequency are frozen and only the name and description can change — to change what is charged, archive the plan and create another.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Update a subscription plan\n\nEdit a plan. A draft is fully editable; once published, the amount and the frequency are frozen and only the name and description can change — to change what is charged, archive the plan and create another.\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -3973,7 +3973,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/businesses/{businessId}/subscription-plans/{planId}/publish",
     "readOnly": false,
-    "toolset": "suscripciones",
+    "toolset": "subscriptions",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -3983,7 +3983,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Publish a subscription plan\n\nRegister the plan with the collection service so it can be charged. Idempotent: a plan that already carries a reference is returned unchanged without calling out again.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Publish a subscription plan\n\nRegister the plan with the collection service so it can be charged. Idempotent: a plan that already carries a reference is returned unchanged without calling out again.\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4008,7 +4008,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/businesses/{businessId}/subscription-plans/{planId}/archive",
     "readOnly": false,
-    "toolset": "suscripciones",
+    "toolset": "subscriptions",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -4018,7 +4018,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Archive a subscription plan\n\nArchive a plan: it stops appearing in the default listing and can no longer back new invitations. Subscriptions already sold on it stay alive, and the response says how many.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Archive a subscription plan\n\nArchive a plan: it stops appearing in the default listing and can no longer back new invitations. Subscriptions already sold on it stay alive, and the response says how many.\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4043,7 +4043,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/businesses/{businessId}/subscription-plans/{planId}/invitations",
     "readOnly": false,
-    "toolset": "suscripciones",
+    "toolset": "subscriptions",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -4055,7 +4055,7 @@ export const API_TOOLS: ApiTool[] = [
       "customer_id"
     ],
     "pathPatterns": {},
-    "description": "Create a subscription invitation\n\nEmit a single-use invitation that enrols ONE customer into this plan. The URL is always a 1Platform host. One invitation is for one customer — issue another to invite someone else, or to re-invite the same person after one is used.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Create a subscription invitation\n\nEmit a single-use invitation that enrols ONE customer into this plan. The URL is always a 1Platform host. One invitation is for one customer — issue another to invite someone else, or to re-invite the same person after one is used.\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4087,7 +4087,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/businesses/{businessId}/customers",
     "readOnly": false,
-    "toolset": "suscripciones",
+    "toolset": "subscriptions",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -4100,7 +4100,7 @@ export const API_TOOLS: ApiTool[] = [
       "phone"
     ],
     "pathPatterns": {},
-    "description": "Create a customer\n\nAdd a customer to a business's own customer book.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Create a customer\n\nAdd a customer to a business's own customer book.\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4150,7 +4150,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "PATCH",
     "path": "/api/v1/businesses/{businessId}/customers/{customerId}",
     "readOnly": false,
-    "toolset": "suscripciones",
+    "toolset": "subscriptions",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -4163,7 +4163,7 @@ export const API_TOOLS: ApiTool[] = [
       "phone"
     ],
     "pathPatterns": {},
-    "description": "Update a customer\n\nEdit a customer's name or phone. The email is not editable — it is the identity of the record within the business; create another customer instead.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Update a customer\n\nEdit a customer's name or phone. The email is not editable — it is the identity of the record within the business; create another customer instead.\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4212,7 +4212,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/businesses/{businessId}/subscriptions/{subscriptionId}/cancel",
     "readOnly": false,
-    "toolset": "suscripciones",
+    "toolset": "subscriptions",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -4222,7 +4222,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Cancel a subscription\n\nStop a subscription. The collection service is asked FIRST and the local record is only updated once it confirms — the reverse order would leave a customer being charged by a subscription this screen says is over.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Cancel a subscription\n\nStop a subscription. The collection service is asked FIRST and the local record is only updated once it confirms — the reverse order would leave a customer being charged by a subscription this screen says is over.\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4256,7 +4256,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get a card-terminal payment\n\nThe detail of one card-terminal payment of the authenticated user's balance: business, terminal, card (brand and last four), authorization code, the reason when declined, and where the money went.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get a card-terminal payment\n\nThe detail of one card-terminal payment of the authenticated user's balance: business, terminal, card (brand and last four), authorization code, the reason when declined, and where the money went.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4291,7 +4291,7 @@ export const API_TOOLS: ApiTool[] = [
       "address"
     ],
     "pathPatterns": {},
-    "description": "Request a card terminal\n\nOpen a card-terminal application for a business.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Request a card terminal\n\nOpen a card-terminal application for a business.\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4363,7 +4363,7 @@ export const API_TOOLS: ApiTool[] = [
       "address"
     ],
     "pathPatterns": {},
-    "description": "Correct a terminal request\n\nUpdate the applicant's details while the application is still editable (draft, or after corrections were requested).\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Correct a terminal request\n\nUpdate the applicant's details while the application is still editable (draft, or after corrections were requested).\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4464,7 +4464,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Withdraw a terminal request\n\nWithdraw an application that has not been resolved yet.\n\nObtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Withdraw a terminal request\n\nWithdraw an application that has not been resolved yet.\n\nGet the businessId with listBusinessesForUser before calling this tool.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4489,14 +4489,14 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/cash-out/methods",
     "readOnly": true,
-    "toolset": "retiros",
+    "toolset": "payouts",
     "omit": [],
     "redact": [],
     "pathParams": [],
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List Payout Methods\n\nThe merchant's payout destinations. The destination itself is never returned — only the server-decided mask, which shows the last four characters and never the first (a leading-character mask is what address-poisoning attacks are built to satisfy).\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List Payout Methods\n\nThe merchant's payout destinations. The destination itself is never returned — only the server-decided mask, which shows the last four characters and never the first (a leading-character mask is what address-poisoning attacks are built to satisfy).\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {},
@@ -4509,7 +4509,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/analytics/oauth/status",
     "readOnly": true,
-    "toolset": "analitica",
+    "toolset": "analytics",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -4518,7 +4518,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get Analytics OAuth Status\n\nCheck whether OAuth is connected for a website's analytics integration. Returns connection state, authorized email, and authorization timestamp. Requires both app and user tokens. Rate limit: 120/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get Analytics OAuth Status\n\nCheck whether OAuth is connected for a website's analytics integration. Returns connection state, authorized email, and authorization timestamp. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4538,7 +4538,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/analytics/property",
     "readOnly": true,
-    "toolset": "analitica",
+    "toolset": "analytics",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -4547,7 +4547,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get Analytics Property Details\n\nRetrieve detailed information about the analytics property linked to a website. Includes timezone, currency, service level, and creation time. Requires both app and user tokens. Rate limit: 120/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get Analytics Property Details\n\nRetrieve detailed information about the analytics property linked to a website. Includes timezone, currency, service level, and creation time. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4567,7 +4567,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/analytics/streams/tag",
     "readOnly": true,
-    "toolset": "analitica",
+    "toolset": "analytics",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -4576,7 +4576,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get Site Tag Snippet\n\nRetrieve the JavaScript tag snippet for embedding analytics tracking on a website. The tag must be placed in the HTML head section. Requires both app and user tokens. Rate limit: 120/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get Site Tag Snippet\n\nRetrieve the JavaScript tag snippet for embedding analytics tracking on a website. The tag must be placed in the HTML head section. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4596,7 +4596,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/analytics/accounts",
     "readOnly": true,
-    "toolset": "analitica",
+    "toolset": "analytics",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -4605,7 +4605,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List Analytics Accounts\n\nList all analytics accounts accessible to the authenticated user. Used to select an account during property provisioning. Requires both app and user tokens. Rate limit: 120/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List Analytics Accounts\n\nList all analytics accounts accessible to the authenticated user. Used to select an account during property provisioning. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4625,7 +4625,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/analytics/streams",
     "readOnly": true,
-    "toolset": "analitica",
+    "toolset": "analytics",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -4634,7 +4634,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List Data Streams\n\nList all data streams configured for the analytics property. Each stream corresponds to a web data source. Requires both app and user tokens. Rate limit: 120/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List Data Streams\n\nList all data streams configured for the analytics property. Each stream corresponds to a web data source. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4654,7 +4654,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/analytics/dimensions",
     "readOnly": true,
-    "toolset": "analitica",
+    "toolset": "analytics",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -4663,7 +4663,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List Custom Dimensions\n\nList all custom dimensions configured for the analytics property. Custom dimensions track additional attributes on events. Requires both app and user tokens. Rate limit: 120/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List Custom Dimensions\n\nList all custom dimensions configured for the analytics property. Custom dimensions track additional attributes on events. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4683,7 +4683,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/analytics/key-events",
     "readOnly": true,
-    "toolset": "analitica",
+    "toolset": "analytics",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -4692,7 +4692,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List Key Events\n\nList all key events (conversions) configured for the analytics property. Key events track important user actions on the website. Requires both app and user tokens. Rate limit: 120/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List Key Events\n\nList all key events (conversions) configured for the analytics property. Key events track important user actions on the website. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4712,7 +4712,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/adsense/status",
     "readOnly": true,
-    "toolset": "analitica",
+    "toolset": "analytics",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -4721,7 +4721,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get AdSense Status\n\nRetrieve the AdSense connection status for a website. Returns publisher ID, account state, and OAuth connection info. Requires both app and user tokens. Rate limit: 120/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get AdSense Status\n\nRetrieve the AdSense connection status for a website. Returns publisher ID, account state, and OAuth connection info. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4741,7 +4741,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/adsense/oauth/status",
     "readOnly": true,
-    "toolset": "analitica",
+    "toolset": "analytics",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -4750,7 +4750,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get AdSense OAuth Status\n\nCheck whether OAuth is connected for AdSense on this website. Returns connection state, authorized email, and authorization timestamp. Requires both app and user tokens. Rate limit: 120/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get AdSense OAuth Status\n\nCheck whether OAuth is connected for AdSense on this website. Returns connection state, authorized email, and authorization timestamp. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4770,7 +4770,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/adsense/accounts",
     "readOnly": true,
-    "toolset": "analitica",
+    "toolset": "analytics",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -4781,7 +4781,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List AdSense Accounts\n\nList AdSense accounts accessible by the user's OAuth tokens. Used to identify which publisher account to connect. Requires both app and user tokens. Rate limit: 120/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List AdSense Accounts\n\nList AdSense accounts accessible by the user's OAuth tokens. Used to identify which publisher account to connect. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4814,7 +4814,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/adsense/policy-issues",
     "readOnly": true,
-    "toolset": "analitica",
+    "toolset": "analytics",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -4825,7 +4825,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List Policy Issues\n\nList policy issues affecting the account (Pro plan only). Includes required actions, affected entities, and policy topics. Requires both app and user tokens. Rate limit: 120/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List Policy Issues\n\nList policy issues affecting the account (Pro plan only). Includes required actions, affected entities, and policy topics. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4858,7 +4858,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/heatmap/sites/{site_id}",
     "readOnly": true,
-    "toolset": "analitica",
+    "toolset": "analytics",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -4867,7 +4867,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get one heatmap site\n\nReturns the site, its capture token and the tag to paste.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get one heatmap site\n\nReturns the site, its capture token and the tag to paste.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4887,7 +4887,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/heatmap/sites/{site_id}/maps/{kind}",
     "readOnly": true,
-    "toolset": "analitica",
+    "toolset": "analytics",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -4901,7 +4901,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Read one heatmap of a page\n\nOne map in the envelope every map kind shares. `shape` says how to read `series` — `grid` for cells, `bands` for scroll depth — so a client branches on one field instead of memorising which kind is which.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Read one heatmap of a page\n\nOne map in the envelope every map kind shares. `shape` says how to read `series` — `grid` for cells, `bands` for scroll depth — so a client branches on one field instead of memorising which kind is which.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4943,7 +4943,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/users/heatmap/sites/{site_id}/snapshot",
     "readOnly": true,
-    "toolset": "analitica",
+    "toolset": "analytics",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -4954,7 +4954,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Is there a stored page behind this route's map\n\nSays whether this route has a stored page, when it was taken and where to load it from.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Is there a stored page behind this route's map\n\nSays whether this route has a stored page, when it was taken and where to load it from.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4979,14 +4979,14 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/calendar",
     "readOnly": true,
-    "toolset": "agenda",
+    "toolset": "scheduling",
     "omit": [],
     "redact": [],
     "pathParams": [],
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "This workspace's calendar\n\nNever writes: before the first change it answers the defaults with `persisted: false`.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "This workspace's calendar\n\nNever writes: before the first change it answers the defaults with `persisted: false`.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {},
@@ -4999,7 +4999,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/calendar/appointments",
     "readOnly": true,
-    "toolset": "agenda",
+    "toolset": "scheduling",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -5014,7 +5014,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List visits in a range\n\nAt most 31 days and 500 per page. `subject.contact` only when the caller has Sales; the address is a detail of the visit and is visible with the calendar, and so is `meeting_url`, the visit advisor's video-call link of a `video` visit.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List visits in a range\n\nAt most 31 days and 500 per page. `subject.contact` only when the caller has Sales; the address is a detail of the visit and is visible with the calendar, and so is `meeting_url`, the visit advisor's video-call link of a `video` visit.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -5090,7 +5090,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/calendar/appointments/{appointment_id}",
     "readOnly": true,
-    "toolset": "agenda",
+    "toolset": "scheduling",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -5099,7 +5099,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "One visit\n\nOne visit of this workspace. A visit of another workspace answers the same 404 as one that does not exist.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "One visit\n\nOne visit of this workspace. A visit of another workspace answers the same 404 as one that does not exist.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -5119,7 +5119,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/calendar/appointments/by-subject",
     "readOnly": true,
-    "toolset": "agenda",
+    "toolset": "scheduling",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -5129,7 +5129,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "The live visit of a record\n\nThe live visit of the record or, if there is none, its last visit that expired without being closed; `null` otherwise.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "The live visit of a record\n\nThe live visit of the record or, if there is none, its last visit that expired without being closed; `null` otherwise.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -5157,7 +5157,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/calendar/slots",
     "readOnly": true,
-    "toolset": "agenda",
+    "toolset": "scheduling",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -5168,7 +5168,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Free visit slots\n\nOnly slots with at least one free visit advisor, inside the notice and the horizon, computed in the calendar's timezone and returned in UTC.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Free visit slots\n\nOnly slots with at least one free visit advisor, inside the notice and the horizon, computed in the calendar's timezone and returned in UTC.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -5208,7 +5208,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/calendar/visit-advisors",
     "readOnly": true,
-    "toolset": "agenda",
+    "toolset": "scheduling",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -5219,7 +5219,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List the visit advisors\n\nActive first. Each carries how many future visits it holds; an inactive one with future visits needs them reassigned.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List the visit advisors\n\nActive first. Each carries how many future visits it holds; an inactive one with future visits needs them reassigned.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -5252,7 +5252,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/calendar/intake-links/mine",
     "readOnly": true,
-    "toolset": "agenda",
+    "toolset": "scheduling",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -5261,7 +5261,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Your booking link of an offer, if any\n\nWhether you may have a booking link (a workspace admin, or a user given Sales explicitly), whether the workspace switched advisors' links on, and your live link of the offer if you already have one. Never creates a link.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Your booking link of an offer, if any\n\nWhether you may have a booking link (a workspace admin, or a user given Sales explicitly), whether the workspace switched advisors' links on, and your live link of the offer if you already have one. Never creates a link.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -5283,7 +5283,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/calendar/appointments",
     "readOnly": false,
-    "toolset": "agenda",
+    "toolset": "scheduling",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -5297,7 +5297,7 @@ export const API_TOOLS: ApiTool[] = [
       "notes"
     ],
     "pathPatterns": {},
-    "description": "Book a visit\n\nWorkspace admins only. Assigns a visit advisor by round robin among those free at that time. If the record already has a live visit at the SAME time it is returned (200); at another time, 409 `appointment_already_booked`.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Book a visit\n\nWorkspace admins only. Assigns a visit advisor by round robin among those free at that time. If the record already has a live visit at the SAME time it is returned (200); at another time, 409 `appointment_already_booked`.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -5367,7 +5367,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/calendar/appointments/{appointment_id}/reschedule",
     "readOnly": false,
-    "toolset": "agenda",
+    "toolset": "scheduling",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -5378,7 +5378,7 @@ export const API_TOOLS: ApiTool[] = [
       "start_at"
     ],
     "pathPatterns": {},
-    "description": "Move a visit to another time\n\nWorkspace admins only. The SAME visit moves; the current advisor is kept if free, otherwise another free one is assigned.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Move a visit to another time\n\nWorkspace admins only. The SAME visit moves; the current advisor is kept if free, otherwise another free one is assigned.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -5404,7 +5404,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/calendar/appointments/{appointment_id}/cancel",
     "readOnly": false,
-    "toolset": "agenda",
+    "toolset": "scheduling",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -5415,7 +5415,7 @@ export const API_TOOLS: ApiTool[] = [
       "reason"
     ],
     "pathPatterns": {},
-    "description": "Cancel a visit\n\nWorkspace admins only. Also closes a visit that expired without being closed.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Cancel a visit\n\nWorkspace admins only. Also closes a visit that expired without being closed.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -5442,7 +5442,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/calendar/appointments/{appointment_id}/complete",
     "readOnly": false,
-    "toolset": "agenda",
+    "toolset": "scheduling",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -5451,7 +5451,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Mark a visit as done\n\nWorkspace admins only. Also valid for a visit that expired without being closed.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Mark a visit as done\n\nWorkspace admins only. Also valid for a visit that expired without being closed.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -5471,7 +5471,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/calendar/appointments/{appointment_id}/reassign",
     "readOnly": false,
-    "toolset": "agenda",
+    "toolset": "scheduling",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -5482,7 +5482,7 @@ export const API_TOOLS: ApiTool[] = [
       "visit_advisor_id"
     ],
     "pathPatterns": {},
-    "description": "Give a visit to another visit advisor\n\nWorkspace admins only. Without `visit_advisor_id` the round robin picks a free advisor other than the current one.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Give a visit to another visit advisor\n\nWorkspace admins only. Without `visit_advisor_id` the round robin picks a free advisor other than the current one.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -5514,7 +5514,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/calendar/booking-links",
     "readOnly": false,
-    "toolset": "agenda",
+    "toolset": "scheduling",
     "omit": [
       "rotate"
     ],
@@ -5526,7 +5526,7 @@ export const API_TOOLS: ApiTool[] = [
       "subject_id"
     ],
     "pathPatterns": {},
-    "description": "The booking link of a record\n\nWorkspace admins only. Idempotent: the record's live link is returned as-is (the same URL the agent may already have sent); `rotate: true` revokes it and issues a new one. The URL points at THIS workspace's panel; a white-label workspace without a declared panel address answers 409 `booking_link_origin_missing`. 404 `public_booking_disabled` while the feature is off for the workspace.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "The booking link of a record\n\nWorkspace admins only. Idempotent: the record's live link is returned as-is (the same URL the agent may already have sent); `rotate: true` revokes it and issues a new one. The URL points at THIS workspace's panel; a white-label workspace without a declared panel address answers 409 `booking_link_origin_missing`. 404 `public_booking_disabled` while the feature is off for the workspace.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -5554,7 +5554,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/calendar/intake-links",
     "readOnly": false,
-    "toolset": "agenda",
+    "toolset": "scheduling",
     "omit": [
       "rotate"
     ],
@@ -5565,7 +5565,7 @@ export const API_TOOLS: ApiTool[] = [
       "offer_id"
     ],
     "pathPatterns": {},
-    "description": "Your booking link of an offer\n\nYour own link to send by chat: whoever opens it leaves their details and books a visit, and the lead is created (or an existing bookable one of the same phone and offer is reused) assigned to you. Idempotent: your live link is returned as-is; `rotate: true` revokes it and issues a new one. 403 `intake_link_not_allowed` unless you are a workspace admin or were given Sales explicitly; 409 `intake_links_disabled` while the workspace has them off; 409 `intake_offer_questions_incomplete` while a required question of the offer is not asked on the link.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Your booking link of an offer\n\nYour own link to send by chat: whoever opens it leaves their details and books a visit, and the lead is created (or an existing bookable one of the same phone and offer is reused) assigned to you. Idempotent: your live link is returned as-is; `rotate: true` revokes it and issues a new one. 403 `intake_link_not_allowed` unless you are a workspace admin or were given Sales explicitly; 409 `intake_links_disabled` while the workspace has them off; 409 `intake_offer_questions_incomplete` while a required question of the offer is not asked on the link.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -5587,14 +5587,14 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/social/config",
     "readOnly": true,
-    "toolset": "redes",
+    "toolset": "social",
     "omit": [],
     "redact": [],
     "pathParams": [],
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Social media configuration for the caller's workspace\n\nWhether the vertical is on for the caller's workspace, which networks are available to it, whether posts need approval, the workspace time zone, the caller's role (`is_admin`, `is_approver`) and the current price of one published post in the currency of the caller's balance. `price.amount` is `null` when no price is configured. The price charged is the one in force when the network confirms the post (`note: price_at_publish`). `price.by_network.x` is the per-post price of the microblogging network, which depends on whether the text carries a link (`amount` / `amount_with_link`); it is the pric\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Social media configuration for the caller's workspace\n\nWhether the vertical is on for the caller's workspace, which networks are available to it, whether posts need approval, the workspace time zone, the caller's role (`is_admin`, `is_approver`) and the current price of one published post in the currency of the caller's balance. `price.amount` is `null` when no price is configured. The price charged is the one in force when the network confirms the post (`note: price_at_publish`). `price.by_network.x` is the per-post price of the microblogging network, which depends on whether the text carries a link (`amount` / `amount_with_link`); it is the pric\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {},
@@ -5607,14 +5607,14 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/social/spaces",
     "readOnly": true,
-    "toolset": "redes",
+    "toolset": "social",
     "omit": [],
     "redact": [],
     "pathParams": [],
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Portfolios the caller can work in\n\nThe caller's own portfolio first, then the portfolios of other users of this panel they were invited to (`status: pending` until accepted, `active` after). Send `X-Social-Space: <owner_user_id>` on the other `/social` routes to act in an active one.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Portfolios the caller can work in\n\nThe caller's own portfolio first, then the portfolios of other users of this panel they were invited to (`status: pending` until accepted, `active` after). Send `X-Social-Space: <owner_user_id>` on the other `/social` routes to act in an active one.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {},
@@ -5627,14 +5627,14 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/social/accounts",
     "readOnly": true,
-    "toolset": "redes",
+    "toolset": "social",
     "omit": [],
     "redact": [],
     "pathParams": [],
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Connected accounts of the workspace\n\nAccounts of the caller's workspace with their status (`active`, `expiring`, `needs_reconnect`). Never returns a token: `token_configured` and `expires_at` only. `missing_permissions` lists the functions (`inbox`, `comment_actions`, `metrics`, `messages`) the account cannot use: `not_granted` = the authorisation did not include them (authorise again), `denied` = the network refused them at run time. It never changes `status`; an empty list means nothing to warn about. Rate limit: 240/minute.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Connected accounts of the workspace\n\nAccounts of the caller's workspace with their status (`active`, `expiring`, `needs_reconnect`). Never returns a token: `token_configured` and `expires_at` only. `missing_permissions` lists the functions (`inbox`, `comment_actions`, `metrics`, `messages`) the account cannot use: `not_granted` = the authorisation did not include them (authorise again), `denied` = the network refused them at run time. It never changes `status`; an empty list means nothing to warn about. Rate limit: 240/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {},
@@ -5647,7 +5647,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/social/accounts/{account_id}/creator-info",
     "readOnly": true,
-    "toolset": "redes",
+    "toolset": "social",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -5656,7 +5656,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "What a short-video account may publish right now\n\nAsked to the network on every call (the composer calls it each time it opens): the account's name, the privacy options the network allows, whether comments/duet/stitch are blocked, the longest video allowed, `public_allowed` (false while the publishing client is not yet allowed to post publicly — then only private) and `recently_blocked` (the network recently refused a post from this account). Only for accounts of that network (422 `social_network_mismatch`).\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "What a short-video account may publish right now\n\nAsked to the network on every call (the composer calls it each time it opens): the account's name, the privacy options the network allows, whether comments/duet/stitch are blocked, the longest video allowed, `public_allowed` (false while the publishing client is not yet allowed to post publicly — then only private) and `recently_blocked` (the network recently refused a post from this account). Only for accounts of that network (422 `social_network_mismatch`).\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -5678,7 +5678,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/social/posts",
     "readOnly": true,
-    "toolset": "redes",
+    "toolset": "social",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -5691,7 +5691,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Paginated posts of the caller's workspace\n\nOne page of the workspace's posts with optional `status`, `network` and `account_id` filters, the earliest `publish_at` first, each with the same view as the post detail (destinations, history, actions). Not bounded by a date range: a post waiting for approval stays listed until someone acts. Includes drafts without a date. All filters apply before counting and pagination; `page_size` at most 50. Explicit `status=pending_approval` is the approvals queue and requires an approver or workspace admin. Other list queries show non-approvers only their own pending posts, plus the other statuses. `med\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Paginated posts of the caller's workspace\n\nOne page of the workspace's posts with optional `status`, `network` and `account_id` filters, the earliest `publish_at` first, each with the same view as the post detail (destinations, history, actions). Not bounded by a date range: a post waiting for approval stays listed until someone acts. Includes drafts without a date. All filters apply before counting and pagination; `page_size` at most 50. Explicit `status=pending_approval` is the approvals queue and requires an approver or workspace admin. Other list queries show non-approvers only their own pending posts, plus the other statuses. `med\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -5755,7 +5755,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/social/posts/{post_id}",
     "readOnly": true,
-    "toolset": "redes",
+    "toolset": "social",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -5764,7 +5764,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Post detail with its destinations, history and available actions\n\nThe post, each destination's status (with the network link once published and the failure code if it failed), the bounded history (who created, approved, rejected, rescheduled — with the note) and, per destination, `actions` the caller may take. Pending posts are only visible to their author, an approver or a workspace admin; other members receive 404. `media` contains attachment metadata and private preview URLs valid for 5 minutes (null when storage is unavailable). Reload to renew them; missing attachments remain in `media_ids` but are omitted from `media`. Readable with the vertical switch\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Post detail with its destinations, history and available actions\n\nThe post, each destination's status (with the network link once published and the failure code if it failed), the bounded history (who created, approved, rejected, rescheduled — with the note) and, per destination, `actions` the caller may take. Pending posts are only visible to their author, an approver or a workspace admin; other members receive 404. `media` contains attachment metadata and private preview URLs valid for 5 minutes (null when storage is unavailable). Reload to renew them; missing attachments remain in `media_ids` but are omitted from `media`. Readable with the vertical switch\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -5786,7 +5786,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/social/calendar",
     "readOnly": true,
-    "toolset": "redes",
+    "toolset": "social",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -5799,7 +5799,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Posts of the caller's workspace in a date range\n\nPosts whose `publish_at` falls in `[from, to)` (at most 62 days, else 422 `social_range_too_large`), ordered by date, at most 500 (`truncated` says when there were more). Each item has an excerpt of the text and its destinations (network, account, status, link, failure code, hold). Optional filters by account, network and post status. Non-approvers only see their own pending posts; this restriction also applies to `total`.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Posts of the caller's workspace in a date range\n\nPosts whose `publish_at` falls in `[from, to)` (at most 62 days, else 422 `social_range_too_large`), ordered by date, at most 500 (`truncated` says when there were more). Each item has an excerpt of the text and its destinations (network, account, status, link, failure code, hold). Optional filters by account, network and post status. Non-approvers only see their own pending posts; this restriction also applies to `total`.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -5862,7 +5862,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/social/comments",
     "readOnly": true,
-    "toolset": "redes",
+    "toolset": "social",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -5875,7 +5875,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List the comments of the workspace's connected accounts\n\nThe comment inbox: comments on the posts of the accounts connected to the caller's workspace, newest first by the date the network gave them (a comment recovered late does not show up as new). Only accounts that are still connected are included. Direct messages are not part of this inbox.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List the comments of the workspace's connected accounts\n\nThe comment inbox: comments on the posts of the accounts connected to the caller's workspace, newest first by the date the network gave them (a comment recovered late does not show up as new). Only accounts that are still connected are included. Direct messages are not part of this inbox.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -5950,7 +5950,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/social/analytics",
     "readOnly": true,
-    "toolset": "redes",
+    "toolset": "social",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -5960,7 +5960,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Analytics of one social account\n\nTotals, the comparison with the previous period of the same length, the daily series and, for every metric, whether the network offers it. `metrics_partial` is `true` when the account's statistics permission is missing: followers and per-post figures still sync, and statistics-only metrics without values are `not_available`; `metrics_unauthorized` lists those keys, so a client can tell «not authorised» from «not offered by this network».\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Analytics of one social account\n\nTotals, the comparison with the previous period of the same length, the daily series and, for every metric, whether the network offers it. `metrics_partial` is `true` when the account's statistics permission is missing: followers and per-post figures still sync, and statistics-only metrics without values are `not_available`; `metrics_unauthorized` lists those keys, so a client can tell «not authorised» from «not offered by this network».\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -5991,14 +5991,14 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/social/settings",
     "readOnly": true,
-    "toolset": "redes",
+    "toolset": "social",
     "omit": [],
     "redact": [],
     "pathParams": [],
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Approval settings of the caller's workspace (admin)\n\nThe workspace's approval policy: whether posts need approval and the list of members who may approve (workspace administrators always can). Only a workspace administrator reads it.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Approval settings of the caller's workspace (admin)\n\nThe workspace's approval policy: whether posts need approval and the list of members who may approve (workspace administrators always can). Only a workspace administrator reads it.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {},
@@ -6011,14 +6011,14 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/social/space/members",
     "readOnly": true,
-    "toolset": "redes",
+    "toolset": "social",
     "omit": [],
     "redact": [],
     "pathParams": [],
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Members of the active portfolio\n\nMembers (pending invitations included) of the portfolio in `X-Social-Space` (the caller's own when absent). Readable by its owner and its administrators.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Members of the active portfolio\n\nMembers (pending invitations included) of the portfolio in `X-Social-Space` (the caller's own when absent). Readable by its owner and its administrators.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {},
@@ -6031,7 +6031,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/social/posts",
     "readOnly": false,
-    "toolset": "redes",
+    "toolset": "social",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -6043,7 +6043,7 @@ export const API_TOOLS: ApiTool[] = [
       "network_options"
     ],
     "pathPatterns": {},
-    "description": "Create a draft post, optionally without destination accounts\n\nCreates a `draft` with one destination per account (0-10 accounts, up to 10 media). Text or media is required even without destinations; choosing accounts is required before submitting for publication. Every destination is validated against the server's per-network rules (text length, media required, exactly one video, title and privacy for the video network); an error names the destination in `data`. The response carries `cost`: the current price per destination in the caller's balance currency (the price charged is the one in force when the network confirms). Optional `Idempotency-Key` (16-1\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Create a draft post, optionally without destination accounts\n\nCreates a `draft` with one destination per account (0-10 accounts, up to 10 media). Text or media is required even without destinations; choosing accounts is required before submitting for publication. Every destination is validated against the server's per-network rules (text length, media required, exactly one video, title and privacy for the video network); an error names the destination in `data`. `network_options.instagram` / `network_options.facebook` choose the format on those networks: `post` (the default when absent), `reel` (exactly one video; 3-900 s on the photo-and-video network, \n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -6156,6 +6156,56 @@ export const API_TOOLS: ApiTool[] = [
                     }
                   ],
                   "description": "Options of the short-video network"
+                },
+                "instagram": {
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "format": {
+                          "type": "string",
+                          "enum": [
+                            "post",
+                            "reel",
+                            "story"
+                          ],
+                          "description": "`post` (a normal publication, the default), `reel` (exactly one video) or `story` (exactly one image or one video; the network does not show the text)",
+                          "default": "post"
+                        }
+                      },
+                      "additionalProperties": false,
+                      "type": "object",
+                      "description": "redes-sociales-reels-y-stories D-1: how a post goes out on Instagram or Facebook."
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "description": "Format on the photo-and-video network. Absent or null = `post`. In an edit, an ABSENT key keeps the stored format and `null` clears it"
+                },
+                "facebook": {
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "format": {
+                          "type": "string",
+                          "enum": [
+                            "post",
+                            "reel",
+                            "story"
+                          ],
+                          "description": "`post` (a normal publication, the default), `reel` (exactly one video) or `story` (exactly one image or one video; the network does not show the text)",
+                          "default": "post"
+                        }
+                      },
+                      "additionalProperties": false,
+                      "type": "object",
+                      "description": "redes-sociales-reels-y-stories D-1: how a post goes out on Instagram or Facebook."
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "description": "Format on the pages network. Absent or null = `post`. In an edit, an ABSENT key keeps the stored format and `null` clears it"
                 }
               },
               "additionalProperties": false,
@@ -6179,7 +6229,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "PATCH",
     "path": "/api/v1/social/posts/{post_id}",
     "readOnly": false,
-    "toolset": "redes",
+    "toolset": "social",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -6193,7 +6243,7 @@ export const API_TOOLS: ApiTool[] = [
       "network_options"
     ],
     "pathPatterns": {},
-    "description": "Edit a post (author or approver)\n\nOnly the fields sent are changed. A `draft`, `rejected` or `pending_approval` post is edited in place. Editing a `scheduled` post takes it back out of the schedule — to `pending_approval` when the workspace requires approval, to `draft` otherwise — atomically with its destinations, so nothing approved can go out with different content. Not possible once a destination is publishing (409).\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Edit a post (author or approver)\n\nOnly the fields sent are changed. A `draft`, `rejected` or `pending_approval` post is edited in place. Editing a `scheduled` post takes it back out of the schedule — to `pending_approval` when the workspace requires approval, to `draft` otherwise — atomically with its destinations, so nothing approved can go out with different content. Not possible once a destination is publishing (409). `network_options`, when sent, is merged PER KEY: `youtube` and `tiktok` keep their meaning (a key left out is cleared); `instagram` and `facebook` left out KEEP the stored format, and `null` clears it (e.g. `{\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -6332,6 +6382,56 @@ export const API_TOOLS: ApiTool[] = [
                     }
                   ],
                   "description": "Options of the short-video network"
+                },
+                "instagram": {
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "format": {
+                          "type": "string",
+                          "enum": [
+                            "post",
+                            "reel",
+                            "story"
+                          ],
+                          "description": "`post` (a normal publication, the default), `reel` (exactly one video) or `story` (exactly one image or one video; the network does not show the text)",
+                          "default": "post"
+                        }
+                      },
+                      "additionalProperties": false,
+                      "type": "object",
+                      "description": "redes-sociales-reels-y-stories D-1: how a post goes out on Instagram or Facebook."
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "description": "Format on the photo-and-video network. Absent or null = `post`. In an edit, an ABSENT key keeps the stored format and `null` clears it"
+                },
+                "facebook": {
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "format": {
+                          "type": "string",
+                          "enum": [
+                            "post",
+                            "reel",
+                            "story"
+                          ],
+                          "description": "`post` (a normal publication, the default), `reel` (exactly one video) or `story` (exactly one image or one video; the network does not show the text)",
+                          "default": "post"
+                        }
+                      },
+                      "additionalProperties": false,
+                      "type": "object",
+                      "description": "redes-sociales-reels-y-stories D-1: how a post goes out on Instagram or Facebook."
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "description": "Format on the pages network. Absent or null = `post`. In an edit, an ABSENT key keeps the stored format and `null` clears it"
                 }
               },
               "additionalProperties": false,
@@ -6355,7 +6455,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/social/posts/{post_id}/submit",
     "readOnly": false,
-    "toolset": "redes",
+    "toolset": "social",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -6366,7 +6466,7 @@ export const API_TOOLS: ApiTool[] = [
       "publish_at"
     ],
     "pathPatterns": {},
-    "description": "Schedule a post, or send it to approval\n\nWith `publish_at` (UTC; future, within a year). When the workspace requires approval and the caller is not an approver, the post goes to `pending_approval` and the approvers are notified. Otherwise every destination becomes `scheduled` and the caller becomes the payer (their primary balance). Each destination is re-validated now, including the short-video network's options against what the network allows at this moment. `warnings` may list destinations whose network daily ceiling is reached (they wait until it frees up).\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Schedule a post, or send it to approval\n\nWith `publish_at` (UTC; future, within a year). When the workspace requires approval and the caller is not an approver, the post goes to `pending_approval` and the approvers are notified. Otherwise every destination becomes `scheduled` and the caller becomes the payer (their primary balance). Each destination is re-validated now, including the short-video network's options against what the network allows at this moment. `warnings` may list destinations whose network daily ceiling is reached (they wait until it frees up).\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -6394,7 +6494,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/social/posts/{post_id}/reschedule",
     "readOnly": false,
-    "toolset": "redes",
+    "toolset": "social",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -6405,7 +6505,7 @@ export const API_TOOLS: ApiTool[] = [
       "publish_at"
     ],
     "pathPatterns": {},
-    "description": "Change the date of a post (author or approver)\n\nAll or nothing: if any destination is already being published (or held for staff review), nothing changes and it answers 409. Moves no money. When a non-approver reschedules an approved post in a workspace that requires approval, the post goes back to `pending_approval` in the same step.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Change the date of a post (author or approver)\n\nAll or nothing: if any destination is already being published (or held for staff review), nothing changes and it answers 409. Moves no money. When a non-approver reschedules an approved post in a workspace that requires approval, the post goes back to `pending_approval` in the same step.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -6433,7 +6533,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/social/posts/{post_id}/cancel",
     "readOnly": false,
-    "toolset": "redes",
+    "toolset": "social",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -6442,7 +6542,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Cancel a post (author or approver)\n\nEvery destination still `scheduled` is cancelled: nothing is published or charged for it. A destination already being published cannot be stopped and is listed in `publishing`. Works with the vertical switched off.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Cancel a post (author or approver)\n\nEvery destination still `scheduled` is cancelled: nothing is published or charged for it. A destination already being published cannot be stopped and is listed in `publishing`. Works with the vertical switched off.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -6464,7 +6564,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/tasks",
     "readOnly": true,
-    "toolset": "tareas",
+    "toolset": "tasks",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -6476,7 +6576,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List tasks for the current user\n\nLists planned-work tasks. `scope=mine` (default) — created by the caller OR assigned to them. `scope=assigned` — only assigned to the caller. `scope=all` — every task in the tenant, `task_manager` only (silently downgraded to `mine` otherwise). `scope=takeable` — open tasks (not managed by a feature, not already the caller's) whose required skill is one of the caller's ACTIVE skills; no `task_manager` needed, empty when the caller holds none.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List tasks for the current user\n\nLists planned-work tasks. `scope=mine` (default) — created by the caller OR assigned to them. `scope=assigned` — only assigned to the caller. `scope=all` — every task in the tenant, `task_manager` only (silently downgraded to `mine` otherwise). `scope=takeable` — open tasks (not managed by a feature, not already the caller's) whose required skill is one of the caller's ACTIVE skills; no `task_manager` needed, empty when the caller holds none.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -6519,7 +6619,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/tasks/{task_id}",
     "readOnly": true,
-    "toolset": "tareas",
+    "toolset": "tasks",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -6528,7 +6628,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get a task's detail, including its bounded activity log\n\nReturns a single task with its bounded activity log (`events`, last 50 entries — creation and every status change). Uses the SAME access rule as `GET /tasks/{id}/subtasks` (RT-M1): the creator, the assignee, a `task_manager`, or anyone holding the skill of at least one of the task's subtasks, or — while the task is open and not managed by a feature — anyone holding its required skill as an active skill, or a person an owner of the task mentioned in a comment (read-only participant); anyone else gets 404. `viewer_access` says which of those the caller is. `GET /tasks` (list) never returns `even\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get a task's detail, including its bounded activity log\n\nReturns a single task with its bounded activity log (`events`, last 50 entries — creation and every status change). Uses the SAME access rule as `GET /tasks/{id}/subtasks` (RT-M1): the creator, the assignee, a `task_manager`, or anyone holding the skill of at least one of the task's subtasks, or — while the task is open and not managed by a feature — anyone holding its required skill as an active skill, or a person an owner of the task mentioned in a comment (read-only participant); anyone else gets 404. `viewer_access` says which of those the caller is. `GET /tasks` (list) never returns `even\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -6548,7 +6648,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/tasks/{task_id}/subtasks",
     "readOnly": true,
-    "toolset": "tareas",
+    "toolset": "tasks",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -6557,7 +6657,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List a task's subtasks in order, with lock state (roadmap)\n\nLists subtasks in `order`, each with `is_unlocked` computed against its siblings (TSK-04/TSK-05). Reachable by the task's creator, its assignee, a `task_manager`, or anyone holding the skill of at least one of its subtasks — anyone else gets 404.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List a task's subtasks in order, with lock state (roadmap)\n\nLists subtasks in `order`, each with `is_unlocked` computed against its siblings (TSK-04/TSK-05). Reachable by the task's creator, its assignee, a `task_manager`, or anyone holding the skill of at least one of its subtasks — anyone else gets 404.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -6577,7 +6677,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/subtasks/available",
     "readOnly": true,
-    "toolset": "tareas",
+    "toolset": "tasks",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -6587,7 +6687,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "My claimable/assigned subtasks across every task (bandeja)\n\nSubtasks that are `pending`/`in_progress`, unlocked, and either already assigned to the caller or unassigned with a skill the caller holds (RF-6/TSK-03).\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "My claimable/assigned subtasks across every task (bandeja)\n\nSubtasks that are `pending`/`in_progress`, unlocked, and either already assigned to the caller or unassigned with a skill the caller holds (RF-6/TSK-03).\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -6614,7 +6714,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/tasks/{task_id}/attachments",
     "readOnly": true,
-    "toolset": "tareas",
+    "toolset": "tasks",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -6623,7 +6723,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List a task's files\n\nLists the stored files of a task, oldest first, without locations or links. Reachable by anyone who can read the task (creator, assignee, `task_manager`, or the skill of one of its subtasks). `can_edit` says whether the caller may attach and delete; `attachments_enabled` whether attaching is switched on right now — when it is off the list still answers, and deleting still works.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List a task's files\n\nLists the stored files of a task, oldest first, without locations or links. Reachable by anyone who can read the task (creator, assignee, `task_manager`, or the skill of one of its subtasks). `can_edit` says whether the caller may attach and delete; `attachments_enabled` whether attaching is switched on right now — when it is off the list still answers, and deleting still works.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -6643,7 +6743,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/tasks/{task_id}/attachments/{attachment_id}/url",
     "readOnly": true,
-    "toolset": "tareas",
+    "toolset": "tasks",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -6655,7 +6755,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get a short-lived link to a task's file\n\nSigns a link to ONE file, valid for a few minutes, and records who asked for it and why. `purpose=view` (images and videos) serves the file inline; `purpose=download` serves it as a download. Reachable by anyone who can read the task.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get a short-lived link to a task's file\n\nSigns a link to ONE file, valid for a few minutes, and records who asked for it and why. `purpose=view` (images and videos) serves the file inline; `purpose=download` serves it as a download. Reachable by anyone who can read the task.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -6686,7 +6786,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/tasks",
     "readOnly": false,
-    "toolset": "tareas",
+    "toolset": "tasks",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -6698,7 +6798,7 @@ export const API_TOOLS: ApiTool[] = [
       "required_skill_id"
     ],
     "pathPatterns": {},
-    "description": "Create a new task\n\nCreates a new task, unstarted. Requires the `task_manager` skill (humans) OR a `ServiceKey` with the `tasks.write` capability, scope `tenant` (agents, TSK-08).\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Create a new task\n\nCreates a new task, unstarted. Requires the `task_manager` skill (humans) OR a `ServiceKey` with the `tasks.write` capability, scope `tenant` (agents, TSK-08).\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -6752,7 +6852,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "PATCH",
     "path": "/api/v1/tasks/{task_id}",
     "readOnly": false,
-    "toolset": "tareas",
+    "toolset": "tasks",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -6767,7 +6867,7 @@ export const API_TOOLS: ApiTool[] = [
       "required_skill_id"
     ],
     "pathPatterns": {},
-    "description": "Update a task\n\nPartially updates a task. Reachable by the creator, the assignee, or a `task_manager` (D-5.1) — anyone else gets 404, never a partial field list. Setting `status='done'` stamps `completed_at`. Every write is atomic (D-10') — a status change is recorded as a bounded activity event and never reverted by a concurrent edit of another field. Pass `expected_status` to opt into a strict compare-and-swap: a mismatch returns 409 `task_status_conflict` with nothing written (or 404 if the task is gone). Omitting it still guards the write against the status just read, with one silent retry from a fresh re\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Update a task\n\nPartially updates a task. Reachable by the creator, the assignee, or a `task_manager` (D-5.1) — anyone else gets 404, never a partial field list. Setting `status='done'` stamps `completed_at`. Every write is atomic (D-10') — a status change is recorded as a bounded activity event and never reverted by a concurrent edit of another field. Pass `expected_status` to opt into a strict compare-and-swap: a mismatch returns 409 `task_status_conflict` with nothing written (or 404 if the task is gone). Omitting it still guards the write against the status just read, with one silent retry from a fresh re\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -6856,7 +6956,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/tasks/{task_id}/assign",
     "readOnly": false,
-    "toolset": "tareas",
+    "toolset": "tasks",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -6867,7 +6967,7 @@ export const API_TOOLS: ApiTool[] = [
       "assigned_to_user_id"
     ],
     "pathPatterns": {},
-    "description": "Assign or reassign a task to a user of the tenant\n\nAssigns a task to any active user of the SAME tenant. Requires the `task_manager` skill (TSK-01, RF-2).\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Assign or reassign a task to a user of the tenant\n\nAssigns a task to any active user of the SAME tenant. Requires the `task_manager` skill (TSK-01, RF-2).\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -6892,7 +6992,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/tasks/{task_id}/subtasks",
     "readOnly": false,
-    "toolset": "tareas",
+    "toolset": "tasks",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -6904,7 +7004,7 @@ export const API_TOOLS: ApiTool[] = [
       "description"
     ],
     "pathPatterns": {},
-    "description": "Create a subtask with a required skill\n\nCreates a subtask under a task. `order` is assigned server-side by an atomic counter (D-16) — never accepted from the client. Requires `task_manager` (humans) OR a `ServiceKey` with `tasks.write` (agents, TSK-08).\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Create a subtask with a required skill\n\nCreates a subtask under a task. `order` is assigned server-side by an atomic counter (D-16) — never accepted from the client. Requires `task_manager` (humans) OR a `ServiceKey` with `tasks.write` (agents, TSK-08).\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -6941,7 +7041,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "PATCH",
     "path": "/api/v1/subtasks/{subtask_id}",
     "readOnly": false,
-    "toolset": "tareas",
+    "toolset": "tasks",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -6952,7 +7052,7 @@ export const API_TOOLS: ApiTool[] = [
       "status"
     ],
     "pathPatterns": {},
-    "description": "Claim (pending→in_progress) or complete (in_progress→completed) a subtask\n\nClaiming an unassigned subtask requires the subtask's skill; completing it requires being the assignee OR `task_manager` (override, D-6.2). A subtask whose previous sibling (by order) isn't `completed` rejects any transition with 409.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Claim (pending→in_progress) or complete (in_progress→completed) a subtask\n\nClaiming an unassigned subtask requires the subtask's skill; completing it requires being the assignee OR `task_manager` (override, D-6.2). A subtask whose previous sibling (by order) isn't `completed` rejects any transition with 409.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -6981,7 +7081,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/studio/templates",
     "readOnly": true,
-    "toolset": "estudio",
+    "toolset": "studio",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -6990,7 +7090,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Catalog of creative studio templates\n\nPublished templates visible to your workspace, with a short-lived sample link and the price of one piece in your balance currency (fee included). `price` is null when prices are not configured.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Catalog of creative studio templates\n\nPublished templates visible to your workspace, with a short-lived sample link and the price of one piece in your balance currency (fee included). `price` is null when prices are not configured.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -7016,7 +7116,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/studio/orders",
     "readOnly": true,
-    "toolset": "estudio",
+    "toolset": "studio",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -7027,7 +7127,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Your creative studio orders\n\nYour orders, newest first (page ≤ 50). In progress orders carry `eta_minutes` (~15).\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Your creative studio orders\n\nYour orders, newest first (page ≤ 50). In progress orders carry `eta_minutes` (~15).\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -7067,7 +7167,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/studio/orders/{order_id}",
     "readOnly": true,
-    "toolset": "estudio",
+    "toolset": "studio",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -7076,7 +7176,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "One of your creative studio orders\n\n404 when it is not yours.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "One of your creative studio orders\n\n404 when it is not yours.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -7096,7 +7196,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/studio/assets",
     "readOnly": true,
-    "toolset": "estudio",
+    "toolset": "studio",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -7106,7 +7206,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Your creative studio library\n\nDelivered pieces, newest first (page ≤ 50).\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Your creative studio library\n\nDelivered pieces, newest first (page ≤ 50).\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -7134,7 +7234,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/studio/assets/{asset_id}/url",
     "readOnly": true,
-    "toolset": "estudio",
+    "toolset": "studio",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -7145,7 +7245,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Signed link to view or download a piece\n\n300 s link; `disposition=attachment` downloads with the piece's own name.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Signed link to view or download a piece\n\n300 s link; `disposition=attachment` downloads with the piece's own name.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -7171,14 +7271,14 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/studio/charges",
     "readOnly": true,
-    "toolset": "estudio",
+    "toolset": "studio",
     "omit": [],
     "redact": [],
     "pathParams": [],
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Your unpaid creative studio pieces\n\nOpen debts: a piece delivered when your balance was short. An open debt blocks new orders until it is paid.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Your unpaid creative studio pieces\n\nOpen debts: a piece delivered when your balance was short. An open debt blocks new orders until it is paid.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {},
@@ -7191,14 +7291,14 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/studio/presenters",
     "readOnly": true,
-    "toolset": "estudio",
+    "toolset": "studio",
     "omit": [],
     "redact": [],
     "pathParams": [],
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Your presenters\n\nThe faces you registered to appear in your pieces, newest first, with their review state. Deleted presenters are not listed.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Your presenters\n\nThe faces you registered to appear in your pieces, newest first, with their review state. Deleted presenters are not listed.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {},
@@ -7211,7 +7311,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/prospecting/goals",
     "readOnly": true,
-    "toolset": "prospeccion",
+    "toolset": "prospecting",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -7222,7 +7322,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List prospecting goals\n\nGoals of your workspace, newest first. Every member with the module can read them. **Auth:** `Authorization: Bearer <app_token>` + `x-user-token: <user_token>`. The workspace is always the caller's own. Writing is for the goal's owner or a workspace administrator.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List prospecting goals\n\nGoals of your workspace, newest first. Every member with the module can read them. **Auth:** `Authorization: Bearer <app_token>` + `x-user-token: <user_token>`. The workspace is always the caller's own. Writing is for the goal's owner or a workspace administrator.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -7265,7 +7365,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/prospecting/goals/{goal_id}",
     "readOnly": true,
-    "toolset": "prospeccion",
+    "toolset": "prospecting",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -7274,7 +7374,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get a prospecting goal\n\nOne goal of your workspace. **Auth:** `Authorization: Bearer <app_token>` + `x-user-token: <user_token>`. The workspace is always the caller's own. Writing is for the goal's owner or a workspace administrator.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Get a prospecting goal\n\nOne goal of your workspace. **Auth:** `Authorization: Bearer <app_token>` + `x-user-token: <user_token>`. The workspace is always the caller's own. Writing is for the goal's owner or a workspace administrator.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -7294,7 +7394,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/prospecting/goals/{goal_id}/readiness",
     "readOnly": true,
-    "toolset": "prospeccion",
+    "toolset": "prospecting",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -7303,7 +7403,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Readiness of a prospecting goal\n\nWhether each connection works for the goal — mailbox, calendar, Sales, its agent and the diagnosis price — each with a stable reason code when it does not. Derived on read. **Auth:** `Authorization: Bearer <app_token>` + `x-user-token: <user_token>`. The workspace is always the caller's own. Writing is for the goal's owner or a workspace administrator.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Readiness of a prospecting goal\n\nWhether each connection works for the goal — mailbox, calendar, Sales, its agent and the diagnosis price — each with a stable reason code when it does not. Derived on read. **Auth:** `Authorization: Bearer <app_token>` + `x-user-token: <user_token>`. The workspace is always the caller's own. Writing is for the goal's owner or a workspace administrator.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -7323,7 +7423,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/prospecting/goals/{goal_id}/board",
     "readOnly": true,
-    "toolset": "prospeccion",
+    "toolset": "prospecting",
     "omit": [],
     "redact": [
       "contact"
@@ -7336,7 +7436,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Board of a prospecting goal\n\nColumns in order: to diagnose, to review, ready, contacted, replied, meeting, closed. «To review» and «ready» are derived from the messages. Each column brings its total and its most recently updated prospects (up to `per_stage`). **Auth:** `Authorization: Bearer <app_token>` + `x-user-token: <user_token>`. The workspace is always the caller's own. Writing is for the goal's owner or a workspace administrator.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Board of a prospecting goal\n\nColumns in order: to diagnose, to review, ready, contacted, replied, meeting, closed. «To review» and «ready» are derived from the messages. Each column brings its total and its most recently updated prospects (up to `per_stage`). **Auth:** `Authorization: Bearer <app_token>` + `x-user-token: <user_token>`. The workspace is always the caller's own. Writing is for the goal's owner or a workspace administrator.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -7363,7 +7463,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/prospecting/goals/{goal_id}/metrics",
     "readOnly": true,
-    "toolset": "prospeccion",
+    "toolset": "prospecting",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -7372,7 +7472,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "What works: the funnel of a goal\n\nSent, mature, replied, positive, meetings and hand-offs by channel, segment, piece and variant, each prospect counted once under its FIRST touch. «To review» and «ready» come from the messages. The variant comparison is a practical rule (a minimum of mature sends per variant and a minimum gap), not a statistical test: the losing variant is retired automatically and one always stays. **Auth:** `Authorization: Bearer <app_token>` + `x-user-token: <user_token>`. The workspace is always the caller's own. Writing is for the goal's owner or a workspace administrator.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "What works: the funnel of a goal\n\nSent, mature, replied, positive, meetings and hand-offs by channel, segment, piece and variant, each prospect counted once under its FIRST touch. «To review» and «ready» come from the messages. The variant comparison is a practical rule (a minimum of mature sends per variant and a minimum gap), not a statistical test: the losing variant is retired automatically and one always stays. **Auth:** `Authorization: Bearer <app_token>` + `x-user-token: <user_token>`. The workspace is always the caller's own. Writing is for the goal's owner or a workspace administrator.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -7392,7 +7492,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/prospecting/goals/{goal_id}/prospects",
     "readOnly": true,
-    "toolset": "prospeccion",
+    "toolset": "prospecting",
     "omit": [],
     "redact": [
       "contact"
@@ -7407,7 +7507,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List the prospects of a goal\n\nProspects of the goal, most recently updated first. **Auth:** `Authorization: Bearer <app_token>` + `x-user-token: <user_token>`. The workspace is always the caller's own. Writing is for the goal's owner or a workspace administrator.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List the prospects of a goal\n\nProspects of the goal, most recently updated first. **Auth:** `Authorization: Bearer <app_token>` + `x-user-token: <user_token>`. The workspace is always the caller's own. Writing is for the goal's owner or a workspace administrator.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -7463,7 +7563,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/prospecting/goals/{goal_id}/prospects",
     "readOnly": false,
-    "toolset": "prospeccion",
+    "toolset": "prospecting",
     "omit": [],
     "redact": [
       "contact"
@@ -7480,7 +7580,7 @@ export const API_TOOLS: ApiTool[] = [
       "contact"
     ],
     "pathPatterns": {},
-    "description": "Add a prospect\n\nAdds a company with its website, email or profile. If one of those already belongs to a prospect of the goal, that prospect is returned (`created: false`) and its empty fields are completed. **Auth:** `Authorization: Bearer <app_token>` + `x-user-token: <user_token>`. The workspace is always the caller's own. Writing is for the goal's owner or a workspace administrator.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Add a prospect\n\nAdds a company with its website, email or profile. If one of those already belongs to a prospect of the goal, that prospect is returned (`created: false`) and its empty fields are completed. **Auth:** `Authorization: Bearer <app_token>` + `x-user-token: <user_token>`. The workspace is always the caller's own. Writing is for the goal's owner or a workspace administrator.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -7585,7 +7685,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/prospecting/goals/{goal_id}/prospects/import",
     "readOnly": false,
-    "toolset": "prospeccion",
+    "toolset": "prospecting",
     "omit": [],
     "redact": [
       "contact"
@@ -7598,7 +7698,7 @@ export const API_TOOLS: ApiTool[] = [
       "rows"
     ],
     "pathPatterns": {},
-    "description": "Import prospects\n\nUp to the workspace's row limit. Each row is created, matched (skipped, completing its empty fields), refused because the company is on the do-not-contact list, or rejected with a reason. **Auth:** `Authorization: Bearer <app_token>` + `x-user-token: <user_token>`. The workspace is always the caller's own. Writing is for the goal's owner or a workspace administrator.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Import prospects\n\nUp to the workspace's row limit. Each row is created, matched (skipped, completing its empty fields), refused because the company is on the do-not-contact list, or rejected with a reason. **Auth:** `Authorization: Bearer <app_token>` + `x-user-token: <user_token>`. The workspace is always the caller's own. Writing is for the goal's owner or a workspace administrator.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -7716,7 +7816,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/coupons",
     "readOnly": true,
-    "toolset": "cupones",
+    "toolset": "coupons",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -7729,7 +7829,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List my coupons\n\nNewest first, by cursor.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "List my coupons\n\nNewest first, by cursor.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -7798,7 +7898,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/coupons/{coupon_id}",
     "readOnly": true,
-    "toolset": "cupones",
+    "toolset": "coupons",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -7807,7 +7907,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "One of my coupons\n\nA coupon of another issuer answers 404.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "One of my coupons\n\nA coupon of another issuer answers 404.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -7829,7 +7929,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/coupons/export",
     "readOnly": true,
-    "toolset": "cupones",
+    "toolset": "coupons",
     "omit": [],
     "redact": [],
     "pathParams": [],
@@ -7838,7 +7938,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Export a batch as CSV\n\nOne row per code (at most 500): code, value, currency, type, window, status, confirmed uses.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Export a batch as CSV\n\nOne row per code (at most 500): code, value, currency, type, window, status, confirmed uses.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -7860,14 +7960,14 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/coupons/stores",
     "readOnly": true,
-    "toolset": "cupones",
+    "toolset": "coupons",
     "omit": [],
     "redact": [],
     "pathParams": [],
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "My stores in the coupon engine\n\nYour live store sites whose store is registered in the coupon engine.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "My stores in the coupon engine\n\nYour live store sites whose store is registered in the coupon engine.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {},
@@ -7880,7 +7980,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/coupons/stores/{slug}",
     "readOnly": true,
-    "toolset": "cupones",
+    "toolset": "coupons",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -7895,7 +7995,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Coupons of one of my stores\n\nNewest first, by cursor.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "Coupons of one of my stores\n\nNewest first, by cursor.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -7972,7 +8072,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "GET",
     "path": "/api/v1/coupons/stores/{slug}/coupons/{coupon_id}",
     "readOnly": true,
-    "toolset": "cupones",
+    "toolset": "coupons",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -7982,7 +8082,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "One coupon of one of my stores\n\nA store that is not one of yours, or a coupon of another issuer (your own space included), answers 404.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.",
+    "description": "One coupon of one of my stores\n\nA store that is not one of yours, or a coupon of another issuer (your own space included), answers 404.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -8011,7 +8111,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "POST",
     "path": "/api/v1/coupons",
     "readOnly": false,
-    "toolset": "cupones",
+    "toolset": "coupons",
     "omit": [
       "charge_fee"
     ],
@@ -8037,7 +8137,7 @@ export const API_TOOLS: ApiTool[] = [
       "combinable_with_sales"
     ],
     "pathPatterns": {},
-    "description": "Create a coupon\n\nPercentage or fixed amount, with an optional window and use limits. Omit `code` to have one generated.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Create a coupon\n\nPercentage or fixed amount, with an optional window and use limits. Omit `code` to have one generated.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -8241,7 +8341,7 @@ export const API_TOOLS: ApiTool[] = [
     "method": "PATCH",
     "path": "/api/v1/coupons/{coupon_id}",
     "readOnly": false,
-    "toolset": "cupones",
+    "toolset": "coupons",
     "omit": [],
     "redact": [],
     "pathParams": [
@@ -8265,7 +8365,7 @@ export const API_TOOLS: ApiTool[] = [
       "status"
     ],
     "pathPatterns": {},
-    "description": "Edit one of my coupons\n\nAbsent fields are untouched. Whether it is single-use, and whether it has a cap, never change; an existing cap of 2 or more may only go up; archived is final.\n\nUn 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.\n\nEscribe en la cuenta: confirme con la persona antes de ejecutarla.",
+    "description": "Edit one of my coupons\n\nAbsent fields are untouched. Whether it is single-use, and whether it has a cap, never change; an existing cap of 2 or more may only go up; archived is final.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
     "inputSchema": {
       "type": "object",
       "properties": {

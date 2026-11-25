@@ -79,7 +79,7 @@ describe('IPA-04 CA-9 raw body, status and list limit', () => {
     expect(result.isError).toBe(true);
     expect(result.content[0]!.text).toContain('HTTP 404');
     expect(result.content[0]!.text).toContain('{"detail":"Business not found"}');
-    expect(result.content[0]!.text).toContain('no instrucciones');
+    expect(result.content[0]!.text).toContain('not instructions');
   });
   it('lists get limit=20 unless the model asks otherwise', async () => {
     const api = fakeApi();
@@ -106,7 +106,7 @@ describe('T-20 truncation', () => {
     const {client} = await connect({fetch: api.fetch, credentials: KEYS});
     const result = await call(client, 'getUserProfile');
     const text = result.content[0]!.text;
-    expect(text).toContain('Respuesta recortada a 100 KiB');
+    expect(text).toContain('Response truncated to 100 KiB');
     expect(text.match(/x{1000,}/)![0].length).toBe(MAX_RESPONSE_BYTES);
   });
 });

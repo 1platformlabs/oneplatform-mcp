@@ -4,7 +4,7 @@ import {describe, expect, it} from 'vitest';
 import {buildTools, deniedBy, loadSpec, TOOLSETS as BUILD_TOOLSETS} from '../scripts/build-tools.mjs';
 import {API_TOOLS} from '../src/generated/tools.js';
 import {handleCall} from '../src/server.js';
-import {parseToolsets, TOOLSETS} from '../src/toolsets.js';
+import {LEGACY_TOOLSET_ALIASES, parseToolsets, TOOLSETS} from '../src/toolsets.js';
 import {connect, fakeApi, KEYS} from './helpers.js';
 
 const denylist = JSON.parse(readFileSync(new URL('../denylist.json', import.meta.url), 'utf8'));
@@ -16,21 +16,31 @@ describe('toolsets por vertical', () => {
     for (const tool of API_TOOLS) expect(TOOLSETS).toContain(tool.toolset);
     for (const set of TOOLSETS) expect(API_TOOLS.some((t) => t.toolset === set)).toBe(true);
   });
-  it('sin selección = todas; con selección suma siempre cuenta', () => {
+  it('sin selección = todas; con selección suma siempre account', () => {
     expect(parseToolsets(undefined)).toBeUndefined();
+    expect(parseToolsets(' all ')).toBeUndefined();
     expect(parseToolsets(' todos ')).toBeUndefined();
-    expect([...parseToolsets('Pagos, envios')!].sort()).toEqual(['cuenta', 'envios', 'pagos']);
+    expect([...parseToolsets('Payments, shipping')!].sort()).toEqual(['account', 'payments', 'shipping']);
+    expect(() => parseToolsets('payments,payroll')).toThrow(/payroll/);
+  });
+  it('los nombres en español de 0.3.0 siguen funcionando como alias', () => {
+    expect([...parseToolsets('Pagos, envios')!].sort()).toEqual(['account', 'payments', 'shipping']);
+    expect([...parseToolsets('cuenta,cupones,payments')!].sort()).toEqual(['account', 'coupons', 'payments']);
+    for (const [alias, name] of Object.entries(LEGACY_TOOLSET_ALIASES)) {
+      expect(TOOLSETS).toContain(name);
+      expect(TOOLSETS as readonly string[]).not.toContain(alias);
+    }
     expect(() => parseToolsets('pagos,nomina')).toThrow(/nomina/);
   });
-  it('tools/list con un toolset lista sólo esa vertical más cuenta y la documentación', async () => {
-    const {client} = await connect({fetch: fakeApi().fetch, credentials: KEYS, toolsets: parseToolsets('envios')});
+  it('tools/list con un toolset lista sólo esa vertical más account y la documentación', async () => {
+    const {client} = await connect({fetch: fakeApi().fetch, credentials: KEYS, toolsets: parseToolsets('shipping')});
     const names = (await client.listTools()).tools.map((t) => t.name);
-    const expected = API_TOOLS.filter((t) => t.toolset === 'envios' || t.toolset === 'cuenta').map((t) => t.name);
+    const expected = API_TOOLS.filter((t) => t.toolset === 'shipping' || t.toolset === 'account').map((t) => t.name);
     expect(names.sort()).toEqual(['api_get_operation', 'docs_get_page', 'docs_search', ...expected].sort());
   });
   it('llamar una tool de un toolset apagado no toca la red', async () => {
     const api = fakeApi();
-    const r = await handleCall('listInvoices', {businessId: 'b1'}, {credentials: KEYS, apiBase: 'https://api-qa.1platform.pro/api/v1', fetch: api.fetch, broker: undefined as never, docs: undefined as never, toolsets: parseToolsets('envios')});
+    const r = await handleCall('listInvoices', {businessId: 'b1'}, {credentials: KEYS, apiBase: 'https://api-qa.1platform.pro/api/v1', fetch: api.fetch, broker: undefined as never, docs: undefined as never, toolsets: parseToolsets('shipping')});
     expect(r.isError).toBe(true);
     expect(api.calls).toHaveLength(0);
   });
@@ -44,7 +54,7 @@ describe('denylist por método (retiros y dominios: se leen, no se escriben)', (
   });
   it('el manifiesto no puede sumar un retiro ni un registro de dominio', () => {
     for (const operationId of ['requestCashOutPayout', 'registerDomain', 'renewDomain']) {
-      const {errors} = buildTools(loadSpec(specFile), {tools: [{operationId, readOnly: false, toolset: 'retiros'}]}, denylist);
+      const {errors} = buildTools(loadSpec(specFile), {tools: [{operationId, readOnly: false, toolset: 'payouts'}]}, denylist);
       expect(errors.join()).toMatch(/denylist/);
     }
   });
@@ -73,8 +83,8 @@ describe('denylist por método (retiros y dominios: se leen, no se escriben)', (
     expect(deniedBy(denylist, 'listCoupons', '/api/v1/coupons', 'GET')).toBeUndefined();
   });
   it('cupones: ni charge_fee ni cabeceras llegan al modelo', () => {
-    for (const t of API_TOOLS.filter((x) => x.toolset === 'cupones')) expect(Object.keys(t.inputSchema.properties)).not.toContain('charge_fee');
-    expect(API_TOOLS.filter((x) => x.toolset === 'cupones').map((x) => x.name).sort()).toEqual(['createCoupon', 'exportCouponBatch', 'getCoupon', 'getMyStoreCoupon', 'listCoupons', 'listMyCouponStores', 'listMyStoreCoupons', 'updateCoupon']);
+    for (const t of API_TOOLS.filter((x) => x.toolset === 'coupons')) expect(Object.keys(t.inputSchema.properties)).not.toContain('charge_fee');
+    expect(API_TOOLS.filter((x) => x.toolset === 'coupons').map((x) => x.name).sort()).toEqual(['createCoupon', 'exportCouponBatch', 'getCoupon', 'getMyStoreCoupon', 'listCoupons', 'listMyCouponStores', 'listMyStoreCoupons', 'updateCoupon']);
   });
   it('los enlaces de agenda no pueden revocar el enlace vigente (rotate fuera del esquema)', () => {
     for (const name of ['createBookingLink', 'createMyIntakeLink']) {

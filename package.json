@@ -1,7 +1,7 @@
 {
   "name": "@oneplatformlabs/mcp",
   "version": "0.3.0",
-  "description": "Servidor MCP de OnePlatform: documentación y operaciones de la OnePlatform API con sus propias claves, en QA por defecto.",
+  "description": "OnePlatform MCP server: documentation and OnePlatform API operations with your own keys, QA by default.",
   "license": "MIT",
   "type": "module",
   "bin": {
