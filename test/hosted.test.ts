@@ -71,9 +71,11 @@ describe('IPA-05 · CA-3 límite propio por cliente resuelto', () => {
 describe('X-OnePlatform-Toolsets en el alojado', () => {
   it('acota la lista y un nombre desconocido es 400', async () => {
     const {rpc} = await start();
-    const narrowed = await (await rpc(list, {...keys, 'x-oneplatform-toolsets': 'envios'})).json();
+    const narrowed = await (await rpc(list, {...keys, 'x-oneplatform-toolsets': 'shipping'})).json();
     expect(narrowed.result.tools.map((t: {name: string}) => t.name)).toContain('listDeliveries');
     expect(narrowed.result.tools.map((t: {name: string}) => t.name)).not.toContain('listInvoices');
+    const legacy = await (await rpc(list, {...keys, 'x-oneplatform-toolsets': 'envios'})).json();
+    expect(legacy.result.tools.map((t: {name: string}) => t.name).sort()).toEqual(narrowed.result.tools.map((t: {name: string}) => t.name).sort());
     const bad = await rpc(list, {...keys, 'x-oneplatform-toolsets': 'nomina'});
     expect(bad.status).toBe(400);
   });

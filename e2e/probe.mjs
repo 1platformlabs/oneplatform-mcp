@@ -63,7 +63,7 @@ async function session(name, env) {
 const apiReqs = (reqs) => reqs.filter((r) => r.origin === API_ORIGIN);
 const exchanges = (reqs, path) => reqs.filter((r) => r.path === `/api/v1${path}`).length;
 const statusOf = (text) => Number(/HTTP (\d{3})/.exec(text)?.[1] ?? 0);
-const bodyOf = (text) => JSON.parse(text.slice(text.indexOf('\n\n') + 2).replace(/\n\n\[Respuesta recortada[\s\S]*$/, ''));
+const bodyOf = (text) => JSON.parse(text.slice(text.indexOf('\n\n') + 2).replace(/\n\n\[Response truncated[\s\S]*$/, ''));
 
 const a = fx.users.a;
 const b = fx.users.b;

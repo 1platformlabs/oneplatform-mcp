@@ -7,7 +7,7 @@
  */
 export class PathRejected extends Error {
   constructor(readonly param: string) {
-    super(`El parámetro de ruta «${param}» no tiene un formato válido.`);
+    super(`Path parameter "${param}" has an invalid format.`);
   }
 }
 

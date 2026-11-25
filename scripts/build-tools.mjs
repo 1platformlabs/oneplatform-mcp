@@ -72,7 +72,7 @@ export function sensitiveKeys(schema, out = new Set()) {
   return out;
 }
 
-export const TOOLSETS = ['cuenta', 'pagos', 'retiros', 'suscripciones', 'terminal', 'facturacion', 'envios', 'sitios', 'analitica', 'correo', 'dominios', 'telemetria', 'ventas', 'agentes', 'agenda', 'redes', 'tareas', 'estudio', 'prospeccion', 'cupones'];
+export const TOOLSETS = ['account', 'payments', 'payouts', 'subscriptions', 'terminal', 'invoicing', 'shipping', 'sites', 'analytics', 'email', 'domains', 'telemetry', 'sales', 'agents', 'scheduling', 'social', 'tasks', 'studio', 'prospecting', 'coupons'];
 
 const under = (path, prefix) => path === prefix || path.startsWith(`${prefix}/`);
 
@@ -143,9 +143,9 @@ export function buildTools(spec, manifest, denylist) {
     const summary = String(found.op.summary ?? entry.operationId).trim();
     const detail = String(found.op.description ?? '').trim().split('\n\n')[0].slice(0, 600);
     const notes = [];
-    if (found.path.includes('{businessId}')) notes.push('Obtenga el businessId con listBusinessesForUser antes de llamar a esta herramienta.');
-    notes.push('Un 403 con module_disabled indica un módulo apagado en el espacio de trabajo, no una falla del servidor MCP.');
-    if (!entry.readOnly) notes.push('Escribe en la cuenta: confirme con la persona antes de ejecutarla.');
+    if (found.path.includes('{businessId}')) notes.push('Get the businessId with listBusinessesForUser before calling this tool.');
+    notes.push('A 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.');
+    if (!entry.readOnly) notes.push('Writes to the account: confirm with the person before running it.');
     tools.push({
       name: entry.operationId,
       method: found.method,
