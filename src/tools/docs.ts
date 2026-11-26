@@ -18,11 +18,11 @@ const PAGE_PATH = /^\/(?:docs|prompts|skills)\/[A-Za-z0-9/_-]+$/;
 export const DOCS_TOOLS = [
   {
     name: 'docs_search',
-    description: 'Busca en la documentación de OnePlatform para desarrolladores y devuelve las páginas más relevantes con su URL en Markdown. No necesita claves.',
+    description: 'Searches the OnePlatform developer documentation and returns the most relevant pages with their Markdown URL. The documentation is written in Spanish, so search with Spanish terms. No keys needed.',
     inputSchema: {
       type: 'object',
       properties: {
-        query: {type: 'string', minLength: 1, maxLength: 200, description: 'Qué busca, en palabras (por ejemplo: «crear un link de pago»).'},
+        query: {type: 'string', minLength: 1, maxLength: 200, description: 'What to look for, in words, preferably in Spanish (for example: "crear un link de pago" for creating a payment link).'},
         limit: {type: 'integer', minimum: 1, maximum: 25, default: 8},
       },
       required: ['query'],
@@ -31,17 +31,17 @@ export const DOCS_TOOLS = [
   },
   {
     name: 'docs_get_page',
-    description: 'Devuelve una página de la documentación de OnePlatform en Markdown. Acepta la ruta de la página (por ejemplo /docs/saas/1platform-api/links-de-pago) o su URL. No necesita claves.',
+    description: 'Returns a OnePlatform documentation page as Markdown (the documentation is written in Spanish). Accepts the page path (for example /docs/saas/1platform-api/links-de-pago) or its URL. No keys needed.',
     inputSchema: {
       type: 'object',
-      properties: {path: {type: 'string', minLength: 1, maxLength: 300, description: 'Ruta o URL de la página en developer.1platform.pro.'}},
+      properties: {path: {type: 'string', minLength: 1, maxLength: 300, description: 'Path or URL of the page on developer.1platform.pro.'}},
       required: ['path'],
       additionalProperties: false,
     },
   },
   {
     name: 'api_get_operation',
-    description: 'Devuelve el contrato exacto de una operación de la OnePlatform API (método, ruta, parámetros, cuerpo, respuestas y códigos de error) a partir de su operationId. No necesita claves.',
+    description: 'Returns the exact contract of a OnePlatform API operation (method, path, parameters, body, responses and error codes) from its operationId. No keys needed.',
     inputSchema: {
       type: 'object',
       properties: {operationId: {type: 'string', pattern: '^[A-Za-z][A-Za-z0-9_]{0,99}$'}},
@@ -70,10 +70,10 @@ export class Docs {
     try {
       response = await this.deps.fetch(`${this.deps.docsBase}${path}`, {signal: AbortSignal.timeout(15_000)});
     } catch {
-      throw new DocsError('No se pudo contactar el portal de documentación.');
+      throw new DocsError('Could not reach the documentation portal.');
     }
-    if (response.status === 404) throw new DocsError(`No existe ${path} en la documentación.`);
-    if (!response.ok) throw new DocsError(`El portal de documentación respondió ${response.status}.`);
+    if (response.status === 404) throw new DocsError(`${path} does not exist in the documentation.`);
+    if (!response.ok) throw new DocsError(`The documentation portal responded ${response.status}.`);
     const value = as === 'json' ? await response.json() : await response.text();
     if (this.cache.size > 200) this.cache.clear();
     this.cache.set(path, {value, at: this.now()});
@@ -90,7 +90,7 @@ export class Docs {
       .filter((s) => s.score > 0)
       .sort((a, b) => b.score - a.score)
       .slice(0, limit);
-    if (!scored.length) return `Sin resultados para «${query}». El índice completo está en ${this.deps.docsBase}/llms.txt.`;
+    if (!scored.length) return `No results for "${query}". The documentation is in Spanish: try Spanish terms. The full index is at ${this.deps.docsBase}/llms.txt.`;
     return scored.map((s) => s.line).join('\n');
   }
 
@@ -98,11 +98,11 @@ export class Docs {
     let path = raw.trim();
     if (/^https?:\/\//.test(path)) {
       const url = new URL(path);
-      if (url.origin !== new URL(this.deps.docsBase).origin) throw new DocsError('Sólo se leen páginas de la documentación de OnePlatform.');
+      if (url.origin !== new URL(this.deps.docsBase).origin) throw new DocsError('Only OnePlatform documentation pages can be read.');
       path = url.pathname;
     }
     path = path.replace(/\.md$/, '').replace(/\/$/, '').split('#')[0] ?? '';
-    if (!PAGE_PATH.test(path) || path.includes('..')) throw new DocsError('La ruta no corresponde a una página de la documentación.');
+    if (!PAGE_PATH.test(path) || path.includes('..')) throw new DocsError('The path is not a documentation page.');
     return truncate(String(await this.get(`${path}.md`, 'text'))).text;
   }
 
@@ -115,7 +115,7 @@ export class Docs {
         return truncate(JSON.stringify(resolved, null, 2)).text;
       }
     }
-    throw new DocsError(`No existe la operación ${operationId} en el OpenAPI de la OnePlatform API.`);
+    throw new DocsError(`Operation ${operationId} does not exist in the OnePlatform API OpenAPI.`);
   }
 }
 

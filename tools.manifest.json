@@ -4,37 +4,37 @@
     {
       "operationId": "getUserProfile",
       "readOnly": true,
-      "toolset": "cuenta"
+      "toolset": "account"
     },
     {
       "operationId": "getBalanceHistory",
       "readOnly": true,
-      "toolset": "cuenta"
+      "toolset": "account"
     },
     {
       "operationId": "getConsumptionSummary",
       "readOnly": true,
-      "toolset": "cuenta"
+      "toolset": "account"
     },
     {
       "operationId": "listBusinessesForUser",
       "readOnly": true,
-      "toolset": "cuenta"
+      "toolset": "account"
     },
     {
       "operationId": "getBusiness",
       "readOnly": true,
-      "toolset": "cuenta"
+      "toolset": "account"
     },
     {
       "operationId": "listPaymentLinks",
       "readOnly": true,
-      "toolset": "pagos"
+      "toolset": "payments"
     },
     {
       "operationId": "getPaymentLink",
       "readOnly": true,
-      "toolset": "pagos"
+      "toolset": "payments"
     },
     {
       "operationId": "listPaymentTransactions",
@@ -42,7 +42,7 @@
       "redact": [
         "bank_authorization"
       ],
-      "toolset": "pagos"
+      "toolset": "payments"
     },
     {
       "operationId": "getPaymentTransactionById",
@@ -50,27 +50,27 @@
       "redact": [
         "bank_authorization"
       ],
-      "toolset": "pagos"
+      "toolset": "payments"
     },
     {
       "operationId": "listInvoices",
       "readOnly": true,
-      "toolset": "facturacion"
+      "toolset": "invoicing"
     },
     {
       "operationId": "getInvoice",
       "readOnly": true,
-      "toolset": "facturacion"
+      "toolset": "invoicing"
     },
     {
       "operationId": "listDeliveries",
       "readOnly": true,
-      "toolset": "envios"
+      "toolset": "shipping"
     },
     {
       "operationId": "getDelivery",
       "readOnly": true,
-      "toolset": "envios"
+      "toolset": "shipping"
     },
     {
       "operationId": "listMyWebsites",
@@ -80,7 +80,7 @@
         "token_expiry",
         "refresh_token_created_at"
       ],
-      "toolset": "sitios"
+      "toolset": "sites"
     },
     {
       "operationId": "getWebsite",
@@ -90,12 +90,12 @@
         "token_expiry",
         "refresh_token_created_at"
       ],
-      "toolset": "sitios"
+      "toolset": "sites"
     },
     {
       "operationId": "listNotifications",
       "readOnly": true,
-      "toolset": "cuenta"
+      "toolset": "account"
     },
     {
       "operationId": "createPaymentLink",
@@ -103,62 +103,62 @@
       "omit": [
         "customer_email"
       ],
-      "toolset": "pagos"
+      "toolset": "payments"
     },
     {
       "operationId": "cancelPaymentLink",
       "readOnly": false,
-      "toolset": "pagos"
+      "toolset": "payments"
     },
     {
       "operationId": "getCashOutSummary",
       "readOnly": true,
-      "toolset": "retiros"
+      "toolset": "payouts"
     },
     {
       "operationId": "listCashOutMovements",
       "readOnly": true,
-      "toolset": "retiros"
+      "toolset": "payouts"
     },
     {
       "operationId": "listCashOutPayouts",
       "readOnly": true,
-      "toolset": "retiros"
+      "toolset": "payouts"
     },
     {
       "operationId": "listCashOutReclassifiableCharges",
       "readOnly": true,
-      "toolset": "retiros"
+      "toolset": "payouts"
     },
     {
       "operationId": "listSubscriptionPlans",
       "readOnly": true,
-      "toolset": "suscripciones"
+      "toolset": "subscriptions"
     },
     {
       "operationId": "getSubscriptionPlan",
       "readOnly": true,
-      "toolset": "suscripciones"
+      "toolset": "subscriptions"
     },
     {
       "operationId": "listMerchantSubscriptions",
       "readOnly": true,
-      "toolset": "suscripciones"
+      "toolset": "subscriptions"
     },
     {
       "operationId": "getMerchantSubscription",
       "readOnly": true,
-      "toolset": "suscripciones"
+      "toolset": "subscriptions"
     },
     {
       "operationId": "listCustomers",
       "readOnly": true,
-      "toolset": "suscripciones"
+      "toolset": "subscriptions"
     },
     {
       "operationId": "getCustomer",
       "readOnly": true,
-      "toolset": "suscripciones"
+      "toolset": "subscriptions"
     },
     {
       "operationId": "listTerminalRequests",
@@ -173,27 +173,27 @@
     {
       "operationId": "listPosts",
       "readOnly": true,
-      "toolset": "sitios"
+      "toolset": "sites"
     },
     {
       "operationId": "getContentJob",
       "readOnly": true,
-      "toolset": "sitios"
+      "toolset": "sites"
     },
     {
       "operationId": "listCategories",
       "readOnly": true,
-      "toolset": "sitios"
+      "toolset": "sites"
     },
     {
       "operationId": "getSearchConsolePerformance",
       "readOnly": true,
-      "toolset": "sitios"
+      "toolset": "sites"
     },
     {
       "operationId": "getAnalyticsStatus",
       "readOnly": true,
-      "toolset": "analitica",
+      "toolset": "analytics",
       "redact": [
         "mp_secret_id",
         "mp_secret_masked"
@@ -202,262 +202,262 @@
     {
       "operationId": "getAnalyticsOverview",
       "readOnly": true,
-      "toolset": "analitica"
+      "toolset": "analytics"
     },
     {
       "operationId": "getPageMetrics",
       "readOnly": true,
-      "toolset": "analitica"
+      "toolset": "analytics"
     },
     {
       "operationId": "getRealtimeMetrics",
       "readOnly": true,
-      "toolset": "analitica"
+      "toolset": "analytics"
     },
     {
       "operationId": "listAdSenseSites",
       "readOnly": true,
-      "toolset": "analitica"
+      "toolset": "analytics"
     },
     {
       "operationId": "getAdSenseEarningsOverview",
       "readOnly": true,
-      "toolset": "analitica"
+      "toolset": "analytics"
     },
     {
       "operationId": "getAdSenseEarningsByPage",
       "readOnly": true,
-      "toolset": "analitica"
+      "toolset": "analytics"
     },
     {
       "operationId": "listAdSenseAlerts",
       "readOnly": true,
-      "toolset": "analitica"
+      "toolset": "analytics"
     },
     {
       "operationId": "listHeatmapSites",
       "readOnly": true,
-      "toolset": "analitica"
+      "toolset": "analytics"
     },
     {
       "operationId": "listHeatmapPages",
       "readOnly": true,
-      "toolset": "analitica"
+      "toolset": "analytics"
     },
     {
       "operationId": "getTransactionalEmailLimits",
       "readOnly": true,
-      "toolset": "correo"
+      "toolset": "email"
     },
     {
       "operationId": "listTransactionalEmailSenders",
       "readOnly": true,
-      "toolset": "correo"
+      "toolset": "email"
     },
     {
       "operationId": "listTransactionalEmailTemplates",
       "readOnly": true,
-      "toolset": "correo"
+      "toolset": "email"
     },
     {
       "operationId": "listTransactionalEmailMessages",
       "readOnly": true,
-      "toolset": "correo"
+      "toolset": "email"
     },
     {
       "operationId": "getTransactionalEmailMessage",
       "readOnly": true,
-      "toolset": "correo"
+      "toolset": "email"
     },
     {
       "operationId": "listMailThreads",
       "readOnly": true,
-      "toolset": "correo"
+      "toolset": "email"
     },
     {
       "operationId": "getMailThread",
       "readOnly": true,
-      "toolset": "correo"
+      "toolset": "email"
     },
     {
       "operationId": "listDomains",
       "readOnly": true,
-      "toolset": "dominios"
+      "toolset": "domains"
     },
     {
       "operationId": "checkDomainAvailability",
       "readOnly": true,
-      "toolset": "dominios"
+      "toolset": "domains"
     },
     {
       "operationId": "getDomainTldPricing",
       "readOnly": true,
-      "toolset": "dominios"
+      "toolset": "domains"
     },
     {
       "operationId": "getDomainTransferStatus",
       "readOnly": true,
-      "toolset": "dominios"
+      "toolset": "domains"
     },
     {
       "operationId": "listMailOnlyRecords",
       "readOnly": true,
-      "toolset": "dominios"
+      "toolset": "domains"
     },
     {
       "operationId": "listTelemetryProjects",
       "readOnly": true,
-      "toolset": "telemetria"
+      "toolset": "telemetry"
     },
     {
       "operationId": "getTelemetryProject",
       "readOnly": true,
-      "toolset": "telemetria"
+      "toolset": "telemetry"
     },
     {
       "operationId": "getTelemetryInstallStatus",
       "readOnly": true,
-      "toolset": "telemetria"
+      "toolset": "telemetry"
     },
     {
       "operationId": "listTelemetryIssues",
       "readOnly": true,
-      "toolset": "telemetria"
+      "toolset": "telemetry"
     },
     {
       "operationId": "getTelemetryLatestEvent",
       "readOnly": true,
-      "toolset": "telemetria"
+      "toolset": "telemetry"
     },
     {
       "operationId": "listTelemetryLogs",
       "readOnly": true,
-      "toolset": "telemetria"
+      "toolset": "telemetry"
     },
     {
       "operationId": "listTelemetryTransactions",
       "readOnly": true,
-      "toolset": "telemetria"
+      "toolset": "telemetry"
     },
     {
       "operationId": "getTelemetryUsage",
       "readOnly": true,
-      "toolset": "telemetria"
+      "toolset": "telemetry"
     },
     {
       "operationId": "getSalesReadiness",
       "readOnly": true,
-      "toolset": "ventas"
+      "toolset": "sales"
     },
     {
       "operationId": "listSalesChannels",
       "readOnly": true,
-      "toolset": "ventas"
+      "toolset": "sales"
     },
     {
       "operationId": "listSalesOffers",
       "readOnly": true,
-      "toolset": "ventas"
+      "toolset": "sales"
     },
     {
       "operationId": "listSalesLeads",
       "readOnly": true,
-      "toolset": "ventas"
+      "toolset": "sales"
     },
     {
       "operationId": "getSalesLeadBoard",
       "readOnly": true,
-      "toolset": "ventas"
+      "toolset": "sales"
     },
     {
       "operationId": "getSalesLead",
       "readOnly": true,
-      "toolset": "ventas"
+      "toolset": "sales"
     },
     {
       "operationId": "getSalesFunnelReport",
       "readOnly": true,
-      "toolset": "ventas"
+      "toolset": "sales"
     },
     {
       "operationId": "listAgents",
       "readOnly": true,
-      "toolset": "agentes"
+      "toolset": "agents"
     },
     {
       "operationId": "listAgentCatalog",
       "readOnly": true,
-      "toolset": "agentes"
+      "toolset": "agents"
     },
     {
       "operationId": "listAgentTools",
       "readOnly": true,
-      "toolset": "agentes"
+      "toolset": "agents"
     },
     {
       "operationId": "getAgentBudget",
       "readOnly": true,
-      "toolset": "agentes"
+      "toolset": "agents"
     },
     {
       "operationId": "getAgentRun",
       "readOnly": true,
-      "toolset": "agentes"
+      "toolset": "agents"
     },
     {
       "operationId": "listAgentActions",
       "readOnly": true,
-      "toolset": "agentes"
+      "toolset": "agents"
     },
     {
       "operationId": "stopAgentRun",
       "readOnly": false,
-      "toolset": "agentes"
+      "toolset": "agents"
     },
     {
       "operationId": "updateTelemetryIssue",
       "readOnly": false,
-      "toolset": "telemetria"
+      "toolset": "telemetry"
     },
     {
       "operationId": "createSubscriptionPlan",
       "readOnly": false,
-      "toolset": "suscripciones"
+      "toolset": "subscriptions"
     },
     {
       "operationId": "updateSubscriptionPlan",
       "readOnly": false,
-      "toolset": "suscripciones"
+      "toolset": "subscriptions"
     },
     {
       "operationId": "publishSubscriptionPlan",
       "readOnly": false,
-      "toolset": "suscripciones"
+      "toolset": "subscriptions"
     },
     {
       "operationId": "archiveSubscriptionPlan",
       "readOnly": false,
-      "toolset": "suscripciones"
+      "toolset": "subscriptions"
     },
     {
       "operationId": "createSubscriptionInvitation",
       "readOnly": false,
-      "toolset": "suscripciones"
+      "toolset": "subscriptions"
     },
     {
       "operationId": "createCustomer",
       "readOnly": false,
-      "toolset": "suscripciones"
+      "toolset": "subscriptions"
     },
     {
       "operationId": "updateCustomer",
       "readOnly": false,
-      "toolset": "suscripciones"
+      "toolset": "subscriptions"
     },
     {
       "operationId": "cancelMerchantSubscription",
       "readOnly": false,
-      "toolset": "suscripciones"
+      "toolset": "subscriptions"
     },
     {
       "operationId": "getTerminalPayment",
@@ -482,137 +482,137 @@
     {
       "operationId": "listCashOutMethods",
       "readOnly": true,
-      "toolset": "retiros"
+      "toolset": "payouts"
     },
     {
       "operationId": "getAnalyticsOAuthStatus",
       "readOnly": true,
-      "toolset": "analitica"
+      "toolset": "analytics"
     },
     {
       "operationId": "getAnalyticsProperty",
       "readOnly": true,
-      "toolset": "analitica"
+      "toolset": "analytics"
     },
     {
       "operationId": "getAnalyticsSiteTag",
       "readOnly": true,
-      "toolset": "analitica"
+      "toolset": "analytics"
     },
     {
       "operationId": "listAnalyticsAccounts",
       "readOnly": true,
-      "toolset": "analitica"
+      "toolset": "analytics"
     },
     {
       "operationId": "listAnalyticsStreams",
       "readOnly": true,
-      "toolset": "analitica"
+      "toolset": "analytics"
     },
     {
       "operationId": "listCustomDimensions",
       "readOnly": true,
-      "toolset": "analitica"
+      "toolset": "analytics"
     },
     {
       "operationId": "listKeyEvents",
       "readOnly": true,
-      "toolset": "analitica"
+      "toolset": "analytics"
     },
     {
       "operationId": "getAdSenseStatus",
       "readOnly": true,
-      "toolset": "analitica"
+      "toolset": "analytics"
     },
     {
       "operationId": "getAdSenseOAuthStatus",
       "readOnly": true,
-      "toolset": "analitica"
+      "toolset": "analytics"
     },
     {
       "operationId": "listAdSenseAccounts",
       "readOnly": true,
-      "toolset": "analitica"
+      "toolset": "analytics"
     },
     {
       "operationId": "listAdSensePolicyIssues",
       "readOnly": true,
-      "toolset": "analitica"
+      "toolset": "analytics"
     },
     {
       "operationId": "getHeatmapSite",
       "readOnly": true,
-      "toolset": "analitica"
+      "toolset": "analytics"
     },
     {
       "operationId": "getHeatmapMap",
       "readOnly": true,
-      "toolset": "analitica"
+      "toolset": "analytics"
     },
     {
       "operationId": "getHeatmapSnapshotState",
       "readOnly": true,
-      "toolset": "analitica"
+      "toolset": "analytics"
     },
     {
       "operationId": "getCalendar",
       "readOnly": true,
-      "toolset": "agenda"
+      "toolset": "scheduling"
     },
     {
       "operationId": "listAppointments",
       "readOnly": true,
-      "toolset": "agenda"
+      "toolset": "scheduling"
     },
     {
       "operationId": "getAppointment",
       "readOnly": true,
-      "toolset": "agenda"
+      "toolset": "scheduling"
     },
     {
       "operationId": "getAppointmentBySubject",
       "readOnly": true,
-      "toolset": "agenda"
+      "toolset": "scheduling"
     },
     {
       "operationId": "listCalendarSlots",
       "readOnly": true,
-      "toolset": "agenda"
+      "toolset": "scheduling"
     },
     {
       "operationId": "listVisitAdvisors",
       "readOnly": true,
-      "toolset": "agenda"
+      "toolset": "scheduling"
     },
     {
       "operationId": "getMyIntakeLink",
       "readOnly": true,
-      "toolset": "agenda"
+      "toolset": "scheduling"
     },
     {
       "operationId": "bookAppointment",
       "readOnly": false,
-      "toolset": "agenda"
+      "toolset": "scheduling"
     },
     {
       "operationId": "rescheduleAppointment",
       "readOnly": false,
-      "toolset": "agenda"
+      "toolset": "scheduling"
     },
     {
       "operationId": "cancelAppointment",
       "readOnly": false,
-      "toolset": "agenda"
+      "toolset": "scheduling"
     },
     {
       "operationId": "completeAppointment",
       "readOnly": false,
-      "toolset": "agenda"
+      "toolset": "scheduling"
     },
     {
       "operationId": "reassignAppointment",
       "readOnly": false,
-      "toolset": "agenda"
+      "toolset": "scheduling"
     },
     {
       "operationId": "createBookingLink",
@@ -620,7 +620,7 @@
       "omit": [
         "rotate"
       ],
-      "toolset": "agenda"
+      "toolset": "scheduling"
     },
     {
       "operationId": "createMyIntakeLink",
@@ -628,192 +628,192 @@
       "omit": [
         "rotate"
       ],
-      "toolset": "agenda"
+      "toolset": "scheduling"
     },
     {
       "operationId": "getSocialConfig",
       "readOnly": true,
-      "toolset": "redes"
+      "toolset": "social"
     },
     {
       "operationId": "listSocialSpaces",
       "readOnly": true,
-      "toolset": "redes"
+      "toolset": "social"
     },
     {
       "operationId": "listSocialAccounts",
       "readOnly": true,
-      "toolset": "redes"
+      "toolset": "social"
     },
     {
       "operationId": "getSocialCreatorInfo",
       "readOnly": true,
-      "toolset": "redes"
+      "toolset": "social"
     },
     {
       "operationId": "listSocialPosts",
       "readOnly": true,
-      "toolset": "redes"
+      "toolset": "social"
     },
     {
       "operationId": "getSocialPost",
       "readOnly": true,
-      "toolset": "redes"
+      "toolset": "social"
     },
     {
       "operationId": "getSocialCalendar",
       "readOnly": true,
-      "toolset": "redes"
+      "toolset": "social"
     },
     {
       "operationId": "listSocialComments",
       "readOnly": true,
-      "toolset": "redes"
+      "toolset": "social"
     },
     {
       "operationId": "getSocialAnalytics",
       "readOnly": true,
-      "toolset": "redes"
+      "toolset": "social"
     },
     {
       "operationId": "getSocialSettings",
       "readOnly": true,
-      "toolset": "redes"
+      "toolset": "social"
     },
     {
       "operationId": "listSocialSpaceMembers",
       "readOnly": true,
-      "toolset": "redes"
+      "toolset": "social"
     },
     {
       "operationId": "createSocialPost",
       "readOnly": false,
-      "toolset": "redes"
+      "toolset": "social"
     },
     {
       "operationId": "updateSocialPost",
       "readOnly": false,
-      "toolset": "redes"
+      "toolset": "social"
     },
     {
       "operationId": "submitSocialPost",
       "readOnly": false,
-      "toolset": "redes"
+      "toolset": "social"
     },
     {
       "operationId": "rescheduleSocialPost",
       "readOnly": false,
-      "toolset": "redes"
+      "toolset": "social"
     },
     {
       "operationId": "cancelSocialPost",
       "readOnly": false,
-      "toolset": "redes"
+      "toolset": "social"
     },
     {
       "operationId": "listTasks",
       "readOnly": true,
-      "toolset": "tareas"
+      "toolset": "tasks"
     },
     {
       "operationId": "getTask",
       "readOnly": true,
-      "toolset": "tareas"
+      "toolset": "tasks"
     },
     {
       "operationId": "listSubtasks",
       "readOnly": true,
-      "toolset": "tareas"
+      "toolset": "tasks"
     },
     {
       "operationId": "listAvailableSubtasks",
       "readOnly": true,
-      "toolset": "tareas"
+      "toolset": "tasks"
     },
     {
       "operationId": "listTaskAttachments",
       "readOnly": true,
-      "toolset": "tareas"
+      "toolset": "tasks"
     },
     {
       "operationId": "getTaskAttachmentUrl",
       "readOnly": true,
-      "toolset": "tareas"
+      "toolset": "tasks"
     },
     {
       "operationId": "createTask",
       "readOnly": false,
-      "toolset": "tareas"
+      "toolset": "tasks"
     },
     {
       "operationId": "updateTask",
       "readOnly": false,
-      "toolset": "tareas"
+      "toolset": "tasks"
     },
     {
       "operationId": "assignTask",
       "readOnly": false,
-      "toolset": "tareas"
+      "toolset": "tasks"
     },
     {
       "operationId": "createSubtask",
       "readOnly": false,
-      "toolset": "tareas"
+      "toolset": "tasks"
     },
     {
       "operationId": "updateSubtaskStatus",
       "readOnly": false,
-      "toolset": "tareas"
+      "toolset": "tasks"
     },
     {
       "operationId": "listStudioTemplates",
       "readOnly": true,
-      "toolset": "estudio"
+      "toolset": "studio"
     },
     {
       "operationId": "listStudioOrders",
       "readOnly": true,
-      "toolset": "estudio"
+      "toolset": "studio"
     },
     {
       "operationId": "getStudioOrder",
       "readOnly": true,
-      "toolset": "estudio"
+      "toolset": "studio"
     },
     {
       "operationId": "listStudioAssets",
       "readOnly": true,
-      "toolset": "estudio"
+      "toolset": "studio"
     },
     {
       "operationId": "getStudioAssetUrl",
       "readOnly": true,
-      "toolset": "estudio"
+      "toolset": "studio"
     },
     {
       "operationId": "listStudioDebts",
       "readOnly": true,
-      "toolset": "estudio"
+      "toolset": "studio"
     },
     {
       "operationId": "listStudioPresenters",
       "readOnly": true,
-      "toolset": "estudio"
+      "toolset": "studio"
     },
     {
       "operationId": "listProspectingGoals",
       "readOnly": true,
-      "toolset": "prospeccion"
+      "toolset": "prospecting"
     },
     {
       "operationId": "getProspectingGoal",
       "readOnly": true,
-      "toolset": "prospeccion"
+      "toolset": "prospecting"
     },
     {
       "operationId": "getProspectingGoalReadiness",
       "readOnly": true,
-      "toolset": "prospeccion"
+      "toolset": "prospecting"
     },
     {
       "operationId": "getProspectingBoard",
@@ -821,12 +821,12 @@
       "redact": [
         "contact"
       ],
-      "toolset": "prospeccion"
+      "toolset": "prospecting"
     },
     {
       "operationId": "getProspectingMetrics",
       "readOnly": true,
-      "toolset": "prospeccion"
+      "toolset": "prospecting"
     },
     {
       "operationId": "listProspectingProspects",
@@ -834,7 +834,7 @@
       "redact": [
         "contact"
       ],
-      "toolset": "prospeccion"
+      "toolset": "prospecting"
     },
     {
       "operationId": "createProspectingProspect",
@@ -842,7 +842,7 @@
       "redact": [
         "contact"
       ],
-      "toolset": "prospeccion"
+      "toolset": "prospecting"
     },
     {
       "operationId": "importProspectingProspects",
@@ -850,37 +850,37 @@
       "redact": [
         "contact"
       ],
-      "toolset": "prospeccion"
+      "toolset": "prospecting"
     },
     {
       "operationId": "listCoupons",
       "readOnly": true,
-      "toolset": "cupones"
+      "toolset": "coupons"
     },
     {
       "operationId": "getCoupon",
       "readOnly": true,
-      "toolset": "cupones"
+      "toolset": "coupons"
     },
     {
       "operationId": "exportCouponBatch",
       "readOnly": true,
-      "toolset": "cupones"
+      "toolset": "coupons"
     },
     {
       "operationId": "listMyCouponStores",
       "readOnly": true,
-      "toolset": "cupones"
+      "toolset": "coupons"
     },
     {
       "operationId": "listMyStoreCoupons",
       "readOnly": true,
-      "toolset": "cupones"
+      "toolset": "coupons"
     },
     {
       "operationId": "getMyStoreCoupon",
       "readOnly": true,
-      "toolset": "cupones"
+      "toolset": "coupons"
     },
     {
       "operationId": "createCoupon",
@@ -888,27 +888,27 @@
       "omit": [
         "charge_fee"
       ],
-      "toolset": "cupones"
+      "toolset": "coupons"
     },
     {
       "operationId": "updateCoupon",
       "readOnly": false,
-      "toolset": "cupones"
+      "toolset": "coupons"
     },
     {
       "operationId": "getDataCatalog",
       "readOnly": true,
-      "toolset": "datos"
+      "toolset": "data"
     },
     {
       "operationId": "queryData",
       "readOnly": true,
-      "toolset": "datos"
+      "toolset": "data"
     },
     {
       "operationId": "listDataDashboards",
       "readOnly": true,
-      "toolset": "datos"
+      "toolset": "data"
     }
   ]
 }

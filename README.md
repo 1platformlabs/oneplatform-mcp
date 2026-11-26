@@ -1,84 +1,89 @@
-# Servidor MCP de OnePlatform
+# OnePlatform MCP server
 
-Conecta un agente de código a la documentación de OnePlatform y a la OnePlatform API con sus propias claves, en
-**QA por defecto**.
+Connects a coding agent to the OnePlatform documentation and to the OnePlatform API with your own keys, on
+**QA by default**.
 
-## Herramientas
+## Tools
 
-Tres herramientas de documentación funcionan sin claves: `docs_search`, `docs_get_page` y `api_get_operation`. Con
-claves, el servidor suma las de la API, agrupadas por vertical (*toolset*):
+Three documentation tools work without keys: `docs_search`, `docs_get_page` and `api_get_operation`. The
+documentation itself is written in Spanish. With keys, the server adds the API tools, grouped by product vertical
+(*toolset*):
 
-| Toolset | Qué puede hacer el agente |
+| Toolset | What the agent can do |
 |---|---|
-| `cuenta` | Perfil, historial de saldo, consumo, comercios y avisos. Siempre activo: de acá sale el `businessId` |
-| `pagos` | Links de pago (listar, ver, **crear** y **cancelar**) y transacciones |
-| `retiros` | Saldo retirable, movimientos, retiros, métodos de retiro (enmascarados) y cobros que pueden pasar al saldo retirable (sólo lectura) |
-| `suscripciones` | Planes, suscripciones y clientes del comercio; **crear, editar, publicar y archivar** planes, **crear y editar** clientes, **emitir** una invitación y **cancelar** una suscripción |
-| `terminal` | Solicitudes de terminal de tarjetas, su estado y el detalle de un pago con terminal; **crear, corregir y retirar** una solicitud (el envío y los documentos siguen en el panel) |
-| `facturacion` | Facturas electrónicas (sólo lectura: el MCP no emite ni anula) |
-| `envios` | Envíos (sólo lectura: el MCP no despacha) |
-| `sitios` | Sitios, artículos, trabajos de generación, categorías y rendimiento en buscadores |
-| `analitica` | Estado, propiedad, flujos, dimensiones, eventos clave, etiqueta y métricas de analítica; estado, cuentas, ingresos, alertas y problemas de políticas de anuncios; sitios, mapas e instantáneas de mapas de calor (sólo lectura) |
-| `correo` | Remitentes, plantillas, cuota y mensajes del correo transaccional; conversaciones del correo del negocio |
-| `dominios` | Dominios, disponibilidad, precios, transferencias y registros de correo (sólo lectura) |
-| `telemetria` | Proyectos, errores, último evento, logs, rendimiento y uso; **marcar un error** como resuelto o ignorado |
-| `ventas` | Preparación, canales, ofertas, prospectos, tablero y reporte del embudo |
-| `agentes` | Agentes, catálogo, herramientas, presupuesto, ejecuciones y acciones pendientes; **detener** una ejecución |
-| `agenda` | Calendario, visitas, horarios libres, asesores y enlaces de reserva; **agendar, mover, reasignar, completar y cancelar** una visita; **obtener** el enlace de reserva de un registro o el propio de una oferta (sin revocar el vigente) |
-| `redes` | Configuración, portafolios, cuentas conectadas, publicaciones, calendario, comentarios, analítica y aprobaciones; **crear y editar** un borrador, **programar** (o mandar a aprobación), **mover** y **cancelar** una publicación |
-| `tareas` | Tareas, subtareas, bandeja de subtareas disponibles y archivos; **crear, editar y asignar** tareas, **crear** subtareas y **tomar o completar** una subtarea |
-| `estudio` | Catálogo de plantillas, pedidos, piezas entregadas y sus enlaces, deudas y presentadores del estudio creativo (sólo lectura) |
-| `prospeccion` | Objetivos, preparación, embudo, métricas y listado de prospectos **sin datos de contacto**; **dar de alta** e **importar** prospectos (los mensajes nunca los aprueba ni envía el MCP) |
-| `cupones` | Cupones del espacio y de sus tiendas: listar, consultar y exportar un lote en CSV; **crear** un cupón del espacio y **editarlo** (pausar, reactivar o archivar) |
-| `datos` | Catálogo de datos, consultas sobre sus propias copias (comercios, cobros, movimientos, embudo, facturas, ventas de sus tiendas) y lista de tableros (sólo lectura: el MCP no crea tableros ni envíos) |
+| `account` | Profile, balance history, consumption, businesses and notices. Always enabled: this is where the `businessId` comes from |
+| `payments` | Payment links (list, view, **create** and **cancel**) and transactions |
+| `payouts` | Withdrawable balance, movements, withdrawals, withdrawal methods (masked) and charges that can move to the withdrawable balance (read only) |
+| `subscriptions` | The business's plans, subscriptions and customers; **create, edit, publish and archive** plans, **create and edit** customers, **issue** an invitation and **cancel** a subscription |
+| `terminal` | Card terminal requests, their status and the detail of a terminal payment; **create, correct and withdraw** a request (submission and documents stay in the dashboard) |
+| `invoicing` | Electronic invoices (read only: the MCP does not issue or void) |
+| `shipping` | Shipments (read only: the MCP does not dispatch) |
+| `sites` | Sites, articles, generation jobs, categories and search performance |
+| `analytics` | Analytics status, property, streams, dimensions, key events, tag and metrics; ad status, accounts, revenue, alerts and policy issues; heatmap sites, maps and snapshots (read only) |
+| `email` | Transactional email senders, templates, quota and messages; business email conversations |
+| `domains` | Domains, availability, prices, transfers and email records (read only) |
+| `telemetry` | Projects, errors, latest event, logs, performance and usage; **mark an error** as resolved or ignored |
+| `sales` | Readiness, channels, offers, leads, board and funnel report |
+| `agents` | Agents, catalog, tools, budget, runs and pending actions; **stop** a run |
+| `scheduling` | Calendar, visits, free slots, advisors and booking links; **book, move, reassign, complete and cancel** a visit; **get** the booking link of a record or an offer's own link (without revoking the current one) |
+| `social` | Settings, portfolios, connected accounts, posts, calendar, comments, analytics and approvals; **create and edit** a draft, **schedule** (or send for approval), **move** and **cancel** a post |
+| `tasks` | Tasks, subtasks, the available-subtasks inbox and files; **create, edit and assign** tasks, **create** subtasks and **take or complete** a subtask |
+| `studio` | Creative studio template catalog, orders, delivered pieces and their links, debts and presenters (read only) |
+| `prospecting` | Goals, readiness, funnel, metrics and prospect list **without contact data**; **add** and **import** prospects (the MCP never approves or sends messages) |
+| `coupons` | Coupons of the workspace and its stores: list, view and export a batch as CSV; **create** a workspace coupon and **edit** it (pause, reactivate or archive) |
+| `data` | Data catalog, queries over your own copies (merchants, charges, transactions, funnel, invoices, your stores' sales) and the list of dashboards (read-only: the MCP creates no dashboards and no deliveries) |
 
-Por defecto se listan todos. Para un cliente que admite pocas herramientas, elija las verticales que usa:
-`ONEPLATFORM_TOOLSETS=pagos,envios` (local) o la cabecera `X-OnePlatform-Toolsets: pagos,envios` (alojado).
+All toolsets are listed by default. For a client that supports few tools, pick the verticals you use:
+`ONEPLATFORM_TOOLSETS=payments,shipping` (local) or the `X-OnePlatform-Toolsets: payments,shipping` header (hosted).
+`all` lists everything. The Spanish names used up to 0.3.0 (`cuenta`, `pagos`, `envios`…) are still accepted as
+aliases.
 
-Las escrituras (en negrita) no cobran saldo en el acto, no emiten documentos fiscales ni mueven dinero, y el cliente
-pide confirmación antes de ejecutarlas. Dos excepciones conocidas, iguales a las del panel: agendar, mover o cancelar
-una visita dispara los avisos de la agenda a la persona y al asesor, y programar una publicación la deja en cola para
-salir en la red en la fecha elegida, cuando se cobra (cancelarla antes no cobra nada). Publicar ya, aprobar, responder
-comentarios, encargar piezas del estudio y pagar quedan fuera del MCP. En `prospeccion` aprobar, enviar, marcar enviado, cambiar el modo, traspasar a ventas, excluir empresas y leer datos de contacto también quedan fuera: los borradores los revisa una persona en el panel. En `cupones` el canje de saldo, el protocolo de canje de las tiendas, la emisión de lotes y el alta de un cupón de tienda (que puede cobrar su tarifa) quedan fuera; los cupones de una tienda se consultan pero se editan sólo en el panel. En `redes` las herramientas trabajan sobre el portafolio
-propio de la persona: el MCP no reenvía la cabecera para actuar en un portafolio ajeno. La lista exacta está en
-[`tools.manifest.json`](tools.manifest.json) y lo que nunca puede exponerse, en [`denylist.json`](denylist.json):
-administración, credenciales, webhooks, cobros, emisión fiscal y movimientos de dinero. En retiros y dominios sólo se
-permiten lecturas.
+Writes (in bold) do not charge balance on the spot, do not issue tax documents and do not move money, and the
+client asks for confirmation before running them. Two known exceptions, the same as in the dashboard: booking,
+moving or cancelling a visit sends the scheduling notices to the person and the advisor, and scheduling a post
+queues it to go out on the network on the chosen date, when it is charged (cancelling it before costs nothing).
+Publishing right away, approving, replying to comments, ordering studio pieces and paying stay outside the MCP. In
+`prospecting`, approving, sending, marking as sent, changing the mode, handing over to sales, excluding companies
+and reading contact data also stay outside: drafts are reviewed by a person in the dashboard. In `coupons`, balance
+redemption, the stores' redemption protocol, batch issuance and creating a store coupon (which may charge its fee)
+stay outside; a store's coupons can be read but are edited only in the dashboard. In `social` the tools work on the
+person's own portfolio: the MCP does not forward the header to act on someone else's portfolio. The exact list is in
+[`tools.manifest.json`](tools.manifest.json) and what can never be exposed, in [`denylist.json`](denylist.json):
+administration, credentials, webhooks, charges, tax issuance and money movements. Payouts and domains are read only.
 
-«Reenviar link» (`sendPaymentLinkAgain`, VD-30) está excluido explícitamente: envía un correo a un cliente y requiere
-la acción de una persona en el panel. El toolset `datos` conserva únicamente lecturas.
-La creación idempotente del tablero inicial (`initializeDataDashboard`) también está excluida;
-listar los tableros desde MCP no crea el tablero inicial ni su marca de siembra.
-`queryData.time_field` permite consultar por fecha de creación (`created_date`) o de pago (`paid_date`)
-cuando el catálogo del dataset lo admite; conserva `local_date` por defecto para los tableros existentes.
+“Resend link” (`sendPaymentLinkAgain`, VD-30) is explicitly excluded: it emails a customer and needs a person's
+action in the dashboard. The `data` toolset only keeps reads. The idempotent creation of the starter dashboard
+(`initializeDataDashboard`) is excluded too: listing dashboards from the MCP does not create the starter dashboard
+or its seed mark. `queryData.time_field` can query by creation date (`created_date`) or payment date (`paid_date`)
+when the dataset's catalog allows it; it keeps `local_date` by default for existing dashboards.
 
-## Uso local (stdio)
+## Local use (stdio)
 
 ```bash
 ONEPLATFORM_APP_KEY=ak-XXXX… ONEPLATFORM_USER_KEY=sk-XXXX… npx -y @oneplatformlabs/mcp
 ```
 
-| Variable | Valor |
+| Variable | Value |
 |---|---|
-| `ONEPLATFORM_APP_KEY` | Clave de aplicación (`ak-…`). Opcional: sin claves sólo están las herramientas de documentación |
-| `ONEPLATFORM_USER_KEY` | Clave de usuario (`sk-…`) |
-| `ONEPLATFORM_ENV` | `qa` (por defecto) o `prod` |
-| `ONEPLATFORM_TOOLSETS` | Opcional: verticales a listar, separadas por comas (por defecto, todas) |
+| `ONEPLATFORM_APP_KEY` | App key (`ak-…`). Optional: without keys only the documentation tools are available |
+| `ONEPLATFORM_USER_KEY` | User key (`sk-…`) |
+| `ONEPLATFORM_ENV` | `qa` (default) or `prod` |
+| `ONEPLATFORM_TOOLSETS` | Optional: comma-separated verticals to list (default: all) |
 
-Instalación por cliente: https://developer.1platform.pro/docs/saas/1platform-api/integrar-con-ia
+Per-client setup: https://developer.1platform.pro/docs/saas/1platform-api/integrar-con-ia
 
-## Uso alojado (HTTP)
+## Hosted use (HTTP)
 
-`node dist/cli.js --http` sirve Streamable HTTP sin estado en `POST /mcp` y `GET /healthz`. Las claves llegan en
-`X-OnePlatform-App-Key` y `X-OnePlatform-User-Key` en cada solicitud; el entorno lo fija `ONEPLATFORM_ENV` al arrancar.
-Límites: 30 solicitudes por minuto por IP, 120 por par de claves y 256 KiB por cuerpo.
+`node dist/cli.js --http` serves stateless Streamable HTTP on `POST /mcp` and `GET /healthz`. Keys arrive in
+`X-OnePlatform-App-Key` and `X-OnePlatform-User-Key` on every request; the environment is set by `ONEPLATFORM_ENV` at
+startup. Limits: 30 requests per minute per IP, 120 per key pair and 256 KiB per body.
 
 | URL | API |
 |---|---|
 | `https://mcp-qa.1platform.pro/mcp` | QA |
-| `https://mcp.1platform.pro/mcp` | Producción |
+| `https://mcp.1platform.pro/mcp` | Production |
 
-El entorno lo decide la URL; ninguna cabecera o parámetro lo cambia.
+The URL decides the environment; no header or parameter changes it.
 
 ```bash
 claude mcp add --transport http oneplatform https://mcp-qa.1platform.pro/mcp \
@@ -86,41 +91,41 @@ claude mcp add --transport http oneplatform https://mcp-qa.1platform.pro/mcp \
   --header "X-OnePlatform-User-Key: $ONEPLATFORM_USER_KEY"
 ```
 
-### Despliegue
+### Deployment
 
-| Variable | Valor |
+| Variable | Value |
 |---|---|
-| `ONEPLATFORM_API_URL` | URL interna del API del mismo entorno (`http(s)://host[:puerto]/api/v1`). Sin ella, la pública |
-| `MCP_TRUSTED_PROXY_CIDRS` | Saltos públicos de confianza además de los privados (`["185.125.168.236/32"]`). Una entrada inválida o más amplia que /16 (IPv4) o /32 (IPv6) detiene el proceso |
+| `ONEPLATFORM_API_URL` | Internal API URL of the same environment (`http(s)://host[:port]/api/v1`). Without it, the public one |
+| `MCP_TRUSTED_PROXY_CIDRS` | Trusted public hops in addition to the private ones (`["185.125.168.236/32"]`). An invalid entry, or one wider than /16 (IPv4) or /32 (IPv6), stops the process |
 
-La IP del cliente se resuelve detrás de Cloudflare y del front door con un port del resolver del API
-([`src/http/client-address.ts`](src/http/client-address.ts), vectores compartidos en
-[`test/vectors/client-address.json`](test/vectors/client-address.json)). Esa IP limita al cliente en el MCP y viaja
-al API como única entrada de `X-Forwarded-For`, escrita de nuevo y nunca copiada de la solicitud: el contenedor
-llama al API por la red privada de Docker, así que el API cuenta un balde por cliente.
+The client IP is resolved behind Cloudflare and the front door with a port of the API's resolver
+([`src/http/client-address.ts`](src/http/client-address.ts), shared vectors in
+[`test/vectors/client-address.json`](test/vectors/client-address.json)). That IP rate-limits the client in the MCP
+and travels to the API as the only `X-Forwarded-For` entry, written anew and never copied from the request: the
+container calls the API over the private Docker network, so the API counts one bucket per client.
 
-Esa red es `mcp-net-{qa,prod}`: la crea el compose del Core con subred explícita y sólo el API y este
-contenedor están en ella (hasta #6 el MCP compartía la red del motor de telemetría). Por eso el Core se
-despliega antes: sin la red, el `up` falla y el deploy vuelve a la imagen anterior. Una rama vieja del Core
-en QA saca al API de la red hasta que traiga `main`.
+That network is `mcp-net-{qa,prod}`: the Core compose creates it with an explicit subnet and only the API and this
+container are on it (until #6 the MCP shared the telemetry engine's network). That is why the Core deploys first:
+without the network, `up` fails and the deploy goes back to the previous image. An old Core branch on QA takes the
+API off the network until it brings in `main`.
 
-`deploy/compose.{qa,prod}.yml` y [`deploy/remote-deploy.sh`](deploy/remote-deploy.sh) (comando forzado de la llave
-de despliegue: `<qa|prod> <sha de main>` o `<qa|prod> rollback`); el workflow `Deploy hosted MCP` despliega QA y
-luego producción en cada push a `main` cuando la variable `MCP_DEPLOY_ENABLED` vale `true`.
+`deploy/compose.{qa,prod}.yml` and [`deploy/remote-deploy.sh`](deploy/remote-deploy.sh) (forced command of the deploy
+key: `<qa|prod> <main sha>` or `<qa|prod> rollback`); the `Deploy hosted MCP` workflow deploys QA and then production
+on every push to `main` when the `MCP_DEPLOY_ENABLED` variable is `true`.
 
-## Vigencia de la documentación
+## Documentation freshness
 
-Las herramientas de documentación leen `llms.txt`, los Markdown y el OpenAPI publicados por el portal,
-con caché de diez minutos. El portal debe publicar su contrato actualizado para que `api_get_operation`
-lo entregue; instalar de nuevo el paquete MCP no corrige una especificación atrasada en el portal.
+The documentation tools read the `llms.txt`, the Markdown pages and the OpenAPI published by the portal, with a
+ten-minute cache. The portal must publish its updated contract for `api_get_operation` to return it; reinstalling the
+MCP package does not fix an outdated specification on the portal.
 
-`npm run check:docs-freshness` compara rutas, operaciones, esquemas y autenticación del portal con la API viva.
-Falla ante diferencias o errores de descarga, sin respaldo silencioso; cada descarga tiene 120 s y un
-solo reintento ante error de red o tiempo agotado (no ante HTTP de error). Ignora prosa y ejemplos saneados;
-no sustituye la revisión editorial. Ya no corre en GitHub Actions: se ejecuta en local (`/local-checks`, `npm run check:docs-freshness`).
-Para verificar un portal candidato, configure `ONEPLATFORM_DOCS_OPENAPI_URL` con su OpenAPI; para un
-banco local también puede configurar `ONEP_API_OPENAPI_URL`. No se imprimen esas URLs.
+`npm run check:docs-freshness` compares the portal's paths, operations, schemas and authentication with the live
+API. It fails on differences or download errors, with no silent fallback; each download has 120 s and a single retry
+on a network error or timeout (not on an HTTP error). It ignores prose and sanitized examples; it does not replace
+editorial review. It no longer runs in GitHub Actions: run it locally (`/local-checks`, `npm run check:docs-freshness`).
+To verify a candidate portal, set `ONEPLATFORM_DOCS_OPENAPI_URL` to its OpenAPI; for a local bench you can also set
+`ONEP_API_OPENAPI_URL`. Those URLs are never printed.
 
-La generación de herramientas (`fetch-openapi` y `check:tools`) usa directamente el OpenAPI público de la API.
-Así, una copia atrasada en el portal no puede ocultar cambios de las herramientas ejecutables. La allowlist,
-los toolsets y los límites de escritura siguen en `tools.manifest.json` y `denylist.json`.
+Tool generation (`fetch-openapi` and `check:tools`) uses the API's public OpenAPI directly, so an outdated copy on
+the portal cannot hide changes to the executable tools. The allowlist, the toolsets and the write limits stay in
+`tools.manifest.json` and `denylist.json`.

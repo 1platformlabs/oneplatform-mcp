@@ -94,14 +94,14 @@ describe('VD-30 resend remains a human-only customer communication', () => {
     const spec = {paths: {'/api/v1/payment-links/{link_id}/send-again': {
       post: {operationId: 'sendPaymentLinkAgain', responses: {'202': {description: 'Accepted'}}},
     }}};
-    const attempted = {tools: [{operationId: 'sendPaymentLinkAgain', readOnly: false, toolset: 'pagos'}]};
+    const attempted = {tools: [{operationId: 'sendPaymentLinkAgain', readOnly: false, toolset: 'payments'}]};
     expect(buildTools(spec, attempted, denylist).errors)
       .toContain('sendPaymentLinkAgain: in the denylist (operationId sendPaymentLinkAgain)');
     expect(manifest.tools.some((tool: {operationId: string}) => tool.operationId === 'sendPaymentLinkAgain')).toBe(false);
   });
 
-  it('keeps every datos operation read-only', () => {
-    const dataTools = manifest.tools.filter((tool: {toolset: string}) => tool.toolset === 'datos');
+  it('keeps every data operation read-only', () => {
+    const dataTools = manifest.tools.filter((tool: {toolset: string}) => tool.toolset === 'data');
     expect(dataTools.length).toBeGreaterThan(0);
     expect(dataTools.every((tool: {readOnly: boolean}) => tool.readOnly)).toBe(true);
   });
@@ -110,7 +110,7 @@ describe('VD-30 resend remains a human-only customer communication', () => {
     const spec = {paths: {'/api/v1/data/dashboards/initialize': {
       post: {operationId: 'initializeDataDashboard', responses: {'200': {description: 'Initialized'}}},
     }}};
-    expect(buildTools(spec, {tools: [{operationId: 'initializeDataDashboard', readOnly: false, toolset: 'datos'}]}, denylist).errors)
+    expect(buildTools(spec, {tools: [{operationId: 'initializeDataDashboard', readOnly: false, toolset: 'data'}]}, denylist).errors)
       .toContain('initializeDataDashboard: in the denylist (operationId initializeDataDashboard)');
     expect(API_TOOLS.find((tool) => tool.name === 'listDataDashboards')?.readOnly).toBe(true);
   });
