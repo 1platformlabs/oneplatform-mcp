@@ -1,7 +1,7 @@
 import {readFileSync} from 'node:fs';
 import {describe, expect, it} from 'vitest';
 
-import {buildTools, deniedBy, loadSpec, TOOLSETS as BUILD_TOOLSETS} from '../scripts/build-tools.mjs';
+import {buildTools, deniedBy, indexOperations, loadSpec, TOOLSETS as BUILD_TOOLSETS} from '../scripts/build-tools.mjs';
 import {API_TOOLS} from '../src/generated/tools.js';
 import {handleCall} from '../src/server.js';
 import {LEGACY_TOOLSET_ALIASES, parseToolsets, TOOLSETS} from '../src/toolsets.js';
@@ -81,6 +81,15 @@ describe('denylist por método (retiros y dominios: se leen, no se escriben)', (
     expect(deniedBy(denylist, 'createPlatformCoupon', '/api/v1/platform/coupons', 'POST')).toMatch(/path prefix/);
     expect(deniedBy(denylist, 'createCouponBatch', '/api/v1/coupons/batches', 'POST')).toMatch(/operationId/);
     expect(deniedBy(denylist, 'listCoupons', '/api/v1/coupons', 'GET')).toBeUndefined();
+  });
+  it('crecimiento: /growth y /platform/growth quedan fuera enteros, lecturas incluidas (VCR-10 CA-2)', () => {
+    const spec = loadSpec(specFile);
+    const growth = [...indexOperations(spec).entries()].filter(([, o]) => /^\/api\/v1\/(platform\/)?growth(\/|$)/.test(o.path));
+    expect(growth.length).toBeGreaterThan(0);
+    for (const [id, o] of growth) expect(deniedBy(denylist, id, o.path, o.method), `${o.method} ${o.path}`).toMatch(/path prefix/);
+    expect(deniedBy(denylist, 'getGrowthCatalog', '/api/v1/growth/catalog', 'GET')).toMatch(/path prefix/);
+    expect(deniedBy(denylist, 'listPlatformGrowthOrders', '/api/v1/platform/growth/orders', 'GET')).toMatch(/path prefix/);
+    expect(API_TOOLS.some((t) => /\/growth(\/|$)/.test(t.path))).toBe(false);
   });
   it('cupones: ni charge_fee ni cabeceras llegan al modelo', () => {
     for (const t of API_TOOLS.filter((x) => x.toolset === 'coupons')) expect(Object.keys(t.inputSchema.properties)).not.toContain('charge_fee');
