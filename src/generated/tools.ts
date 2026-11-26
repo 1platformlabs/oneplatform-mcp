@@ -3765,6 +3765,160 @@ export const API_TOOLS: ApiTool[] = [
     }
   },
   {
+    "name": "listKnowledgeSources",
+    "method": "GET",
+    "path": "/api/v1/knowledge/sources",
+    "readOnly": true,
+    "toolset": "agents",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "kind",
+      "status",
+      "limit",
+      "skip"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List knowledge sources\n\nSources of your workspace's knowledge base (documents, FAQs and site pages), newest first, with their indexing state. **Auth:** `Authorization: Bearer <app_token>` + `x-user-token: <user_token>`. Workspace administrators only.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "anyOf": [
+            {
+              "enum": [
+                "document",
+                "faq",
+                "site_page",
+                "site_post"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Only sources of this kind"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "enum": [
+                "pending",
+                "processing",
+                "charged",
+                "ready",
+                "failed",
+                "deleting"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Only sources in this state"
+        },
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Page size (max 100)",
+          "default": 20
+        },
+        "skip": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Sources to skip",
+          "default": 0
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getKnowledgeUsage",
+    "method": "GET",
+    "path": "/api/v1/knowledge/usage",
+    "readOnly": true,
+    "toolset": "agents",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Read how much the workspace's agents use the knowledge base\n\nSources and searchable fragments in the base, its fragment limit, searches and returned fragments in the last 30 days, and the five sources returned most often (with their current title).\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getKnowledgeSync",
+    "method": "GET",
+    "path": "/api/v1/knowledge/sync",
+    "readOnly": true,
+    "toolset": "agents",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Read which FAQs and sites the knowledge base keeps in sync\n\nShows whether the published FAQs are kept in the workspace knowledge base, which of the workspace's own sites are selected, and every platform-served site the workspace could select (`eligible` tells which can be chosen now).\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "searchKnowledge",
+    "method": "POST",
+    "path": "/api/v1/knowledge/search",
+    "readOnly": false,
+    "toolset": "agents",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [],
+    "bodyParams": [
+      "query",
+      "top_k"
+    ],
+    "pathPatterns": {},
+    "description": "Try a search in the workspace knowledge base\n\nSearches the knowledge base of the caller's workspace the way an agent does and returns the best fragments, each with the title of its source. Searches public and internal sources. Every call is charged as one knowledge search, also when nothing is found; if the base cannot answer, the charge is returned. The query is never stored: only its length is kept for the usage figures.\n\nCharges the workspace balance on every call: one knowledge search costs US$0.02 at the time of writing (the price in force is set by the platform; each charge shows up in getBalanceHistory). Do not repeat a search to page through results.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "maxLength": 500,
+          "minLength": 1,
+          "description": "What to look for, in natural language (up to 500 characters). It is never stored."
+        },
+        "top_k": {
+          "type": "integer",
+          "maximum": 20,
+          "minimum": 1,
+          "description": "How many fragments to return at most. Values above the workspace's limit (8 by default) are lowered to it.",
+          "default": 5
+        }
+      },
+      "required": [
+        "query"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
     "name": "updateTelemetryIssue",
     "method": "PATCH",
     "path": "/api/v1/users/telemetry/projects/{project_id}/issues/{issue_id}",
