@@ -24,7 +24,7 @@ documentation itself is written in Spanish. With keys, the server adds the API t
 | `domains` | Domains, availability, prices, transfers and email records (read only) |
 | `telemetry` | Projects, errors, latest event, logs, performance and usage; **mark an error** as resolved or ignored |
 | `sales` | Readiness, channels, offers, leads, board and funnel report |
-| `agents` | Agents, catalog, tools, budget, runs and pending actions; **stop** a run |
+| `agents` | Agents, catalog, tools, budget, runs and pending actions; **stop** a run; knowledge base sources, usage and sync selection, and **try a search** in it (charged per search) |
 | `scheduling` | Calendar, visits, free slots, advisors and booking links; **book, move, reassign, complete and cancel** a visit; **get** the booking link of a record or an offer's own link (without revoking the current one) |
 | `social` | Settings, portfolios, connected accounts, posts, calendar, comments, analytics and approvals; **create and edit** a draft, **schedule** (or send for approval), **move** and **cancel** a post |
 | `tasks` | Tasks, subtasks, the available-subtasks inbox and files; **create, edit and assign** tasks, **create** subtasks and **take or complete** a subtask |
@@ -39,14 +39,17 @@ All toolsets are listed by default. For a client that supports few tools, pick t
 aliases.
 
 Writes (in bold) do not charge balance on the spot, do not issue tax documents and do not move money, and the
-client asks for confirmation before running them. Two known exceptions, the same as in the dashboard: booking,
-moving or cancelling a visit sends the scheduling notices to the person and the advisor, and scheduling a post
-queues it to go out on the network on the chosen date, when it is charged (cancelling it before costs nothing).
+client asks for confirmation before running them. Three known exceptions, the same as in the dashboard: booking,
+moving or cancelling a visit sends the scheduling notices to the person and the advisor, scheduling a post
+queues it to go out on the network on the chosen date, when it is charged (cancelling it before costs nothing), and
+a knowledge base search (`searchKnowledge`) charges one search from the balance on every call, also when nothing is
+found (US$0.02 at the time of writing; the tool description states it).
 Publishing right away, approving, replying to comments, ordering studio pieces and paying stay outside the MCP. In
 `prospecting`, approving, sending, marking as sent, changing the mode, handing over to sales, excluding companies
 and reading contact data also stay outside: drafts are reviewed by a person in the dashboard. In `coupons`, balance
 redemption, the stores' redemption protocol, batch issuance and creating a store coupon (which may charge its fee)
-stay outside; a store's coupons can be read but are edited only in the dashboard. In `social` the tools work on the
+stay outside; a store's coupons can be read but are edited only in the dashboard. In the knowledge base, uploading, reindexing and deleting a source (indexing is
+charged and deleting does not refund it) and changing which FAQs and sites stay in sync also stay outside. In `social` the tools work on the
 person's own portfolio: the MCP does not forward the header to act on someone else's portfolio. The exact list is in
 [`tools.manifest.json`](tools.manifest.json) and what can never be exposed, in [`denylist.json`](denylist.json):
 administration, credentials, webhooks, charges, tax issuance and money movements. Payouts and domains are read only.
