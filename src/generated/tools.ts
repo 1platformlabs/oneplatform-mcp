@@ -229,6 +229,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "queryParams": [
       "status",
+      "follow_up",
       "page",
       "limit"
     ],
@@ -252,6 +253,11 @@ export const API_TOOLS: ApiTool[] = [
             }
           ],
           "description": "Filter by status (active/paid/cancelled/expired/denied)"
+        },
+        "follow_up": {
+          "type": "boolean",
+          "description": "Only actionable visited, unpaid links older than 48 hours",
+          "default": false
         },
         "page": {
           "type": "integer",
@@ -3827,6 +3833,160 @@ export const API_TOOLS: ApiTool[] = [
       "required": [
         "agent_id",
         "run_id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listKnowledgeSources",
+    "method": "GET",
+    "path": "/api/v1/knowledge/sources",
+    "readOnly": true,
+    "toolset": "agents",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "kind",
+      "status",
+      "limit",
+      "skip"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "List knowledge sources\n\nSources of your workspace's knowledge base (documents, FAQs and site pages), newest first, with their indexing state. **Auth:** `Authorization: Bearer <app_token>` + `x-user-token: <user_token>`. Workspace administrators only.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "anyOf": [
+            {
+              "enum": [
+                "document",
+                "faq",
+                "site_page",
+                "site_post"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Only sources of this kind"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "enum": [
+                "pending",
+                "processing",
+                "charged",
+                "ready",
+                "failed",
+                "deleting"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Only sources in this state"
+        },
+        "limit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "Page size (max 100)",
+          "default": 20
+        },
+        "skip": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Sources to skip",
+          "default": 0
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getKnowledgeUsage",
+    "method": "GET",
+    "path": "/api/v1/knowledge/usage",
+    "readOnly": true,
+    "toolset": "agents",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Read how much the workspace's agents use the knowledge base\n\nSources and searchable fragments in the base, its fragment limit, searches and returned fragments in the last 30 days, and the five sources returned most often (with their current title).\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getKnowledgeSync",
+    "method": "GET",
+    "path": "/api/v1/knowledge/sync",
+    "readOnly": true,
+    "toolset": "agents",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Read which FAQs and sites the knowledge base keeps in sync\n\nShows whether the published FAQs are kept in the workspace knowledge base, which of the workspace's own sites are selected, and every platform-served site the workspace could select (`eligible` tells which can be chosen now).\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "searchKnowledge",
+    "method": "POST",
+    "path": "/api/v1/knowledge/search",
+    "readOnly": false,
+    "toolset": "agents",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [],
+    "bodyParams": [
+      "query",
+      "top_k"
+    ],
+    "pathPatterns": {},
+    "description": "Try a search in the workspace knowledge base\n\nSearches the knowledge base of the caller's workspace the way an agent does and returns the best fragments, each with the title of its source. Searches public and internal sources. Every call is charged as one knowledge search, also when nothing is found; if the base cannot answer, the charge is returned. The query is never stored: only its length is kept for the usage figures.\n\nCharges the workspace balance on every call: one knowledge search costs US$0.02 at the time of writing (the price in force is set by the platform; each charge shows up in getBalanceHistory). Do not repeat a search to page through results.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.\n\nWrites to the account: confirm with the person before running it.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "maxLength": 500,
+          "minLength": 1,
+          "description": "What to look for, in natural language (up to 500 characters). It is never stored."
+        },
+        "top_k": {
+          "type": "integer",
+          "maximum": 20,
+          "minimum": 1,
+          "description": "How many fragments to return at most. Values above the workspace's limit (8 by default) are lowered to it.",
+          "default": 5
+        }
+      },
+      "required": [
+        "query"
       ],
       "additionalProperties": false
     }
@@ -8625,6 +8785,299 @@ export const API_TOOLS: ApiTool[] = [
       "required": [
         "coupon_id"
       ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getDataCatalog",
+    "method": "GET",
+    "path": "/api/v1/data/catalog",
+    "readOnly": true,
+    "toolset": "data",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Datasets I can analyse\n\nThe datasets you may read (only those whose source you can already see), with their dimensions, measures, filters and chart types, and the cut-off of your copies.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "queryData",
+    "method": "POST",
+    "path": "/api/v1/data/query",
+    "readOnly": true,
+    "toolset": "data",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [],
+    "bodyParams": [
+      "dataset",
+      "measures",
+      "dimensions",
+      "filters",
+      "time_field",
+      "time_range",
+      "store_scope",
+      "chart",
+      "limit"
+    ],
+    "pathPatterns": {},
+    "description": "Run one widget\n\nRuns one widget definition over your own copies. Money is always grouped by currency; `kpi`, `pie` and `funnel` with money require a single-currency filter. `time_range.preset=all` returns the whole available period (bounded by the platform ceiling, reported in `range.limited`).\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "dataset": {
+          "type": "string",
+          "enum": [
+            "movements",
+            "collections",
+            "sales_funnel",
+            "invoices",
+            "store_sales",
+            "merchants"
+          ],
+          "description": "The dataset to read"
+        },
+        "measures": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "maxItems": 4,
+          "minItems": 1,
+          "description": "1-4 measures of the dataset"
+        },
+        "dimensions": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "maxItems": 2,
+          "description": "0-2 dimensions (at most one of day/week/month)"
+        },
+        "filters": {
+          "items": {
+            "properties": {
+              "field": {
+                "type": "string",
+                "maxLength": 40,
+                "minLength": 1,
+                "pattern": "^[a-z][a-z0-9_]{0,39}$",
+                "description": "A filterable field of the dataset, as listed in the catalogue"
+              },
+              "op": {
+                "type": "string",
+                "enum": [
+                  "eq",
+                  "in",
+                  "gte",
+                  "lte",
+                  "between"
+                ],
+                "description": "Closed set of operators"
+              },
+              "value": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "integer"
+                        },
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "boolean"
+                        }
+                      ]
+                    },
+                    "type": "array"
+                  }
+                ],
+                "description": "One value (`eq`, `gte`, `lte`), 1-50 values (`in`) or exactly two (`between`)"
+              }
+            },
+            "additionalProperties": false,
+            "type": "object",
+            "required": [
+              "field",
+              "op",
+              "value"
+            ]
+          },
+          "type": "array",
+          "maxItems": 8,
+          "description": "Up to 8 filters"
+        },
+        "time_field": {
+          "type": "string",
+          "enum": [
+            "local_date",
+            "created_date",
+            "paid_date"
+          ],
+          "description": "Date axis; use created_date for a creation cohort",
+          "default": "local_date"
+        },
+        "time_range": {
+          "properties": {
+            "preset": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "last_7_days",
+                    "last_30_days",
+                    "last_90_days",
+                    "last_365_days",
+                    "this_month",
+                    "last_month",
+                    "all"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "A named period in the workspace timezone. `all` is the whole available history (bounded by the platform ceiling, reported in `range.limited`)"
+            },
+            "from": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "First day of a custom period"
+            },
+            "to": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Last day of a custom period (inclusive)"
+            }
+          },
+          "additionalProperties": false,
+          "type": "object"
+        },
+        "store_scope": {
+          "anyOf": [
+            {
+              "properties": {
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "all_owned",
+                    "selected"
+                  ],
+                  "description": "`all_owned`: every store you own that is linked and verified, resolved when the query runs; `selected`: only the listed ones"
+                },
+                "website_ids": {
+                  "anyOf": [
+                    {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "description": "1-100 distinct store ids (`selected` only)"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object",
+              "required": [
+                "mode"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Which of your stores (store sales only)"
+        },
+        "chart": {
+          "type": "string",
+          "enum": [
+            "bar",
+            "line",
+            "pie",
+            "funnel",
+            "table",
+            "kpi"
+          ],
+          "description": "How the panel draws the result",
+          "default": "table"
+        },
+        "limit": {
+          "type": "integer",
+          "maximum": 50000,
+          "minimum": 1,
+          "description": "Row cap; the server clips it further",
+          "default": 500
+        }
+      },
+      "required": [
+        "dataset",
+        "measures",
+        "time_range"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "listDataDashboards",
+    "method": "GET",
+    "path": "/api/v1/data/dashboards",
+    "readOnly": true,
+    "toolset": "data",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "My dashboards and the shared ones\n\nYour private dashboards and the ones a workspace admin shared.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
       "additionalProperties": false
     }
   }

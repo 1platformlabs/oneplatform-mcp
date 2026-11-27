@@ -10,7 +10,10 @@
  *    collision is an error, not a silent overwrite);
  *  - `$ref`s are inlined;
  *  - `omit` fields leave the schema;
- *  - list operations get `limit` defaulting to 20.
+ *  - list operations get `limit` defaulting to 20;
+ *  - an optional manifest `note` (e.g. the price of a tool that charges per
+ *    call) is appended to the description, because the OpenAPI states THAT a
+ *    call is charged but not how much.
  *
  * It also enforces the two invariants an allowlist exists for: the manifest is a
  * subset of the spec, and it does not intersect the denylist. And it fails if a
@@ -72,7 +75,15 @@ export function sensitiveKeys(schema, out = new Set()) {
   return out;
 }
 
-export const TOOLSETS = ['account', 'payments', 'payouts', 'subscriptions', 'terminal', 'invoicing', 'shipping', 'sites', 'analytics', 'email', 'domains', 'telemetry', 'sales', 'agents', 'scheduling', 'social', 'tasks', 'studio', 'prospecting', 'coupons'];
+export const TOOLSETS = ['account', 'payments', 'payouts', 'subscriptions', 'terminal', 'invoicing', 'shipping', 'sites', 'analytics', 'email', 'domains', 'telemetry', 'sales', 'agents', 'scheduling', 'social', 'tasks', 'studio', 'prospecting', 'coupons', 'data'];
+
+/**
+ * POST operations that only READ (vertical-data VD-09). `queryData` takes its
+ * widget definition as a body because it does not fit in a query string, but it
+ * writes nothing: no document, no balance, no state. Closed list, by
+ * operationId: any other POST marked readOnly is still an error.
+ */
+export const READ_ONLY_POSTS = new Set(['queryData']);
 
 const under = (path, prefix) => path === prefix || path.startsWith(`${prefix}/`);
 
@@ -93,8 +104,9 @@ export function buildTools(spec, manifest, denylist) {
     if (!found) { errors.push(`${entry.operationId}: not in the OpenAPI`); continue; }
     const denied = deniedBy(denylist, entry.operationId, found.path, found.method);
     if (denied) { errors.push(`${entry.operationId}: in the denylist (${denied})`); continue; }
-    if (entry.readOnly === true && found.method !== 'GET') { errors.push(`${entry.operationId}: readOnly but ${found.method}`); continue; }
+    if (entry.readOnly === true && found.method !== 'GET' && !(found.method === 'POST' && READ_ONLY_POSTS.has(entry.operationId))) { errors.push(`${entry.operationId}: readOnly but ${found.method}`); continue; }
     if (!TOOLSETS.includes(entry.toolset)) { errors.push(`${entry.operationId}: toolset "${entry.toolset}" is not one of ${TOOLSETS.join(', ')}`); continue; }
+    if (entry.note !== undefined && (typeof entry.note !== 'string' || !entry.note.trim())) { errors.push(`${entry.operationId}: note must be a non-empty string`); continue; }
     const omit = entry.omit ?? [];
     const redact = entry.redact ?? [];
     const properties = {};
@@ -143,6 +155,7 @@ export function buildTools(spec, manifest, denylist) {
     const summary = String(found.op.summary ?? entry.operationId).trim();
     const detail = String(found.op.description ?? '').trim().split('\n\n')[0].slice(0, 600);
     const notes = [];
+    if (entry.note) notes.push(entry.note.trim());
     if (found.path.includes('{businessId}')) notes.push('Get the businessId with listBusinessesForUser before calling this tool.');
     notes.push('A 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.');
     if (!entry.readOnly) notes.push('Writes to the account: confirm with the person before running it.');

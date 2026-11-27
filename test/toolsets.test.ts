@@ -1,7 +1,7 @@
 import {readFileSync} from 'node:fs';
 import {describe, expect, it} from 'vitest';
 
-import {buildTools, deniedBy, loadSpec, TOOLSETS as BUILD_TOOLSETS} from '../scripts/build-tools.mjs';
+import {buildTools, deniedBy, loadSpec, READ_ONLY_POSTS, TOOLSETS as BUILD_TOOLSETS} from '../scripts/build-tools.mjs';
 import {API_TOOLS} from '../src/generated/tools.js';
 import {handleCall} from '../src/server.js';
 import {LEGACY_TOOLSET_ALIASES, parseToolsets, TOOLSETS} from '../src/toolsets.js';
@@ -62,13 +62,28 @@ describe('denylist por método (retiros y dominios: se leen, no se escriben)', (
     expect(buildTools(loadSpec(specFile), {tools: [{operationId: 'stopAgentRun', readOnly: true, toolset: 'agentes'}]}, denylist).errors.join()).toMatch(/readOnly but POST/);
     expect(buildTools(loadSpec(specFile), {tools: [{operationId: 'listAgents', readOnly: true, toolset: 'nomina'}]}, denylist).errors.join()).toMatch(/toolset/);
   });
-  it('las escrituras del manifiesto son exactamente las revisadas (ninguna cobra en el acto, factura ni mueve dinero)', () => {
+  it('a POST only passes as read-only when it is on the closed list (vertical-data: queryData)', () => {
+    expect([...READ_ONLY_POSTS]).toEqual(['queryData']);
+    const ok = buildTools(loadSpec(specFile), {tools: [{operationId: 'queryData', readOnly: true, toolset: 'data'}]}, denylist);
+    expect(ok.errors).toEqual([]);
+    expect(ok.tools[0]).toMatchObject({method: 'POST', readOnly: true});
+    // The other two POST endpoints of the same vertical do NOT get through that door.
+    for (const operationId of ['queryDataBatch', 'createDataDashboard']) {
+      expect(buildTools(loadSpec(specFile), {tools: [{operationId, readOnly: true, toolset: 'data'}]}, denylist).errors.join()).toMatch(/readOnly but POST/);
+    }
+  });
+  it('the data toolset only reads: catalog, query and dashboards', () => {
+    expect(API_TOOLS.filter((t) => t.toolset === 'data').map((t) => [t.name, t.readOnly]).sort()).toEqual([
+      ['getDataCatalog', true], ['listDataDashboards', true], ['queryData', true],
+    ]);
+  });
+  it('las escrituras del manifiesto son exactamente las revisadas (ninguna factura ni mueve dinero; la única que cobra en el acto es searchKnowledge, con su precio en la descripción)', () => {
     expect(API_TOOLS.filter((t) => !t.readOnly).map((t) => t.name).sort()).toEqual([
       'archiveSubscriptionPlan', 'assignTask', 'bookAppointment', 'cancelAppointment', 'cancelMerchantSubscription',
       'cancelPaymentLink', 'cancelSocialPost', 'cancelTerminalRequest', 'completeAppointment', 'createBookingLink',
       'createCoupon', 'createCustomer', 'createMyIntakeLink', 'createPaymentLink', 'createProspectingProspect', 'createSocialPost', 'createSubscriptionInvitation',
       'createSubscriptionPlan', 'createSubtask', 'createTask', 'createTerminalRequest', 'importProspectingProspects', 'publishSubscriptionPlan',
-      'reassignAppointment', 'rescheduleAppointment', 'rescheduleSocialPost', 'stopAgentRun', 'submitSocialPost',
+      'reassignAppointment', 'rescheduleAppointment', 'rescheduleSocialPost', 'searchKnowledge', 'stopAgentRun', 'submitSocialPost',
       'updateCoupon', 'updateCustomer', 'updateSocialPost', 'updateSubscriptionPlan', 'updateSubtaskStatus', 'updateTask',
       'updateTelemetryIssue', 'updateTerminalRequest',
     ]);
@@ -86,6 +101,31 @@ describe('denylist por método (retiros y dominios: se leen, no se escriben)', (
     for (const t of API_TOOLS.filter((x) => x.toolset === 'coupons')) expect(Object.keys(t.inputSchema.properties)).not.toContain('charge_fee');
     expect(API_TOOLS.filter((x) => x.toolset === 'coupons').map((x) => x.name).sort()).toEqual(['createCoupon', 'exportCouponBatch', 'getCoupon', 'getMyStoreCoupon', 'listCoupons', 'listMyCouponStores', 'listMyStoreCoupons', 'updateCoupon']);
   });
+  it('base de conocimiento: se listan fuentes, uso y sincronización y se prueba una búsqueda; subir, reindexar, borrar y cambiar la sincronización quedan fuera', () => {
+    expect(API_TOOLS.filter((x) => x.path.startsWith('/api/v1/knowledge/')).map((x) => x.name).sort()).toEqual(['getKnowledgeSync', 'getKnowledgeUsage', 'listKnowledgeSources', 'searchKnowledge']);
+    for (const operationId of ['createKnowledgeSource', 'reindexKnowledgeSource', 'deleteKnowledgeSource', 'updateKnowledgeSync']) {
+      expect(denylist.operationIds).toContain(operationId);
+      expect(denylist.$comment).toContain(operationId);
+    }
+    const {errors} = buildTools(loadSpec(specFile), {tools: [{operationId: 'createKnowledgeSource', readOnly: false, toolset: 'agents'}]}, denylist);
+    expect(errors.join()).toMatch(/createKnowledgeSource: in the denylist/);
+  });
+  it('searchKnowledge cobra por llamada: pide confirmación y su descripción dice el precio', () => {
+    const tool = API_TOOLS.find((t) => t.name === 'searchKnowledge')!;
+    expect(tool.readOnly).toBe(false);
+    expect(tool.toolset).toBe('agents');
+    expect(tool.description).toMatch(/US\$0\.02/);
+    expect(tool.description).toMatch(/getBalanceHistory/);
+  });
+  it('note del manifiesto: se suma a la descripción y tiene que ser texto no vacío', () => {
+    const spec = loadSpec(specFile);
+    const ok = buildTools(spec, {tools: [{operationId: 'listAgents', readOnly: true, toolset: 'agents', note: 'Nota de prueba.'}]}, denylist);
+    expect(ok.errors).toEqual([]);
+    expect(ok.tools[0].description).toContain('Nota de prueba.');
+    for (const note of ['', '   ', 3]) {
+      expect(buildTools(spec, {tools: [{operationId: 'listAgents', readOnly: true, toolset: 'agents', note}]}, denylist).errors.join()).toMatch(/note must be a non-empty string/);
+    }
+  });
   it('los enlaces de agenda no pueden revocar el enlace vigente (rotate fuera del esquema)', () => {
     for (const name of ['createBookingLink', 'createMyIntakeLink']) {
       const tool = API_TOOLS.find((t) => t.name === name)!;
@@ -98,7 +138,7 @@ describe('denylist por método (retiros y dominios: se leen, no se escriben)', (
     const names = new Set(API_TOOLS.map((t) => t.name));
     for (const excluded of ['publishSocialPostNow', 'approveSocialPost', 'replySocialComment', 'resolveSocialTarget', 'reassignSocialTargetPayer',
       'deleteSocialPost', 'createStudioOrder', 'payStudioDebt', 'createStudioPresenter', 'deleteStudioPresenter', 'submitTerminalRequest',
-      'createCouponBatch', 'createMyStoreCoupon', 'redeemBalanceCoupon', 'reserveCoupon', 'validateCoupon', 'confirmCouponRedemption', 'releaseCouponRedemption',
+      'createCouponBatch', 'createMyStoreCoupon', 'redeemBalanceCoupon', 'createKnowledgeSource', 'reindexKnowledgeSource', 'deleteKnowledgeSource', 'updateKnowledgeSync', 'reserveCoupon', 'validateCoupon', 'confirmCouponRedemption', 'releaseCouponRedemption',
       'deleteTask', 'deleteTaskAttachment', 'quoteCashOutPayout', 'requestCashOutPayout']) {
       expect(names.has(excluded)).toBe(false);
     }

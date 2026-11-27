@@ -1,5 +1,5 @@
 {
-  "$comment": "Allowlist of API tools (épica infraestructura-para-agentes-ia, D-9). Nothing outside this list reaches the API. readOnly=false tools are marked destructive: the client asks before running them. omit[] fields are removed from the schema AND dropped if the model sends them anyway. redact[] keys are removed from the response. toolset groups tools by product vertical: ONEPLATFORM_TOOLSETS (local) or X-OnePlatform-Toolsets (hosted) narrow the list; docs tools are always listed.",
+  "$comment": "Allowlist of API tools (épica infraestructura-para-agentes-ia, D-9). Nothing outside this list reaches the API. readOnly=false tools are marked destructive: the client asks before running them. omit[] fields are removed from the schema AND dropped if the model sends them anyway. redact[] keys are removed from the response. note is appended to the tool description (used to state the price of a tool that charges per call, which the OpenAPI does not carry). toolset groups tools by product vertical: ONEPLATFORM_TOOLSETS (local) or X-OnePlatform-Toolsets (hosted) narrow the list; docs tools are always listed.",
   "tools": [
     {
       "operationId": "getUserProfile",
@@ -417,6 +417,27 @@
     {
       "operationId": "stopAgentRun",
       "readOnly": false,
+      "toolset": "agents"
+    },
+    {
+      "operationId": "listKnowledgeSources",
+      "readOnly": true,
+      "toolset": "agents"
+    },
+    {
+      "operationId": "getKnowledgeUsage",
+      "readOnly": true,
+      "toolset": "agents"
+    },
+    {
+      "operationId": "getKnowledgeSync",
+      "readOnly": true,
+      "toolset": "agents"
+    },
+    {
+      "operationId": "searchKnowledge",
+      "readOnly": false,
+      "note": "Charges the workspace balance on every call: one knowledge search costs US$0.02 at the time of writing (the price in force is set by the platform; each charge shows up in getBalanceHistory). Do not repeat a search to page through results.",
       "toolset": "agents"
     },
     {
@@ -899,6 +920,21 @@
       "operationId": "updateCoupon",
       "readOnly": false,
       "toolset": "coupons"
+    },
+    {
+      "operationId": "getDataCatalog",
+      "readOnly": true,
+      "toolset": "data"
+    },
+    {
+      "operationId": "queryData",
+      "readOnly": true,
+      "toolset": "data"
+    },
+    {
+      "operationId": "listDataDashboards",
+      "readOnly": true,
+      "toolset": "data"
     }
   ]
 }
