@@ -1574,7 +1574,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get Analytics Status\n\nRetrieve the current analytics provisioning status for a website. Returns property details, connection state, and any error messages. Requires both app and user tokens. Rate limit: 30/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "Get Analytics Status\n\nRetrieve the current analytics provisioning status for a website. Returns property details, connection state, and any error messages. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1605,7 +1605,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get Site Overview Metrics\n\nRetrieve aggregated site metrics including sessions, users, pageviews, bounce rate, and top pages/sources for a given period with optional comparison. Requires both app and user tokens. Rate limit: 20/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "Get Site Overview Metrics\n\nRetrieve aggregated site metrics including sessions, users, pageviews, bounce rate, and top pages/sources for a given period with optional comparison. Requires both app and user tokens. Rate limit: 80/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1651,7 +1651,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get Single Page Metrics\n\nRetrieve analytics metrics for a specific page path on the website. Returns views, unique views, average time on page, and bounce rate. Requires both app and user tokens. Rate limit: 20/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "Get Single Page Metrics\n\nRetrieve analytics metrics for a specific page path on the website. Returns views, unique views, average time on page, and bounce rate. Requires both app and user tokens. Rate limit: 80/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1695,7 +1695,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get Realtime Metrics\n\nRetrieve real-time analytics data including active users, top pages, traffic sources, and countries for the last 30 minutes. Requires both app and user tokens. Rate limit: 10/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "Get Realtime Metrics\n\nRetrieve real-time analytics data including active users, top pages, traffic sources, and countries for the last 30 minutes. Requires both app and user tokens. Rate limit: 40/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1726,7 +1726,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List AdSense Sites\n\nList sites registered with AdSense and their approval states. Useful to verify whether the website is approved for ads. Requires both app and user tokens. Rate limit: 30/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "List AdSense Sites\n\nList sites registered with AdSense and their approval states. Useful to verify whether the website is approved for ads. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1770,7 +1770,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Earnings Overview\n\nRetrieve a quick earnings overview with optional period comparison. Free plan is limited to the last 7 days; Pro unlocks 30/90 day periods. Requires both app and user tokens. Rate limit: 20/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "Earnings Overview\n\nRetrieve a quick earnings overview with optional period comparison. Free plan is limited to the last 7 days; Pro unlocks 30/90 day periods. Requires both app and user tokens. Rate limit: 80/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1814,7 +1814,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Earnings by Page\n\nRetrieve earnings broken down by page URL (Pro plan only). Returns per-page revenue, page views, RPM, and clicks. Requires both app and user tokens. Rate limit: 20/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "Earnings by Page\n\nRetrieve earnings broken down by page URL (Pro plan only). Returns per-page revenue, page views, RPM, and clicks. Requires both app and user tokens. Rate limit: 80/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1854,7 +1854,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List AdSense Alerts\n\nList account alerts surfaced by AdSense (Pro plan only). Returns severity, message, and alert type for each entry. Requires both app and user tokens. Rate limit: 30/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "List AdSense Alerts\n\nList account alerts surfaced by AdSense (Pro plan only). Returns severity, message, and alert type for each entry. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1970,7 +1970,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Read effective sending limits\n\nReturns tenant and actor usage for the current UTC day, the earliest shared remainder and server-defined retention. These are operational limits, not prices. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 50/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "Read effective sending limits\n\nReturns tenant and actor usage for the current UTC day, the earliest shared remainder and server-defined retention. These are operational limits, not prices. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 200/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {},
@@ -1993,7 +1993,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List your service email senders\n\nLists owned, nondeleted senders and their verified sending capability. It does not create or verify domains. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 50/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "List your service email senders\n\nLists owned, nondeleted senders and their verified sending capability. It does not create or verify domains. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 200/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2038,7 +2038,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List public transactional templates\n\nLists the public service_notice version 1 allowlist only. Private platform templates cannot be sent through this API. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 50/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "List public transactional templates\n\nLists the public service_notice version 1 allowlist only. Private platform templates cannot be sent through this API. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 200/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2074,7 +2074,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List your service notices\n\nLists messages owned by the actor within the actor's tenant. Recipient addresses remain masked; pending or rejected admissions are not presented as sends. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 50/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "List your service notices\n\nLists messages owned by the actor within the actor's tenant. Recipient addresses remain masked; pending or rejected admissions are not presented as sends. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 200/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -2166,7 +2166,7 @@ export const API_TOOLS: ApiTool[] = [
     "pathPatterns": {
       "message_id": "^[0-9a-f]{24}$"
     },
-    "description": "Read one service notice and its attempts\n\nReturns sanitized metadata and attempt reasons. Never returns the original recipient, variables, credentials, private transport identifiers or transport response bodies. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 50/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "Read one service notice and its attempts\n\nReturns sanitized metadata and attempt reasons. Never returns the original recipient, variables, credentials, private transport identifiers or transport response bodies. Auth: app JWT plus user JWT and tenant administrator access. Request rate limit: 200/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4524,7 +4524,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get Analytics OAuth Status\n\nCheck whether OAuth is connected for a website's analytics integration. Returns connection state, authorized email, and authorization timestamp. Requires both app and user tokens. Rate limit: 30/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "Get Analytics OAuth Status\n\nCheck whether OAuth is connected for a website's analytics integration. Returns connection state, authorized email, and authorization timestamp. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4553,7 +4553,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get Analytics Property Details\n\nRetrieve detailed information about the analytics property linked to a website. Includes timezone, currency, service level, and creation time. Requires both app and user tokens. Rate limit: 30/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "Get Analytics Property Details\n\nRetrieve detailed information about the analytics property linked to a website. Includes timezone, currency, service level, and creation time. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4582,7 +4582,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get Site Tag Snippet\n\nRetrieve the JavaScript tag snippet for embedding analytics tracking on a website. The tag must be placed in the HTML head section. Requires both app and user tokens. Rate limit: 30/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "Get Site Tag Snippet\n\nRetrieve the JavaScript tag snippet for embedding analytics tracking on a website. The tag must be placed in the HTML head section. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4611,7 +4611,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List Analytics Accounts\n\nList all analytics accounts accessible to the authenticated user. Used to select an account during property provisioning. Requires both app and user tokens. Rate limit: 30/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "List Analytics Accounts\n\nList all analytics accounts accessible to the authenticated user. Used to select an account during property provisioning. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4640,7 +4640,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List Data Streams\n\nList all data streams configured for the analytics property. Each stream corresponds to a web data source. Requires both app and user tokens. Rate limit: 30/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "List Data Streams\n\nList all data streams configured for the analytics property. Each stream corresponds to a web data source. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4669,7 +4669,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List Custom Dimensions\n\nList all custom dimensions configured for the analytics property. Custom dimensions track additional attributes on events. Requires both app and user tokens. Rate limit: 30/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "List Custom Dimensions\n\nList all custom dimensions configured for the analytics property. Custom dimensions track additional attributes on events. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4698,7 +4698,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List Key Events\n\nList all key events (conversions) configured for the analytics property. Key events track important user actions on the website. Requires both app and user tokens. Rate limit: 30/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "List Key Events\n\nList all key events (conversions) configured for the analytics property. Key events track important user actions on the website. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4727,7 +4727,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get AdSense Status\n\nRetrieve the AdSense connection status for a website. Returns publisher ID, account state, and OAuth connection info. Requires both app and user tokens. Rate limit: 30/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "Get AdSense Status\n\nRetrieve the AdSense connection status for a website. Returns publisher ID, account state, and OAuth connection info. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4756,7 +4756,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Get AdSense OAuth Status\n\nCheck whether OAuth is connected for AdSense on this website. Returns connection state, authorized email, and authorization timestamp. Requires both app and user tokens. Rate limit: 30/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "Get AdSense OAuth Status\n\nCheck whether OAuth is connected for AdSense on this website. Returns connection state, authorized email, and authorization timestamp. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4787,7 +4787,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List AdSense Accounts\n\nList AdSense accounts accessible by the user's OAuth tokens. Used to identify which publisher account to connect. Requires both app and user tokens. Rate limit: 30/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "List AdSense Accounts\n\nList AdSense accounts accessible by the user's OAuth tokens. Used to identify which publisher account to connect. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -4831,7 +4831,7 @@ export const API_TOOLS: ApiTool[] = [
     ],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "List Policy Issues\n\nList policy issues affecting the account (Pro plan only). Includes required actions, affected entities, and policy topics. Requires both app and user tokens. Rate limit: 30/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "List Policy Issues\n\nList policy issues affecting the account (Pro plan only). Includes required actions, affected entities, and policy topics. Requires both app and user tokens. Rate limit: 120/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -5640,7 +5640,7 @@ export const API_TOOLS: ApiTool[] = [
     "queryParams": [],
     "bodyParams": [],
     "pathPatterns": {},
-    "description": "Connected accounts of the workspace\n\nAccounts of the caller's workspace with their status (`active`, `expiring`, `needs_reconnect`). Never returns a token: `token_configured` and `expires_at` only. `missing_permissions` lists the functions (`inbox`, `comment_actions`, `metrics`, `messages`) the account cannot use: `not_granted` = the authorisation did not include them (authorise again), `denied` = the network refused them at run time. It never changes `status`; an empty list means nothing to warn about. Rate limit: 60/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "description": "Connected accounts of the workspace\n\nAccounts of the caller's workspace with their status (`active`, `expiring`, `needs_reconnect`). Never returns a token: `token_configured` and `expires_at` only. `missing_permissions` lists the functions (`inbox`, `comment_actions`, `metrics`, `messages`) the account cannot use: `not_granted` = the authorisation did not include them (authorise again), `denied` = the network refused them at run time. It never changes `status`; an empty list means nothing to warn about. Rate limit: 240/minute.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
     "inputSchema": {
       "type": "object",
       "properties": {},
