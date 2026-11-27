@@ -1,7 +1,7 @@
 import {readFileSync} from 'node:fs';
 import {describe, expect, it} from 'vitest';
 
-import {buildTools, deniedBy, loadSpec, TOOLSETS as BUILD_TOOLSETS} from '../scripts/build-tools.mjs';
+import {buildTools, deniedBy, loadSpec, READ_ONLY_POSTS, TOOLSETS as BUILD_TOOLSETS} from '../scripts/build-tools.mjs';
 import {API_TOOLS} from '../src/generated/tools.js';
 import {handleCall} from '../src/server.js';
 import {LEGACY_TOOLSET_ALIASES, parseToolsets, TOOLSETS} from '../src/toolsets.js';
@@ -61,6 +61,21 @@ describe('denylist por método (retiros y dominios: se leen, no se escriben)', (
   it('readOnly exige GET y el toolset tiene que existir', () => {
     expect(buildTools(loadSpec(specFile), {tools: [{operationId: 'stopAgentRun', readOnly: true, toolset: 'agentes'}]}, denylist).errors.join()).toMatch(/readOnly but POST/);
     expect(buildTools(loadSpec(specFile), {tools: [{operationId: 'listAgents', readOnly: true, toolset: 'nomina'}]}, denylist).errors.join()).toMatch(/toolset/);
+  });
+  it('a POST only passes as read-only when it is on the closed list (vertical-data: queryData)', () => {
+    expect([...READ_ONLY_POSTS]).toEqual(['queryData']);
+    const ok = buildTools(loadSpec(specFile), {tools: [{operationId: 'queryData', readOnly: true, toolset: 'data'}]}, denylist);
+    expect(ok.errors).toEqual([]);
+    expect(ok.tools[0]).toMatchObject({method: 'POST', readOnly: true});
+    // The other two POST endpoints of the same vertical do NOT get through that door.
+    for (const operationId of ['queryDataBatch', 'createDataDashboard']) {
+      expect(buildTools(loadSpec(specFile), {tools: [{operationId, readOnly: true, toolset: 'data'}]}, denylist).errors.join()).toMatch(/readOnly but POST/);
+    }
+  });
+  it('the data toolset only reads: catalog, query and dashboards', () => {
+    expect(API_TOOLS.filter((t) => t.toolset === 'data').map((t) => [t.name, t.readOnly]).sort()).toEqual([
+      ['getDataCatalog', true], ['listDataDashboards', true], ['queryData', true],
+    ]);
   });
   it('las escrituras del manifiesto son exactamente las revisadas (ninguna factura ni mueve dinero; la única que cobra en el acto es searchKnowledge, con su precio en la descripción)', () => {
     expect(API_TOOLS.filter((t) => !t.readOnly).map((t) => t.name).sort()).toEqual([

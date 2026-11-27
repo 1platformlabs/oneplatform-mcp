@@ -75,7 +75,15 @@ export function sensitiveKeys(schema, out = new Set()) {
   return out;
 }
 
-export const TOOLSETS = ['account', 'payments', 'payouts', 'subscriptions', 'terminal', 'invoicing', 'shipping', 'sites', 'analytics', 'email', 'domains', 'telemetry', 'sales', 'agents', 'scheduling', 'social', 'tasks', 'studio', 'prospecting', 'coupons'];
+export const TOOLSETS = ['account', 'payments', 'payouts', 'subscriptions', 'terminal', 'invoicing', 'shipping', 'sites', 'analytics', 'email', 'domains', 'telemetry', 'sales', 'agents', 'scheduling', 'social', 'tasks', 'studio', 'prospecting', 'coupons', 'data'];
+
+/**
+ * POST operations that only READ (vertical-data VD-09). `queryData` takes its
+ * widget definition as a body because it does not fit in a query string, but it
+ * writes nothing: no document, no balance, no state. Closed list, by
+ * operationId: any other POST marked readOnly is still an error.
+ */
+export const READ_ONLY_POSTS = new Set(['queryData']);
 
 const under = (path, prefix) => path === prefix || path.startsWith(`${prefix}/`);
 
@@ -96,7 +104,7 @@ export function buildTools(spec, manifest, denylist) {
     if (!found) { errors.push(`${entry.operationId}: not in the OpenAPI`); continue; }
     const denied = deniedBy(denylist, entry.operationId, found.path, found.method);
     if (denied) { errors.push(`${entry.operationId}: in the denylist (${denied})`); continue; }
-    if (entry.readOnly === true && found.method !== 'GET') { errors.push(`${entry.operationId}: readOnly but ${found.method}`); continue; }
+    if (entry.readOnly === true && found.method !== 'GET' && !(found.method === 'POST' && READ_ONLY_POSTS.has(entry.operationId))) { errors.push(`${entry.operationId}: readOnly but ${found.method}`); continue; }
     if (!TOOLSETS.includes(entry.toolset)) { errors.push(`${entry.operationId}: toolset "${entry.toolset}" is not one of ${TOOLSETS.join(', ')}`); continue; }
     if (entry.note !== undefined && (typeof entry.note !== 'string' || !entry.note.trim())) { errors.push(`${entry.operationId}: note must be a non-empty string`); continue; }
     const omit = entry.omit ?? [];
