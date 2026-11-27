@@ -894,6 +894,21 @@
       "operationId": "updateCoupon",
       "readOnly": false,
       "toolset": "coupons"
+    },
+    {
+      "operationId": "getDataCatalog",
+      "readOnly": true,
+      "toolset": "data"
+    },
+    {
+      "operationId": "queryData",
+      "readOnly": true,
+      "toolset": "data"
+    },
+    {
+      "operationId": "listDataDashboards",
+      "readOnly": true,
+      "toolset": "data"
     }
   ]
 }
