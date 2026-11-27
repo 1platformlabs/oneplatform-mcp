@@ -20,7 +20,7 @@ documentation itself is written in Spanish. With keys, the server adds the API t
 | `shipping` | Shipments (read only: the MCP does not dispatch) |
 | `sites` | Sites, articles, generation jobs, categories and search performance |
 | `analytics` | Analytics status, property, streams, dimensions, key events, tag and metrics; ad status, accounts, revenue, alerts and policy issues; heatmap sites, maps and snapshots (read only) |
-| `email` | Transactional email senders, templates, quota and messages; business email conversations |
+| `email` | Transactional email senders, templates, quota and messages; business email conversations, per-address mailbox (`address_id`, `folder`) and per-folder counts |
 | `domains` | Domains, availability, prices, transfers and email records (read only) |
 | `telemetry` | Projects, errors, latest event, logs, performance and usage; **mark an error** as resolved or ignored |
 | `sales` | Readiness, channels, offers, leads, board and funnel report |

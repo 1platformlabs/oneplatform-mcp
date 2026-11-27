@@ -2358,6 +2358,73 @@ export const API_TOOLS: ApiTool[] = [
     }
   },
   {
+    "name": "getMailThreadCounts",
+    "method": "GET",
+    "path": "/api/v1/mail/threads/counts",
+    "readOnly": true,
+    "toolset": "email",
+    "omit": [],
+    "redact": [],
+    "pathParams": [],
+    "queryParams": [
+      "address_id",
+      "domain_id",
+      "scope"
+    ],
+    "bodyParams": [],
+    "pathPatterns": {},
+    "description": "Count conversations per folder\n\nTotals and unread counts of every mailbox folder, from the same criteria as `GET /mail/threads`.\n\nA 403 with module_disabled means the module is turned off in the workspace, not an MCP server failure.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "address_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 24,
+              "minLength": 24,
+              "pattern": "^[0-9a-f]{24}$",
+              "description": "Internal document identifier, rendered as its 24-character lowercase hex string."
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Count only the conversations of this address. It only narrows"
+        },
+        "domain_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 24,
+              "minLength": 24,
+              "pattern": "^[0-9a-f]{24}$",
+              "description": "Internal document identifier, rendered as its 24-character lowercase hex string."
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Count only the conversations received on this domain. It only narrows"
+        },
+        "scope": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^space$"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "`space`: a workspace administrator also counts the conversations of the other members' domains. Ignored for everybody else"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
     "name": "listDomains",
     "method": "GET",
     "path": "/api/v1/domains",

@@ -280,6 +280,11 @@
       "toolset": "email"
     },
     {
+      "operationId": "getMailThreadCounts",
+      "readOnly": true,
+      "toolset": "email"
+    },
+    {
       "operationId": "listDomains",
       "readOnly": true,
       "toolset": "domains"
