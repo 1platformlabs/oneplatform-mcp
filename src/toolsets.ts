@@ -10,7 +10,7 @@
  *
  * Mirror of TOOLSETS in scripts/build-tools.mjs (a test keeps them equal).
  */
-export const TOOLSETS = ['account', 'payments', 'payouts', 'subscriptions', 'terminal', 'invoicing', 'shipping', 'sites', 'analytics', 'email', 'domains', 'telemetry', 'sales', 'agents', 'scheduling', 'social', 'tasks', 'studio', 'prospecting', 'coupons'] as const;
+export const TOOLSETS = ['account', 'payments', 'payouts', 'subscriptions', 'terminal', 'invoicing', 'shipping', 'sites', 'analytics', 'email', 'domains', 'telemetry', 'sales', 'agents', 'scheduling', 'social', 'tasks', 'studio', 'prospecting', 'coupons', 'data'] as const;
 export type Toolset = (typeof TOOLSETS)[number];
 
 /** Spanish names used up to 0.3.0, still accepted so existing configurations keep working. */

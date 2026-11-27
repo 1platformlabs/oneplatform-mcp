@@ -31,6 +31,7 @@ documentation itself is written in Spanish. With keys, the server adds the API t
 | `studio` | Creative studio template catalog, orders, delivered pieces and their links, debts and presenters (read only) |
 | `prospecting` | Goals, readiness, funnel, metrics and prospect list **without contact data**; **add** and **import** prospects (the MCP never approves or sends messages) |
 | `coupons` | Coupons of the workspace and its stores: list, view and export a batch as CSV; **create** a workspace coupon and **edit** it (pause, reactivate or archive) |
+| `data` | Data catalog, queries over your own copies (merchants, charges, transactions, funnel, invoices, your stores' sales) and the list of dashboards (read-only: the MCP creates no dashboards and no deliveries) |
 
 All toolsets are listed by default. For a client that supports few tools, pick the verticals you use:
 `ONEPLATFORM_TOOLSETS=payments,shipping` (local) or the `X-OnePlatform-Toolsets: payments,shipping` header (hosted).
@@ -49,6 +50,12 @@ stay outside; a store's coupons can be read but are edited only in the dashboard
 person's own portfolio: the MCP does not forward the header to act on someone else's portfolio. The exact list is in
 [`tools.manifest.json`](tools.manifest.json) and what can never be exposed, in [`denylist.json`](denylist.json):
 administration, credentials, webhooks, charges, tax issuance and money movements. Payouts and domains are read only.
+
+“Resend link” (`sendPaymentLinkAgain`, VD-30) is explicitly excluded: it emails a customer and needs a person's
+action in the dashboard. The `data` toolset only keeps reads. The idempotent creation of the starter dashboard
+(`initializeDataDashboard`) is excluded too: listing dashboards from the MCP does not create the starter dashboard
+or its seed mark. `queryData.time_field` can query by creation date (`created_date`) or payment date (`paid_date`)
+when the dataset's catalog allows it; it keeps `local_date` by default for existing dashboards.
 
 ## Local use (stdio)
 
